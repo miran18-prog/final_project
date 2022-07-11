@@ -17,6 +17,16 @@ these app lists skils Like ( graphic Design  - mobile applications - desktop app
 - chating system between client and customer
 - list of graphic designers 
 - commuinication method between clients and customer
+- Payment methods
+
+## Future Update Features
+
+
+- dark mode
+- english language
+
+
+
 ## Authors
 
 - [@miranamanj](https://github.com/miran18-prog)
