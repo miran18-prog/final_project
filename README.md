@@ -12,15 +12,13 @@ these app lists skils Like ( graphic Design  - mobile applications - desktop app
 - Changing User Setting
 - list of Freelancers
 - chating system between client and customer
-- list of graphic designers 
+- list of graphic designers - mobile app developers - dekstop app developers - frontend and backend developers
 - commuinication method between clients and customer
-- Payment methods
-
 ## Future Update Features
 
-
+- payment methods
 - dark mode
-- english language
+- kurdisg language
 
 
 
