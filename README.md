@@ -16,7 +16,7 @@ these app lists skils Like ( graphic Design  - mobile applications - desktop app
 
 ## Future Update Features
 
-- payment methods
+- payment methods (for now fastpay will be used for payments)
 - dark mode
 - kurdisg language
 
