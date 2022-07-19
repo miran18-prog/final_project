@@ -21,7 +21,7 @@ these app lists skils Like ( graphic Design  - mobile applications - desktop app
 - kurdisg language
 
 ## project sample
-![2](https://user-images.githubusercontent.com/71978789/179647315-42322b9f-9a33-48b2-8504-f9865e793941.jpg)
+![2](https://user-images.githubusercontent.com/71978789/179647315-42322b9f-9a33-48b2-8504-f9865e793941.jpg | hight=100)
 ![1](https://user-images.githubusercontent.com/71978789/179647318-ec0916b6-7bb6-4f48-9ca4-fd8861397fb0.jpg)
 
 
