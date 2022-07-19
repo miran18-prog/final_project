@@ -1,16 +1,33 @@
-# final_project
+# Bdozawa application with flutter
 
-A new Flutter project.
+in this project i'am going to create an application for freelancers
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+# Project Description
+this project is for clinets who want to find there need,
+these app lists skils Like ( graphic Design  - mobile applications - desktop application developer - frontend developer - backend developer )
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Features
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Creating an account 
+- push notification
+- Changing User Setting
+- list of Freelancers
+- chating system between client and customer
+- list of graphic designers 
+- commuinication method between clients and customer
+- Payment methods
+
+## Future Update Features
+
+
+- dark mode
+- english language
+
+
+
+## Authors
+
+- [@miranamanj](https://github.com/miran18-prog)
+
