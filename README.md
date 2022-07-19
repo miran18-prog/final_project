@@ -1,10 +1,7 @@
-# Bdozawa application with flutter
-
-in this project i'am going to create an application for freelancers
-
+#bdozawa Application
 
 # Project Description
-this project is for clinets who want to find there need,
+this app is for clinets who want to find there need,
 these app lists skils Like ( graphic Design  - mobile applications - desktop application developer - frontend developer - backend developer )
 
 
