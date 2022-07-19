@@ -19,6 +19,7 @@ these app lists skils Like ( graphic Design  - mobile applications - desktop app
 - payment methods (for now fastpay will be used for payments)
 - dark mode
 - kurdish language
+- list of new jobs
 
 ## project sample
 
