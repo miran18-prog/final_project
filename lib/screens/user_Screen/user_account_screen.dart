@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable
 
+import 'package:final_project/screens/main_screen/DrawerBar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -10,34 +11,25 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DrawerBar(),
       appBar: AppBar(
-        backgroundColor: HexColor('#024959'),
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
         elevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Username", style: GoogleFonts.poppins(fontSize: 20)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(right: 25),
-                  child: DropdownButton(
-                    icon: Icon(Icons.post_add),
-                    iconEnabledColor: Colors.white,
-                    iconDisabledColor: Colors.white,
-                    onChanged: null,
-                    items: [],
-                  ),
-                ),
-                DropdownButton(
-                  icon: Icon(Icons.menu),
-                  iconEnabledColor: Colors.white,
-                  iconDisabledColor: Colors.white,
-                  onChanged: null,
-                  items: null,
-                ),
-              ],
+            Text("Username",
+                style: GoogleFonts.poppins(
+                    color: HexColor('#000010'),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400)),
+            DropdownButton(
+              icon: Icon(Icons.post_add),
+              iconEnabledColor: HexColor('#000010'),
+              iconDisabledColor: HexColor('#000010'),
+              onChanged: null,
+              items: [],
             ),
           ],
         ),
@@ -53,17 +45,19 @@ class UserProfileScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: 50),
                     child: SizedBox(
-                      height: 25,
-                      width: 70,
+                      height: 30,
+                      width: 75,
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(253, 151, 212, 223),
-                            elevation: 0),
+                            primary: HexColor('#275ea3'), elevation: 0),
                         child: Text(
                           'Follow',
                           style: GoogleFonts.poppins(
-                              fontSize: 11, color: Colors.white),
+                            fontSize: 12,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
@@ -92,17 +86,18 @@ class UserProfileScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: 50),
                     child: SizedBox(
-                      height: 25,
-                      width: 70,
+                      height: 30,
+                      width: 75,
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(253, 151, 212, 223),
-                            elevation: 0),
+                            primary: HexColor('#275ea3'), elevation: 0),
                         child: Text(
                           'Rate',
                           style: GoogleFonts.poppins(
-                              fontSize: 11, color: Colors.white),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                              color: Colors.white),
                         ),
                       ),
                     ),
@@ -236,12 +231,13 @@ class UserProfileScreen extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 246, 76, 76),
-                          elevation: 0),
+                          primary: HexColor('#275ea3'), elevation: 0),
                       child: Text(
                         'Hire',
                         style: GoogleFonts.poppins(
-                            fontSize: 16, color: Colors.white),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: Colors.white),
                       ),
                     ),
                   ),
@@ -251,16 +247,16 @@ class UserProfileScreen extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                          side: BorderSide(
-                              color: Color.fromARGB(255, 246, 76, 76),
-                              width: 2),
+                          side:
+                              BorderSide(color: HexColor('#275ea3'), width: 2),
                           primary: Colors.white,
                           elevation: 0),
                       child: Text(
                         'Message',
                         style: GoogleFonts.poppins(
                           fontSize: 16,
-                          color: Color.fromARGB(255, 246, 76, 76),
+                          fontWeight: FontWeight.w500,
+                          color: HexColor('#275ea3'),
                         ),
                       ),
                     ),
