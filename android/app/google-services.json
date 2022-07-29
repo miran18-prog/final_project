@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "760373988952",
+    "project_id": "bdozawa-application",
+    "storage_bucket": "bdozawa-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760373988952:android:e5e5da5189d07b980d042d",
+        "android_client_info": {
+          "package_name": "com.example.final_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "760373988952-jug0qs2fi5o52garenanupa9djslc3f8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4kRNa0acqgd_UBEb4sSL3i2g1UsXrd58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "760373988952-jug0qs2fi5o52garenanupa9djslc3f8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

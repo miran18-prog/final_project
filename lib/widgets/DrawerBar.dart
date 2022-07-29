@@ -1,3 +1,8 @@
+import 'package:final_project/screens/Home/home_page.dart';
+import 'package:final_project/screens/SignIn_SignUp_Screen/SignIn.dart';
+import 'package:final_project/screens/notifications%20_screen/notfy_screen.dart';
+import 'package:final_project/screens/user_Screen/user_account_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class DrawerBar extends StatelessWidget {
@@ -33,19 +38,22 @@ class DrawerBar extends StatelessWidget {
               Icons.home,
             ),
             title: const Text('Home'),
-            onTap: () => print('home'),
+            onTap: () => Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomeScreen())),
           ),
           ListTile(
             leading: const Icon(
               Icons.person,
             ),
             title: Text('Account'),
-            onTap: () => print('Account'),
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => UserProfileScreen())),
           ),
           ListTile(
             leading: const Icon(Icons.notifications),
             title: const Text('Notificatoin'),
-            onTap: () => print('notificatoin'),
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NotficationScreen())),
           ),
           ListTile(
             leading: const Icon(Icons.library_books),
@@ -61,6 +69,15 @@ class DrawerBar extends StatelessWidget {
             leading: const Icon(Icons.feedback),
             title: const Text('Feedback'),
             onTap: () => print('Feedback'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Logout'),
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignInScreen()));
+            },
           ),
         ],
       ),
