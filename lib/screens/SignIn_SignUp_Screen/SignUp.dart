@@ -76,7 +76,7 @@ class SignUpScreen extends StatelessWidget {
                           return 'Please enter your password';
                         } else if (passwordController.text !=
                             confirmPasswordController.text) {
-                          return 'make sure password fields arr matching';
+                          return 'make sure password fields are matching';
                         }
                         return null;
                       },
@@ -94,7 +94,7 @@ class SignUpScreen extends StatelessWidget {
                           return 'Please fill this field';
                         } else if (passwordController.text !=
                             confirmPasswordController.text) {
-                          return 'make sure password fields arr matching';
+                          return 'make sure password fields are matching';
                         }
                         return null;
                       },

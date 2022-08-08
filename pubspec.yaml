@@ -43,6 +43,8 @@ dependencies:
   cloud_firestore: ^3.4.2
   firebase_auth: ^3.6.1
   email_validator: ^2.1.16
+  introduction_screen: ^3.0.2
+  persistent_bottom_nav_bar: ^4.0.2
 
 dev_dependencies:
   flutter_test:

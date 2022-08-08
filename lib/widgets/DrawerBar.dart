@@ -34,28 +34,6 @@ class DrawerBar extends StatelessWidget {
                         'https://images.pexels.com/photos/4100130/pexels-photo-4100130.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'))),
           ),
           ListTile(
-            leading: const Icon(
-              Icons.home,
-            ),
-            title: const Text('Home'),
-            onTap: () => Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomeScreen())),
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.person,
-            ),
-            title: Text('Account'),
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => UserProfileScreen())),
-          ),
-          ListTile(
-            leading: const Icon(Icons.notifications),
-            title: const Text('Notificatoin'),
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => NotficationScreen())),
-          ),
-          ListTile(
             leading: const Icon(Icons.library_books),
             title: const Text('Jobs'),
             onTap: () => print('Jovs'),

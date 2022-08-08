@@ -175,13 +175,55 @@ class UserProfileScreen extends StatelessWidget {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 35),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    height: 40,
+                    width: 110,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          primary: HexColor('#275ea3'), elevation: 0),
+                      child: Text(
+                        'Hire',
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                    width: 110,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          side:
+                              BorderSide(color: HexColor('#275ea3'), width: 2),
+                          primary: Colors.white,
+                          elevation: 0),
+                      child: Text(
+                        'Message',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: HexColor('#275ea3'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             SizedBox(height: 50),
             Divider(
-              thickness: 2,
               indent: 25,
               endIndent: 25,
             ),
-            SizedBox(height: 20),
             GridView.builder(
               physics: ScrollPhysics(),
               shrinkWrap: true,
@@ -197,7 +239,7 @@ class UserProfileScreen extends StatelessWidget {
                   color: Colors.grey,
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
