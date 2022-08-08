@@ -20,7 +20,7 @@ these app lists skils Like ( graphic Design  - mobile applications - desktop app
 - dark mode
 - kurdish language
 - list of new jobs
-
+- followings and ratings
 ## project sample
 
 <img src="https://user-images.githubusercontent.com/71978789/179647315-42322b9f-9a33-48b2-8504-f9865e793941.jpg" width="200" height="400" />
