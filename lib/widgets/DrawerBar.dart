@@ -1,3 +1,4 @@
+import 'package:final_project/screens/Drawbar%20Screens/job_screen.dart';
 import 'package:final_project/screens/Home/home_page.dart';
 import 'package:final_project/screens/SignIn_SignUp_Screen/SignIn.dart';
 import 'package:final_project/screens/notifications%20_screen/notfy_screen.dart';
@@ -36,12 +37,18 @@ class DrawerBar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.library_books),
             title: const Text('Jobs'),
-            onTap: () => print('Jovs'),
+            onTap: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => JobsScreen())),
           ),
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
             onTap: () => print('Settings'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.edit),
+            title: const Text('Edit account'),
+            onTap: () => print('Edit account'),
           ),
           ListTile(
             leading: const Icon(Icons.feedback),
