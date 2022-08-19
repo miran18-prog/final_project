@@ -1,10 +1,10 @@
+import 'package:final_project/authentication/auth.dart';
 import 'package:final_project/screens/Drawbar%20Screens/job_screen.dart';
-import 'package:final_project/screens/Home/home_page.dart';
 import 'package:final_project/screens/SignIn_SignUp_Screen/SignIn.dart';
-import 'package:final_project/screens/notifications%20_screen/notfy_screen.dart';
-import 'package:final_project/screens/user_Screen/user_account_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:final_project/screens/user_Screen/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/get_core.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
 class DrawerBar extends StatelessWidget {
   const DrawerBar({Key? key}) : super(key: key);
@@ -48,7 +48,8 @@ class DrawerBar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.edit),
             title: const Text('Edit account'),
-            onTap: () => print('Edit account'),
+            onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => EditAccountScreen())),
           ),
           ListTile(
             leading: const Icon(Icons.feedback),
@@ -58,10 +59,9 @@ class DrawerBar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
-            onTap: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignInScreen()));
+            onTap: () async {
+              Auth auth = Auth();
+              auth.Signout();
             },
           ),
         ],

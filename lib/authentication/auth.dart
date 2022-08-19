@@ -1,52 +1,41 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_project/app.dart';
+import 'package:final_project/Database/database_services.dart';
+import 'package:final_project/screens/user_Screen/create_profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Auth {
-  //! sign in method
-
-  signInWithEMailAndPassword(context,
+  Future<UserCredential> signInWithEMailAndPassword(
       {required String email, required String password}) async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Center(
-              child: CircularProgressIndicator(),
-            ));
+    UserCredential userCredential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
 
-    try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      print(e);
-    }
-
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    return userCredential;
   }
 
-  signUpWithEmailAndPassword(context,
-      {required String email,
-      required String password,
-      required String name}) async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Center(
-              child: CircularProgressIndicator(),
-            ));
-    try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .add({'username': name})
-              });
-    } on FirebaseAuthException catch (e) {
-      print(e);
+  Future<UserCredential> signUpWithEmailAndPassword(
+      {required String email, required String password}) async {
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
+
+    if (userCredential.user?.uid == null) {
+      print("nu user ");
     }
 
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    DatabaseServices(uId: userCredential.user!.uid).updateUser(
+        username: "Unkown",
+        phoneNumber: "Unkown",
+        github: "Unkown",
+        twitter: "Unkown",
+        facebook: "Unkown",
+        instagram: "Unkown",
+        linkedIn: "Unkown",
+        description: "Unkown",
+        createdAt: DateTime.now());
+
+    return userCredential;
+  }
+
+  Future Signout() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,12 +33,13 @@ class CustomTextFieldForm extends StatelessWidget {
       height: h,
       width: w,
       child: TextFormField(
+        maxLines: 1,
         obscureText: obscureText,
         keyboardType: textInputType,
-        autofillHints: [AutofillHints.email],
         validator: validator,
         controller: controller,
         decoration: InputDecoration(
+          errorStyle: const TextStyle(fontSize: 0.01),
           labelText: textFieldLabelText,
           labelStyle: GoogleFonts.poppins(
             color: textColor,
