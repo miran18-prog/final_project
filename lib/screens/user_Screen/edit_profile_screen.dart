@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/models/Freelancer_model.dart';
 import 'package:final_project/widgets/custom_textFormField.dart';
+import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +29,8 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
   TextEditingController _linkedInCtrl = TextEditingController();
   TextEditingController _twitter = TextEditingController();
   TextEditingController _description = TextEditingController();
-
+  String userId = FirebaseAuth.instance.currentUser!.uid;
   Widget build(BuildContext context) {
-    User user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -49,9 +47,14 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: StreamBuilder<FreelancerModel>(
-            stream: DatabaseServices(uId: user.uid).freelancerData,
-            builder: (context, snapshot) {
+        child: StreamBuilder<FreelancerModel?>(
+          stream: DatabaseServices(uId: userId).freelancerData,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CustomLodingWidget();
+            } else if (snapshot.data == null) {
+              return Text("no data");
+            } else if (snapshot.hasData && snapshot.data != null) {
               return Center(
                 child: Column(
                   children: [
@@ -140,15 +143,18 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                     SizedBox(height: 25),
                     ElevatedButton(
                       onPressed: () async {
-                        DatabaseServices(uId: user.uid).updateUser(
-                            username: _usernameCtrl.text,
-                            phoneNumber: _phoneCtrl.text,
-                            github: _gitCtrl.text,
-                            twitter: _twitter.text,
-                            facebook: _facebookCtrl.text,
-                            instagram: _instaCtrl.text,
-                            linkedIn: _linkedInCtrl.text,
-                            description: _description.text);
+                        DatabaseServices(
+                                uId: FirebaseAuth.instance.currentUser!.uid)
+                            .updateUser(
+                          username: _usernameCtrl.text,
+                          phoneNumber: _phoneCtrl.text,
+                          github: _gitCtrl.text,
+                          twitter: _twitter.text,
+                          facebook: _facebookCtrl.text,
+                          instagram: _instaCtrl.text,
+                          linkedIn: _linkedInCtrl.text,
+                          description: _description.text,
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -160,7 +166,10 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                   ],
                 ),
               );
-            }),
+            }
+            return Text(snapshot.error.toString());
+          },
+        ),
       ),
     );
   }

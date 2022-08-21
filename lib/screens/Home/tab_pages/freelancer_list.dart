@@ -1,4 +1,5 @@
 import 'package:final_project/widgets/custom_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -20,6 +21,12 @@ class _GraphicDesignerPageState extends State<GraphicDesignerPage> {
         itemBuilder: ((context, index) {
           return Column(
             children: [
+              ElevatedButton(
+                onPressed: () {
+                  print(FirebaseAuth.instance.currentUser!.uid);
+                },
+                child: Text("press"),
+              ),
               SizedBox(
                 height: 33,
               ),

@@ -163,14 +163,15 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
               ElevatedButton(
                 onPressed: () async {
                   DatabaseServices(uId: user.uid).updateUser(
-                      username: _usernameCtrl.text,
-                      phoneNumber: _phoneCtrl.text,
-                      github: _gitCtrl.text,
-                      twitter: _twitter.text,
-                      facebook: _facebookCtrl.text,
-                      instagram: _instaCtrl.text,
-                      linkedIn: _linkedInCtrl.text,
-                      description: _description.text);
+                    username: _usernameCtrl.text,
+                    phoneNumber: _phoneCtrl.text,
+                    github: _gitCtrl.text,
+                    twitter: _twitter.text,
+                    facebook: _facebookCtrl.text,
+                    instagram: _instaCtrl.text,
+                    linkedIn: _linkedInCtrl.text,
+                    description: _description.text,
+                  );
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(10),
