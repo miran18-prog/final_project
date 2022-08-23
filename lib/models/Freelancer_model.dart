@@ -12,6 +12,8 @@ class FreelancerModel {
   String description;
   DateTime? createdAt;
   bool? is_freelancer;
+  String skill;
+  String? userId;
   FreelancerModel({
     required this.username,
     this.phone_number,
@@ -23,6 +25,8 @@ class FreelancerModel {
     required this.description,
     this.createdAt,
     this.is_freelancer,
+    required this.skill,
+    this.userId,
   });
 
   FreelancerModel copyWith({
@@ -34,7 +38,10 @@ class FreelancerModel {
     String? instagram,
     String? linkedIn,
     String? description,
+    DateTime? createdAt,
     bool? is_freelancer,
+    String? skill,
+    String? userId,
   }) {
     return FreelancerModel(
       username: username ?? this.username,
@@ -45,7 +52,10 @@ class FreelancerModel {
       instagram: instagram ?? this.instagram,
       linkedIn: linkedIn ?? this.linkedIn,
       description: description ?? this.description,
+      createdAt: createdAt ?? this.createdAt,
       is_freelancer: is_freelancer ?? this.is_freelancer,
+      skill: skill ?? this.skill,
+      userId: userId ?? this.userId,
     );
   }
 
@@ -59,7 +69,10 @@ class FreelancerModel {
       'instagram': instagram,
       'linkedIn': linkedIn,
       'description': description,
+      'createdAt': createdAt?.millisecondsSinceEpoch,
       'is_freelancer': is_freelancer,
+      'skill': skill,
+      'userId': userId,
     };
   }
 
@@ -74,7 +87,13 @@ class FreelancerModel {
       instagram: map['instagram'] != null ? map['instagram'] as String : null,
       linkedIn: map['linkedIn'] != null ? map['linkedIn'] as String : null,
       description: map['description'] as String,
-      is_freelancer: map['is_freelancer'] as bool,
+      createdAt: map['createdAt'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int)
+          : null,
+      is_freelancer:
+          map['is_freelancer'] != null ? map['is_freelancer'] as bool : null,
+      skill: map['skill'] as String,
+      userId: map['userId'] != null ? map['userId'] as String : null,
     );
   }
 
@@ -85,7 +104,7 @@ class FreelancerModel {
 
   @override
   String toString() {
-    return 'FreelancerModel(username: $username, phone_number: $phone_number, github: $github, twitter: $twitter, facebook: $facebook, instagram: $instagram, linkedIn: $linkedIn, description: $description, createdAt: $createdAt, is_freelancer: $is_freelancer)';
+    return 'FreelancerModel(username: $username, phone_number: $phone_number, github: $github, twitter: $twitter, facebook: $facebook, instagram: $instagram, linkedIn: $linkedIn, description: $description, createdAt: $createdAt, is_freelancer: $is_freelancer, skill: $skill, userId: $userId)';
   }
 
   @override
@@ -100,7 +119,10 @@ class FreelancerModel {
         other.instagram == instagram &&
         other.linkedIn == linkedIn &&
         other.description == description &&
-        other.is_freelancer == is_freelancer;
+        other.createdAt == createdAt &&
+        other.is_freelancer == is_freelancer &&
+        other.skill == skill &&
+        other.userId == userId;
   }
 
   @override
@@ -113,6 +135,9 @@ class FreelancerModel {
         instagram.hashCode ^
         linkedIn.hashCode ^
         description.hashCode ^
-        is_freelancer.hashCode;
+        createdAt.hashCode ^
+        is_freelancer.hashCode ^
+        skill.hashCode ^
+        userId.hashCode;
   }
 }

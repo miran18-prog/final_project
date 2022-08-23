@@ -51,6 +51,11 @@ class _SignInScreenState extends State<SignInScreen> {
                     width: 275,
                   ),
                   CustomTextFieldForm(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'enter yout email';
+                      }
+                    },
                     controller: emailController,
                     borderColor: HexColor('#275ea3'),
                     textColor: HexColor('#275ea3'),
@@ -60,6 +65,11 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   SizedBox(height: 40),
                   CustomTextFieldForm(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'enter your password';
+                      }
+                    },
                     controller: passwordController,
                     obscureText: true,
                     textFieldLabelText: "Password",
@@ -94,9 +104,11 @@ class _SignInScreenState extends State<SignInScreen> {
                     onPressed: () {
                       setState(
                         () {
-                          _auth.signInWithEMailAndPassword(
-                              email: emailController.text.trim(),
-                              password: passwordController.text.trim());
+                          if (_formKey.currentState!.validate()) {
+                            _auth.signInWithEMailAndPassword(context,
+                                email: emailController.text.trim(),
+                                password: passwordController.text.trim());
+                          }
                         },
                       );
                     },

@@ -1,7 +1,6 @@
-import 'dart:js';
-
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/screens/user_Screen/create_profile_screen.dart';
+import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,23 +10,42 @@ class Auth {
   Future<UserCredential?> signInWithEMailAndPassword(context,
       {required String email, required String password}) async {
     try {
+      showDialog(
+          context: context,
+          builder: (context) => Center(
+                child: CustomLodingWidget(),
+              ));
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+
+      Navigator.of(context).pop();
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        customSnackbar(context, 'No user found for that email.');
+        Navigator.of(context).pop();
+
+        customSnackbar(context, 'No user found for that email.',
+            'oops something went wrong!', Colors.red);
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        customSnackbar(context, 'Wrong password provided for that user');
+        Navigator.of(context).pop();
+
+        customSnackbar(context, 'Wrong password provided for that user',
+            'oops something went wrong!', Colors.red);
         print('Wrong password provided for that user.');
       } else if (e.code == 'invalid-email') {
-        customSnackbar(context, 'Email badly formatted');
-        print('Email badly formatted');
-      } else
-        customSnackbar(context, e.toString());
+        Navigator.of(context).pop();
 
+        customSnackbar(context, 'Email badly formatted',
+            'oops something went wrong!', Colors.red);
+        print('Email badly formatted');
+      } else {
+        Navigator.of(context).pop();
+
+        customSnackbar(
+            context, e.toString(), 'oops something went wrong!', Colors.red);
+      }
       print(e);
     }
   }
@@ -35,33 +53,60 @@ class Auth {
   Future<UserCredential?> signUpWithEmailAndPassword(context,
       {required String email, required String password}) async {
     try {
+      showDialog(
+          context: context,
+          builder: (context) => Center(
+                child: CustomLodingWidget(),
+              ));
+
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+      Navigator.of(context).pop();
 
       DatabaseServices(uId: userCredential.user!.uid).updateUser(
           username: "Unkown",
           phoneNumber: "Unkown",
-          github: "Unkown",
-          twitter: "Unkown",
-          facebook: "Unkown",
-          instagram: "Unkown",
-          linkedIn: "Unkown",
-          description: "Unkown",
-          is_freelancer: false);
+          github: "Unknown",
+          twitter: "Unknown",
+          facebook: "Unknown",
+          instagram: "Unknown",
+          linkedIn: "Unknown",
+          description: "Unknown",
+          is_freelancer: false,
+          skill: 'Unknown',
+          userId: userCredential.user!.uid);
+
+      customSnackbar(
+          context, 'Complete your registraion', 'Welcome !', Colors.green);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: ((context) => CreateUserScreen())));
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        customSnackbar(context, 'weak-password ');
+        Navigator.of(context).pop();
+
+        customSnackbar(context, 'weak-password ', 'oops something went wrong!',
+            Colors.red);
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        customSnackbar(context, 'The account already exists for that email.');
-        print('The account already exists for that email.');
+        Navigator.of(context).pop();
+
+        customSnackbar(context, 'The account already exists for that email.',
+            'oops something went wrong!', Colors.red);
+        print(
+          'The account already exists for that email.',
+        );
       } else if (e.code == 'invalid-email') {
-        customSnackbar(context, 'Email badly formatted');
+        Navigator.of(context).pop();
+
+        customSnackbar(context, 'Email badly formatted',
+            'oops something went wrong!', Colors.red);
         print('Email badly formatted');
       }
     } catch (e) {
+      Navigator.of(context).pop();
+
       print(e);
     }
   }
@@ -70,7 +115,7 @@ class Auth {
     await FirebaseAuth.instance.signOut();
   }
 
-  customSnackbar(context, String text) {
+  customSnackbar(context, String text, String errorText, Color color) {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
@@ -78,9 +123,9 @@ class Auth {
         elevation: 0,
         content: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
-          height: 50,
+          height: 60,
           decoration: BoxDecoration(
-            color: Colors.red,
+            color: color,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
@@ -88,7 +133,7 @@ class Auth {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'oops something went wrong!',
+                errorText,
                 style: GoogleFonts.poppins(fontSize: 16),
               ),
               SizedBox(height: 5),

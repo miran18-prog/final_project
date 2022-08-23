@@ -2,6 +2,7 @@ import 'package:final_project/authentication/auth.dart';
 import 'package:final_project/screens/Drawbar%20Screens/job_screen.dart';
 import 'package:final_project/screens/SignIn_SignUp_Screen/SignIn.dart';
 import 'package:final_project/screens/user_Screen/edit_profile_screen.dart';
+import 'package:final_project/widgets/test_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -43,7 +44,8 @@ class DrawerBar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
-            onTap: () => print('Settings'),
+            onTap: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => TestScreen())),
           ),
           ListTile(
             leading: const Icon(Icons.edit),

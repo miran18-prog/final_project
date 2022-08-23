@@ -2,6 +2,7 @@
 
 import 'package:final_project/screens/Home/tab_pages/freelancer_list.dart';
 import 'package:final_project/widgets/DrawerBar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';

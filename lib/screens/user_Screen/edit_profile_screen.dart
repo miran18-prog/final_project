@@ -4,6 +4,7 @@ import 'package:final_project/models/Freelancer_model.dart';
 import 'package:final_project/widgets/custom_textFormField.dart';
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,6 +31,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
   TextEditingController _twitter = TextEditingController();
   TextEditingController _description = TextEditingController();
   String userId = FirebaseAuth.instance.currentUser!.uid;
+  bool is_freelancer = false;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -47,14 +49,27 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: StreamBuilder<FreelancerModel?>(
-          stream: DatabaseServices(uId: userId).freelancerData,
+        child: StreamBuilder<DocumentSnapshot>(
+          stream: DatabaseServices(uId: userId).getUser(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return CustomLodingWidget();
             } else if (snapshot.data == null) {
               return Text("no data");
             } else if (snapshot.hasData && snapshot.data != null) {
+              FreelancerModel userData = FreelancerModel.fromMap(
+                  snapshot.data!.data() as Map<String, dynamic>);
+
+              _usernameCtrl.text = userData.username;
+              _phoneCtrl.text = userData.phone_number!;
+              _facebookCtrl.text = userData.facebook!;
+              _gitCtrl.text = userData.github!;
+              _instaCtrl.text = userData.instagram!;
+              _linkedInCtrl.text = userData.linkedIn!;
+              _twitter.text = userData.twitter!;
+              _description.text = userData.description;
+              dropdownValue = userData.skill;
+              is_freelancer = userData.is_freelancer!;
               return Center(
                 child: Column(
                   children: [
@@ -89,27 +104,51 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                     ),
                     SizedBox(height: 60),
                     CustomTextForm(
-                        'Username', _usernameCtrl, snapshot.data!.username),
-                    SizedBox(height: 35),
-                    CustomTextForm('Phone number', _phoneCtrl,
-                        snapshot.data!.phone_number!),
-                    SizedBox(height: 35),
-                    CustomTextForm('Github', _gitCtrl, snapshot.data!.github!),
+                        'Username', _usernameCtrl, userData.username),
                     SizedBox(height: 35),
                     CustomTextForm(
-                        'Facebook', _facebookCtrl, snapshot.data!.facebook!),
+                        'Phone number', _phoneCtrl, userData.phone_number!),
+                    SizedBox(height: 35),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: DropdownButtonFormField<String>(
+                        value: dropdownValue,
+                        icon: const Icon(Icons.arrow_downward),
+                        elevation: 16,
+                        style: const TextStyle(color: Colors.black),
+                        onChanged: (String? newValue) {
+                          dropdownValue = newValue!;
+                        },
+                        items: <String>[
+                          'Graphic Designer',
+                          'Front-end developer',
+                          'Back-end developer',
+                          'Mobile application developer',
+                          'Desktop application developer'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    SizedBox(height: 35),
+                    CustomTextForm('Github', _gitCtrl, userData.github!),
                     SizedBox(height: 35),
                     CustomTextForm(
-                        'Instagram', _instaCtrl, snapshot.data!.instagram!),
+                        'Facebook', _facebookCtrl, userData.facebook!),
+                    SizedBox(height: 35),
+                    CustomTextForm(
+                        'Instagram', _instaCtrl, userData.instagram!),
                     SizedBox(height: 35),
                     CustomTextForm(
                       'LinkedIn',
                       _linkedInCtrl,
-                      snapshot.data!.linkedIn!,
+                      userData.linkedIn!,
                     ),
                     SizedBox(height: 35),
-                    CustomTextForm(
-                        'Twitter', _twitter, snapshot.data!.twitter!),
+                    CustomTextForm('Twitter', _twitter, userData.twitter!),
                     SizedBox(height: 35),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -117,9 +156,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                         maxLines: 3,
                         controller: _description,
                         decoration: InputDecoration(
-                          hintText: snapshot.data!.description,
-                          counterText:
-                              '${_description.text.length.toString()} / 200',
+                          hintText: userData.description,
                           labelText: 'Description about you self',
                           hintStyle: GoogleFonts.poppins(fontSize: 15),
                           labelStyle: GoogleFonts.poppins(fontSize: 20),
@@ -134,9 +171,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                           ),
                         ),
                         onChanged: (value) {
-                          setState(() {
-                            _description.text = value;
-                          });
+                          _description.text = value;
                         },
                       ),
                     ),
@@ -154,12 +189,17 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                           instagram: _instaCtrl.text,
                           linkedIn: _linkedInCtrl.text,
                           description: _description.text,
+                          skill: dropdownValue,
+                          is_freelancer: is_freelancer,
+                          userId: FirebaseAuth.instance.currentUser!.uid,
                         );
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 140, vertical: 15),
-                        child: Text("Save"),
+                            horizontal: 140, vertical: 20),
+                        child: Text(
+                          "Save",
+                        ),
                       ),
                     ),
                     SizedBox(height: 35),

@@ -50,14 +50,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 25,
                   ),
                   CustomTextFieldForm(
-                    // validator: (value) {
-                    //   if (value == null || value.isEmpty) {
-                    //     Get.snackbar("", 'Please enter your email');
-                    //   } else if (!EmailValidator.validate(value)) {
-                    //     Get.snackbar("Email error", 'Enter valid email');
-                    //   }
-                    //   return null;
-                    // },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return ('Please enter your email');
+                      } else if (!EmailValidator.validate(value)) {
+                        Get.snackbar("Email error", 'Enter valid email');
+                      }
+                      return null;
+                    },
                     textInputType: TextInputType.emailAddress,
                     controller: emailController,
                     borderColor: HexColor('#275ea3'),
@@ -68,6 +68,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   SizedBox(height: 40),
                   CustomTextFieldForm(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'enter yout email';
+                      } else if (passwordController.text !=
+                          confirmPasswordController.text) {
+                        return '';
+                      }
+                    },
                     controller: passwordController,
                     textFieldLabelText: "Password",
                     borderColor: HexColor('#275ea3'),
@@ -77,6 +85,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   SizedBox(height: 40),
                   CustomTextFieldForm(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'enter yout email';
+                      } else if (passwordController.text !=
+                          confirmPasswordController.text) {
+                        return '';
+                      }
+                    },
                     controller: confirmPasswordController,
                     textFieldLabelText: "Confirm Password",
                     borderColor: HexColor('#275ea3'),
@@ -92,9 +108,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         primary: HexColor('#275ea3'), elevation: 2),
                     onPressed: () async {
                       setState(() async {
-                        _auth.signUpWithEmailAndPassword(
-                            email: emailController.text.trim(),
-                            password: passwordController.text.trim());
+                        if (_formKey.currentState!.validate()) {
+                          _auth.signUpWithEmailAndPassword(context,
+                              email: emailController.text.trim(),
+                              password: passwordController.text.trim());
+                        }
                       });
                     },
                     child: Padding(

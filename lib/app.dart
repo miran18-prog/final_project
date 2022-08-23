@@ -1,8 +1,11 @@
 import 'package:final_project/authentication/Authentication%20_page.dart';
 import 'package:final_project/screens/SignIn_SignUp_Screen/SignIn.dart';
 import 'package:final_project/screens/SignIn_SignUp_Screen/SignUp.dart';
+import 'package:final_project/screens/SignIn_SignUp_Screen/freelancer_or_clinet.dart';
 import 'package:final_project/screens/main_screen/main_screen.dart';
+import 'package:final_project/screens/user_Screen/create_profile_screen.dart';
 import 'package:final_project/widgets/loading_widget.dart';
+import 'package:final_project/widgets/test_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,26 +27,21 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: navigatorKey,
-      home: Scaffold(
-        body: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CustomLodingWidget(),
-              );
-            } else if (snapshot.hasError) {
-              return Text('something went wrong try again later');
-            } else if (snapshot.hasData) {
-              return const MainFile();
-            } else {
-              return const AuthPage();
-            }
-          },
-        ),
-      ),
-    );
+        debugShowCheckedModeBanner: false,
+        navigatorKey: navigatorKey,
+        home: Scaffold(
+          body: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text('something went wrong try again later');
+              } else if (snapshot.hasData) {
+                return const MainFile();
+              } else {
+                return const AuthPage();
+              }
+            },
+          ),
+        ));
   }
 }

@@ -39,7 +39,7 @@ class CustomTextFieldForm extends StatelessWidget {
         validator: validator,
         controller: controller,
         decoration: InputDecoration(
-          errorStyle: const TextStyle(fontSize: 0.01),
+          errorStyle: const TextStyle(fontSize: 0.1),
           labelText: textFieldLabelText,
           labelStyle: GoogleFonts.poppins(
             color: textColor,
