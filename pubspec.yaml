@@ -49,6 +49,8 @@ dependencies:
   get: ^4.6.5
   loading_animation_widget: ^1.2.0+2
   provider: ^6.0.3
+  banner_listtile: ^2.2.0
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

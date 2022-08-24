@@ -64,14 +64,13 @@ class _SignInScreenState extends State<SignInScreen> {
                     w: 300,
                   ),
                   SizedBox(height: 40),
-                  CustomTextFieldForm(
+                  CustomPasswordTextFieldForm(
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'enter your password';
                       }
                     },
                     controller: passwordController,
-                    obscureText: true,
                     textFieldLabelText: "Password",
                     borderColor: HexColor('#275ea3'),
                     textColor: HexColor('#275ea3'),

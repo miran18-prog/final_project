@@ -1,12 +1,8 @@
 import 'package:final_project/screens/Home/home_page.dart';
 import 'package:final_project/screens/notifications%20_screen/notfy_screen.dart';
-import 'package:final_project/screens/user_Screen/create_profile_screen.dart';
 import 'package:final_project/screens/user_Screen/user_account_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MainFile extends StatefulWidget {

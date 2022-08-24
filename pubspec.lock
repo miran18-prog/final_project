@@ -8,6 +8,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.2"
+  auto_size_text:
+    dependency: "direct main"
+    description:
+      name: auto_size_text
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
+  banner_listtile:
+    dependency: "direct main"
+    description:
+      name: banner_listtile
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.0"
   boolean_selector:
     dependency: transitive
     description:

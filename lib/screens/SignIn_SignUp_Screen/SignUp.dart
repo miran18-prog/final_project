@@ -67,14 +67,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     w: 300,
                   ),
                   SizedBox(height: 40),
-                  CustomTextFieldForm(
+                  CustomPasswordTextFieldForm(
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'enter yout email';
+                        return 'please enter your password';
                       } else if (passwordController.text !=
                           confirmPasswordController.text) {
                         return '';
                       }
+                      value.length < 6 ? 'Password too short.' : null;
                     },
                     controller: passwordController,
                     textFieldLabelText: "Password",
@@ -84,10 +85,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     w: 300,
                   ),
                   SizedBox(height: 40),
-                  CustomTextFieldForm(
+                  CustomPasswordTextFieldForm(
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'enter yout email';
+                        return 'please enter yout password';
                       } else if (passwordController.text !=
                           confirmPasswordController.text) {
                         return '';
@@ -108,7 +109,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         primary: HexColor('#275ea3'), elevation: 2),
                     onPressed: () async {
                       setState(() async {
-                        if (_formKey.currentState!.validate()) {
+                        if (passwordController.text !=
+                            confirmPasswordController.text) {
+                          customSnackbar(context,
+                              text: 'password fields are not equal',
+                              errorText: 'password error',
+                              color: Colors.red);
+                        } else if (confirmPasswordController.text !=
+                            passwordController.text) {
+                          customSnackbar(context,
+                              text: 'password is to short',
+                              errorText: 'Short Password',
+                              color: Colors.red);
+                        } else if (_formKey.currentState!.validate()) {
                           _auth.signUpWithEmailAndPassword(context,
                               email: emailController.text.trim(),
                               password: passwordController.text.trim());

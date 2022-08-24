@@ -19,17 +19,81 @@ class _GraphicDesignerPageState extends State<GraphicDesignerPage> {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
+      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .where('skill', isEqualTo: 'Graphic Designer')
+            .snapshots(),
+        builder: (BuildContext context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+                child: Text("Oops something went wrong try again later!"));
+          } else if (snapshot.data == null) {
+            return CustomLodingWidget();
+          } else if (snapshot.hasData) {
+            List<FreelancerModel> _freelancers = snapshot.data!.docs
+                .map(
+                  (e) => FreelancerModel.fromMap(
+                    e.data(),
+                  ),
+                )
+                .toList();
+            return ListView.builder(
+              itemCount: _freelancers.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: 33,
+                    ),
+                    Center(
+                      child: CardWidget(
+                        usernName: _freelancers[index].username,
+                        profileImage:
+                            'https://scontent.febl5-1.fna.fbcdn.net/v/t39.30808-6/275845667_3888461888045740_5999289603495824659_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEryMNBsVZBDkY8lRuoVjShhIoHeLmdYtmEigd4uZ1i2RZ_19VytqiCvY-2TmH48qTB6Unpf8lwsfSqTfBcNkcU&_nc_ohc=qJE2DiBAW-kAX-M9XFq&tn=JAMVX_RKfDAVuOtR&_nc_ht=scontent.febl5-1.fna&oh=00_AT_WQL6QqnHFmfQzgq52CXjfEtn2rCB543R8aV_5fuxbew&oe=62D89F6C',
+                        Skils: _freelancers[index].skill,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 13,
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+          return CustomLodingWidget();
+        },
+      ),
+    );
+  }
+}
+
+class MobileAppDeveloper extends StatefulWidget {
+  const MobileAppDeveloper({Key? key}) : super(key: key);
+
+  @override
+  State<MobileAppDeveloper> createState() => MobileAppDeveloperState();
+}
+
+class MobileAppDeveloperState extends State<MobileAppDeveloper> {
+  @override
+  Widget build(BuildContext context) {
+    return Scrollbar(
         child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: FirebaseFirestore.instance
           .collection('users')
-          .where('skill', isEqualTo: 'Graphic Designer')
+          .where(
+            'skill',
+            isEqualTo: 'Mobile application developer',
+          )
           .snapshots(),
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasError) {
           return Center(
               child: Text("Oops something went wrong try again later!"));
         } else if (snapshot.data == null) {
-          return Text('null');
+          return CustomLodingWidget();
         } else if (snapshot.hasData) {
           List<FreelancerModel> _freelancers = snapshot.data!.docs
               .map(
@@ -51,12 +115,7 @@ class _GraphicDesignerPageState extends State<GraphicDesignerPage> {
                       usernName: _freelancers[index].username,
                       profileImage:
                           'https://scontent.febl5-1.fna.fbcdn.net/v/t39.30808-6/275845667_3888461888045740_5999289603495824659_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEryMNBsVZBDkY8lRuoVjShhIoHeLmdYtmEigd4uZ1i2RZ_19VytqiCvY-2TmH48qTB6Unpf8lwsfSqTfBcNkcU&_nc_ohc=qJE2DiBAW-kAX-M9XFq&tn=JAMVX_RKfDAVuOtR&_nc_ht=scontent.febl5-1.fna&oh=00_AT_WQL6QqnHFmfQzgq52CXjfEtn2rCB543R8aV_5fuxbew&oe=62D89F6C',
-                      profileStrokeWidth: 1,
-                      Skils: 'Graphic Designer',
-                      profileStrokeColor: Colors.transparent,
-                      leftElevateButtonText: 'Profile',
-                      rightElevateButtonText: 'Shortlist',
-                      backcroundColor: HexColor('#EFEFEF'),
+                      Skils: _freelancers[index].skill,
                     ),
                   ),
                   SizedBox(
@@ -73,80 +132,61 @@ class _GraphicDesignerPageState extends State<GraphicDesignerPage> {
   }
 }
 
-class MobileAppDeveloper extends StatefulWidget {
-  const MobileAppDeveloper({Key? key}) : super(key: key);
-
-  @override
-  State<MobileAppDeveloper> createState() => MobileAppDeveloperState();
-}
-
-class MobileAppDeveloperState extends State<MobileAppDeveloper> {
-  @override
-  Widget build(BuildContext context) {
-    return Scrollbar(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: 4,
-        itemBuilder: ((context, index) {
-          return Column(
-            children: [
-              SizedBox(
-                height: 33,
-              ),
-              const Center(
-                child: CardWidget(
-                  usernName: ' _freelancers[index].username',
-                  profileImage:
-                      'https://scontent.febl5-1.fna.fbcdn.net/v/t39.30808-6/275845667_3888461888045740_5999289603495824659_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEryMNBsVZBDkY8lRuoVjShhIoHeLmdYtmEigd4uZ1i2RZ_19VytqiCvY-2TmH48qTB6Unpf8lwsfSqTfBcNkcU&_nc_ohc=qJE2DiBAW-kAX-M9XFq&tn=JAMVX_RKfDAVuOtR&_nc_ht=scontent.febl5-1.fna&oh=00_AT_WQL6QqnHFmfQzgq52CXjfEtn2rCB543R8aV_5fuxbew&oe=62D89F6C',
-                  profileStrokeWidth: 1,
-                  Skils: ' Graphic Designer',
-                  profileStrokeColor: Colors.transparent,
-                  leftElevateButtonText: 'Profile',
-                  rightElevateButtonText: 'Shortlist',
-                  backcroundColor: Color.fromARGB(255, 224, 242, 252),
-                ),
-              ),
-            ],
-          );
-        }),
-      ),
-    );
-  }
-}
-
 class FrontEndDeveloper extends StatelessWidget {
   const FrontEndDeveloper({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: 4,
-        itemBuilder: ((context, index) {
-          return Column(
-            children: [
-              SizedBox(
-                height: 33,
-              ),
-              const Center(
-                child: CardWidget(
-                  usernName: ' _freelancers[index].username',
-                  profileImage:
-                      'https://scontent.febl5-1.fna.fbcdn.net/v/t39.30808-6/275845667_3888461888045740_5999289603495824659_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEryMNBsVZBDkY8lRuoVjShhIoHeLmdYtmEigd4uZ1i2RZ_19VytqiCvY-2TmH48qTB6Unpf8lwsfSqTfBcNkcU&_nc_ohc=qJE2DiBAW-kAX-M9XFq&tn=JAMVX_RKfDAVuOtR&_nc_ht=scontent.febl5-1.fna&oh=00_AT_WQL6QqnHFmfQzgq52CXjfEtn2rCB543R8aV_5fuxbew&oe=62D89F6C',
-                  profileStrokeWidth: 1,
-                  Skils: ' Graphic Designer',
-                  profileStrokeColor: Colors.transparent,
-                  leftElevateButtonText: 'Profile',
-                  rightElevateButtonText: 'Shortlist',
-                  backcroundColor: Color.fromARGB(255, 224, 242, 252),
+        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .where(
+            'skill',
+            isEqualTo: 'Front-end developer',
+          )
+          .snapshots(),
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+              child: Text("Oops something went wrong try again later!"));
+        } else if (snapshot.data == null) {
+          return CustomLodingWidget();
+        } else if (snapshot.hasData) {
+          List<FreelancerModel> _freelancers = snapshot.data!.docs
+              .map(
+                (e) => FreelancerModel.fromMap(
+                  e.data(),
                 ),
-              ),
-            ],
+              )
+              .toList();
+          return ListView.builder(
+            itemCount: _freelancers.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 33,
+                  ),
+                  Center(
+                    child: CardWidget(
+                      usernName: _freelancers[index].username,
+                      profileImage:
+                          'https://scontent.febl5-1.fna.fbcdn.net/v/t39.30808-6/275845667_3888461888045740_5999289603495824659_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEryMNBsVZBDkY8lRuoVjShhIoHeLmdYtmEigd4uZ1i2RZ_19VytqiCvY-2TmH48qTB6Unpf8lwsfSqTfBcNkcU&_nc_ohc=qJE2DiBAW-kAX-M9XFq&tn=JAMVX_RKfDAVuOtR&_nc_ht=scontent.febl5-1.fna&oh=00_AT_WQL6QqnHFmfQzgq52CXjfEtn2rCB543R8aV_5fuxbew&oe=62D89F6C',
+                      Skils: _freelancers[index].skill,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 13,
+                  ),
+                ],
+              );
+            },
           );
-        }),
-      ),
-    );
+        }
+        return CustomLodingWidget();
+      },
+    ));
   }
 }
 
@@ -156,33 +196,55 @@ class BackEndDeveloper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: 4,
-        itemBuilder: ((context, index) {
-          return Column(
-            children: [
-              SizedBox(
-                height: 33,
-              ),
-              const Center(
-                child: CardWidget(
-                  usernName: ' _freelancers[index].username',
-                  profileImage:
-                      'https://scontent.febl5-1.fna.fbcdn.net/v/t39.30808-6/275845667_3888461888045740_5999289603495824659_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEryMNBsVZBDkY8lRuoVjShhIoHeLmdYtmEigd4uZ1i2RZ_19VytqiCvY-2TmH48qTB6Unpf8lwsfSqTfBcNkcU&_nc_ohc=qJE2DiBAW-kAX-M9XFq&tn=JAMVX_RKfDAVuOtR&_nc_ht=scontent.febl5-1.fna&oh=00_AT_WQL6QqnHFmfQzgq52CXjfEtn2rCB543R8aV_5fuxbew&oe=62D89F6C',
-                  profileStrokeWidth: 1,
-                  Skils: ' Graphic Designer',
-                  profileStrokeColor: Colors.transparent,
-                  leftElevateButtonText: 'Profile',
-                  rightElevateButtonText: 'Shortlist',
-                  backcroundColor: Color.fromARGB(255, 224, 242, 252),
+        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .where(
+            'skill',
+            isEqualTo: 'Back-end developer',
+          )
+          .snapshots(),
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+              child: Text("Oops something went wrong try again later!"));
+        } else if (snapshot.data == null) {
+          return CustomLodingWidget();
+        } else if (snapshot.hasData) {
+          List<FreelancerModel> _freelancers = snapshot.data!.docs
+              .map(
+                (e) => FreelancerModel.fromMap(
+                  e.data(),
                 ),
-              ),
-            ],
+              )
+              .toList();
+          return ListView.builder(
+            itemCount: _freelancers.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 33,
+                  ),
+                  Center(
+                    child: CardWidget(
+                      usernName: _freelancers[index].username,
+                      profileImage:
+                          'https://scontent.febl5-1.fna.fbcdn.net/v/t39.30808-6/275845667_3888461888045740_5999289603495824659_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEryMNBsVZBDkY8lRuoVjShhIoHeLmdYtmEigd4uZ1i2RZ_19VytqiCvY-2TmH48qTB6Unpf8lwsfSqTfBcNkcU&_nc_ohc=qJE2DiBAW-kAX-M9XFq&tn=JAMVX_RKfDAVuOtR&_nc_ht=scontent.febl5-1.fna&oh=00_AT_WQL6QqnHFmfQzgq52CXjfEtn2rCB543R8aV_5fuxbew&oe=62D89F6C',
+                      Skils: _freelancers[index].skill,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 13,
+                  ),
+                ],
+              );
+            },
           );
-        }),
-      ),
-    );
+        }
+        return CustomLodingWidget();
+      },
+    ));
   }
 }
 
@@ -192,32 +254,51 @@ class DesktopApplicationDeveloper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: 4,
-        itemBuilder: ((context, index) {
-          return Column(
-            // ignore: prefer_const_literals_to_create_immutables
-            children: [
-              const SizedBox(
-                height: 33,
-              ),
-              const Center(
-                child: CardWidget(
-                  usernName: ' _freelancers[index].username',
-                  profileImage:
-                      'https://scontent.febl5-1.fna.fbcdn.net/v/t39.30808-6/275845667_3888461888045740_5999289603495824659_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEryMNBsVZBDkY8lRuoVjShhIoHeLmdYtmEigd4uZ1i2RZ_19VytqiCvY-2TmH48qTB6Unpf8lwsfSqTfBcNkcU&_nc_ohc=qJE2DiBAW-kAX-M9XFq&tn=JAMVX_RKfDAVuOtR&_nc_ht=scontent.febl5-1.fna&oh=00_AT_WQL6QqnHFmfQzgq52CXjfEtn2rCB543R8aV_5fuxbew&oe=62D89F6C',
-                  profileStrokeWidth: 1,
-                  Skils: ' Graphic Designer',
-                  profileStrokeColor: Colors.transparent,
-                  leftElevateButtonText: 'Profile',
-                  rightElevateButtonText: 'Shortlist',
-                  backcroundColor: Color.fromARGB(255, 224, 242, 252),
-                ),
-              ),
-            ],
-          );
-        }),
+      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .where('skill', isEqualTo: 'Desktop application developer')
+            .snapshots(),
+        builder: (BuildContext context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+                child: Text("Oops something went wrong try again later!"));
+          } else if (snapshot.data == null) {
+            return CustomLodingWidget();
+          } else if (snapshot.hasData) {
+            List<FreelancerModel> _freelancers = snapshot.data!.docs
+                .map(
+                  (e) => FreelancerModel.fromMap(
+                    e.data(),
+                  ),
+                )
+                .toList();
+            return ListView.builder(
+              itemCount: _freelancers.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: 33,
+                    ),
+                    Center(
+                      child: CardWidget(
+                        usernName: _freelancers[index].username,
+                        profileImage:
+                            'https://scontent.febl5-1.fna.fbcdn.net/v/t39.30808-6/275845667_3888461888045740_5999289603495824659_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEryMNBsVZBDkY8lRuoVjShhIoHeLmdYtmEigd4uZ1i2RZ_19VytqiCvY-2TmH48qTB6Unpf8lwsfSqTfBcNkcU&_nc_ohc=qJE2DiBAW-kAX-M9XFq&tn=JAMVX_RKfDAVuOtR&_nc_ht=scontent.febl5-1.fna&oh=00_AT_WQL6QqnHFmfQzgq52CXjfEtn2rCB543R8aV_5fuxbew&oe=62D89F6C',
+                        Skils: _freelancers[index].skill,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 13,
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+          return CustomLodingWidget();
+        },
       ),
     );
   }

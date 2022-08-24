@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/models/Freelancer_model.dart';
@@ -95,7 +97,10 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                       height: 50,
                       width: 125,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          File? _photo;
+                          final ImagePicker _picker = ImagePicker();
+                        },
                         child: Text(
                           "Uploade",
                           style: GoogleFonts.poppins(fontSize: 18),

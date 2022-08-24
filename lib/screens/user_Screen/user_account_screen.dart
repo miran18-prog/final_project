@@ -1,7 +1,12 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_project/Database/database_services.dart';
+import 'package:final_project/models/Freelancer_model.dart';
 import 'package:final_project/widgets/DrawerBar.dart';
 import 'package:final_project/widgets/custom_textFormField.dart';
+import 'package:final_project/widgets/loading_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -11,29 +16,42 @@ class UserProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       drawer: DrawerBar(),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("Username",
-                style: GoogleFonts.poppins(
-                    color: HexColor('#000010'),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400)),
-            DropdownButton(
-              icon: Icon(Icons.post_add),
-              iconEnabledColor: HexColor('#000010'),
-              iconDisabledColor: HexColor('#000010'),
-              onChanged: null,
-              items: [],
-            ),
-          ],
-        ),
+        title: StreamBuilder<DocumentSnapshot>(
+            stream: DatabaseServices(uId: user.uid).getUser(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CustomLodingWidget();
+              } else if (snapshot.hasError) {
+                return Text("oops something went wrong");
+              } else {
+                FreelancerModel freelancerModel = FreelancerModel.fromMap(
+                    snapshot.data.data() as Map<String, dynamic>);
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(freelancerModel.username,
+                        style: GoogleFonts.poppins(
+                            color: HexColor('#000010'),
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400)),
+                    DropdownButton(
+                      icon: Icon(Icons.post_add),
+                      iconEnabledColor: HexColor('#000010'),
+                      iconDisabledColor: HexColor('#000010'),
+                      onChanged: null,
+                      items: [],
+                    ),
+                  ],
+                );
+              }
+            }),
       ),
       body: SingleChildScrollView(
         child: Column(
