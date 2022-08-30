@@ -44,6 +44,14 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<key>NSCameraUsageDescription </key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+<string>Allow this app to access your photos</string>
+<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>sms</string>
+  <string>tel</string>
+</array>
 </dict>
 </plist>

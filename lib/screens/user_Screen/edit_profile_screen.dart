@@ -3,16 +3,17 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/models/Freelancer_model.dart';
-import 'package:final_project/widgets/custom_textFormField.dart';
+import 'package:final_project/screens/user_Screen/create_profile_screen.dart';
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as storage;
+import 'package:path/path.dart';
 
 class EditAccountScreen extends StatefulWidget {
   EditAccountScreen({Key? key}) : super(key: key);
@@ -34,6 +35,56 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
   TextEditingController _description = TextEditingController();
   String userId = FirebaseAuth.instance.currentUser!.uid;
   bool is_freelancer = false;
+  String? downloadUri;
+  bool isUploded = false;
+
+  File? _image;
+  Future<File?> _imageCropper({required File imageFile}) async {
+    CroppedFile? croppedIamge =
+        await ImageCropper().cropImage(sourcePath: imageFile.path);
+    if (croppedIamge == null) return null;
+    return File(croppedIamge.path);
+  }
+
+  Future _pickImage(ImageSource source, context) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      File? img = File(image.path);
+      img = await _imageCropper(imageFile: img);
+      setState(() {
+        _image = img;
+      });
+    } on PlatformException catch (e) {
+      print(e);
+      Navigator.of(context).pop();
+    }
+  }
+
+  Future uploadFile() async {
+    if (_image == null) return;
+    final fileName = 'prof_image';
+    final destination = 'users/$userId/profile_image';
+
+    try {
+      final ref = storage.FirebaseStorage.instance
+          .ref()
+          .child('users/$userId/profile_image_folder/${fileName}');
+      await ref.putFile(_image!);
+    } catch (e) {
+      print('error occured');
+    }
+  }
+
+  Future<void> downloadURLExample() async {
+    final fileName = 'prof_image';
+
+    downloadUri = await FirebaseStorage.instance
+        .ref()
+        .child("users/$userId/profile_image_folder/${fileName}")
+        .getDownloadURL();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -72,18 +123,45 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
               _description.text = userData.description;
               dropdownValue = userData.skill;
               is_freelancer = userData.is_freelancer!;
+
               return Center(
                 child: Column(
                   children: [
                     SizedBox(height: 25),
-                    Container(
-                      height: 145,
-                      width: 145,
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                    ),
+                    _image == null
+                        ? Container(
+                            height: 145,
+                            width: 145,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.add_a_photo,
+                                color: Colors.white,
+                                size: 50,
+                              ),
+                              onPressed: () =>
+                                  _pickImage(ImageSource.gallery, context),
+                            ),
+                          )
+                        : Container(
+                            height: 145,
+                            width: 145,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                image: DecorationImage(
+                                    image: FileImage(_image!),
+                                    fit: BoxFit.cover)),
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.add_a_photo,
+                                  color: Colors.white,
+                                  size: 50,
+                                ),
+                                onPressed: () =>
+                                    _pickImage(ImageSource.gallery, context))),
                     SizedBox(height: 45),
                     Text(
                       "Update profile picture",
@@ -95,24 +173,30 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                     SizedBox(height: 45),
                     Container(
                       height: 50,
-                      width: 125,
+                      width: 250,
                       child: ElevatedButton(
-                        onPressed: () {
-                          File? _photo;
-                          final ImagePicker _picker = ImagePicker();
-                        },
-                        child: Text(
-                          "Uploade",
-                          style: GoogleFonts.poppins(fontSize: 18),
-                        ),
+                        onPressed: () async => uploadFile(),
+                        child: userData.imageUrl == null
+                            ? Text(
+                                "Uploade",
+                                style: GoogleFonts.poppins(fontSize: 18),
+                              )
+                            : Text(
+                                "Change Profile picture",
+                                style: GoogleFonts.poppins(fontSize: 18),
+                              ),
                       ),
                     ),
                     SizedBox(height: 60),
                     CustomTextForm(
-                        'Username', _usernameCtrl, userData.username),
+                        labelText: 'Username',
+                        controller: _usernameCtrl,
+                        hintText: userData.username),
                     SizedBox(height: 35),
                     CustomTextForm(
-                        'Phone number', _phoneCtrl, userData.phone_number!),
+                        labelText: 'Phone number',
+                        controller: _phoneCtrl,
+                        hintText: userData.phone_number!),
                     SizedBox(height: 35),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -139,21 +223,31 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                       ),
                     ),
                     SizedBox(height: 35),
-                    CustomTextForm('Github', _gitCtrl, userData.github!),
+                    CustomTextForm(
+                        labelText: 'Github',
+                        controller: _gitCtrl,
+                        hintText: userData.github!),
                     SizedBox(height: 35),
                     CustomTextForm(
-                        'Facebook', _facebookCtrl, userData.facebook!),
+                        labelText: 'Facebook',
+                        controller: _facebookCtrl,
+                        hintText: userData.facebook!),
                     SizedBox(height: 35),
                     CustomTextForm(
-                        'Instagram', _instaCtrl, userData.instagram!),
+                        labelText: 'Instagram',
+                        controller: _instaCtrl,
+                        hintText: userData.instagram!),
                     SizedBox(height: 35),
                     CustomTextForm(
-                      'LinkedIn',
-                      _linkedInCtrl,
-                      userData.linkedIn!,
+                      labelText: 'LinkedIn',
+                      controller: _linkedInCtrl,
+                      hintText: userData.linkedIn!,
                     ),
                     SizedBox(height: 35),
-                    CustomTextForm('Twitter', _twitter, userData.twitter!),
+                    CustomTextForm(
+                        labelText: 'Twitter',
+                        controller: _twitter,
+                        hintText: userData.twitter!),
                     SizedBox(height: 35),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -183,21 +277,22 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                     SizedBox(height: 25),
                     ElevatedButton(
                       onPressed: () async {
+                        downloadURLExample();
                         DatabaseServices(
                                 uId: FirebaseAuth.instance.currentUser!.uid)
-                            .updateUser(
-                          username: _usernameCtrl.text,
-                          phoneNumber: _phoneCtrl.text,
-                          github: _gitCtrl.text,
-                          twitter: _twitter.text,
-                          facebook: _facebookCtrl.text,
-                          instagram: _instaCtrl.text,
-                          linkedIn: _linkedInCtrl.text,
-                          description: _description.text,
-                          skill: dropdownValue,
-                          is_freelancer: is_freelancer,
-                          userId: FirebaseAuth.instance.currentUser!.uid,
-                        );
+                            .editUser(
+                                username: _usernameCtrl.text,
+                                phoneNumber: _phoneCtrl.text,
+                                github: _gitCtrl.text,
+                                twitter: _twitter.text,
+                                facebook: _facebookCtrl.text,
+                                instagram: _instaCtrl.text,
+                                linkedIn: _linkedInCtrl.text,
+                                description: _description.text,
+                                skill: dropdownValue,
+                                is_freelancer: is_freelancer,
+                                userId: FirebaseAuth.instance.currentUser!.uid,
+                                imageUrl: downloadUri!);
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -218,9 +313,20 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
       ),
     );
   }
+}
 
-  Widget CustomTextForm(
-      String labelText, TextEditingController controller, String hintText) {
+class CustomTextField extends StatelessWidget {
+  const CustomTextField(
+      {Key? key,
+      required this.labelText,
+      required this.controller,
+      required this.hintText})
+      : super(key: key);
+  final String labelText;
+  final TextEditingController controller;
+  final String hintText;
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: TextFormField(

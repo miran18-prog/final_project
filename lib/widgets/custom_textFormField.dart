@@ -64,7 +64,7 @@ class CustomPasswordTextFieldForm extends StatefulWidget {
       this.validator,
       this.controller,
       this.textInputType,
-      this.obscureText = false,
+      this.obscureText = true,
       this.h,
       this.w})
       : super(key: key);
@@ -77,7 +77,8 @@ class CustomPasswordTextFieldForm extends StatefulWidget {
   final double? w;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
-  bool obscureText;
+  bool obscureText = false;
+  IconData obsIcon = Icons.visibility;
 
   @override
   State<CustomPasswordTextFieldForm> createState() =>
@@ -100,14 +101,20 @@ class _CustomPasswordTextFieldFormState
         decoration: InputDecoration(
           suffixIcon: IconButton(
             icon: Icon(
-              // Based on passwordVisible state choose the icon
-              widget.obscureText ? Icons.visibility : Icons.visibility_off,
+              widget.obsIcon,
               color: Theme.of(context).primaryColorDark,
             ),
             onPressed: () {
               // Update the state i.e. toogle the state of passwordVisible variable
               setState(() {
-                widget.obscureText = !widget.obscureText;
+                if (widget.obscureText == false) {
+                  widget.obsIcon = Icons.visibility;
+                  widget.obscureText = !widget.obscureText;
+                } else {
+                  widget.obsIcon = Icons.visibility_off;
+
+                  widget.obscureText = !widget.obscureText;
+                }
               });
             },
           ),

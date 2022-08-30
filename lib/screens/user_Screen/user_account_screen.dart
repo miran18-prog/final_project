@@ -4,10 +4,16 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/models/Freelancer_model.dart';
+import 'package:final_project/models/post_model.dart';
+import 'package:final_project/screens/user_Screen/post_screen.dart';
 import 'package:final_project/widgets/DrawerBar.dart';
+import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,6 +23,17 @@ class UserProfileScreen extends StatelessWidget {
   UserProfileScreen({Key? key}) : super(key: key);
   String? downloadUrl;
   final user = FirebaseAuth.instance.currentUser!;
+  String? downloadUri;
+  Future<void> downloadURLExample(String pathId) async {
+    final fileName = 'post';
+
+    downloadUri = await FirebaseStorage.instance
+        .ref()
+        .child("posts/${user.uid}/post/${pathId}/${fileName}")
+        .getDownloadURL();
+
+    print(downloadUri);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +64,10 @@ class UserProfileScreen extends StatelessWidget {
                       icon: Icon(Icons.post_add),
                       color: Colors.black,
                       iconSize: 25,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => PostScreen()));
+                      },
                     ),
                   ],
                 ),
@@ -58,23 +78,23 @@ class UserProfileScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 25),
                       child: Container(
-                        height: 95,
-                        width: 95,
+                        height: 125,
+                        width: 125,
                         decoration: BoxDecoration(
                           // ignore: prefer_const_literals_to_create_immutables
                           boxShadow: [
                             BoxShadow(
-                              offset: Offset(0, 2),
+                              offset: Offset(0, 3),
                               spreadRadius: 0,
-                              blurRadius: 10,
+                              blurRadius: 5,
                               color: Color.fromRGBO(128, 128, 128, 1),
                             )
                           ],
-                          borderRadius: BorderRadius.circular(50),
-                          // image: DecorationImage(
-                          //   fit: BoxFit.fill,
-                          //   image: NetworkImage(downloadUrl!),
-                          // ),
+                          borderRadius: BorderRadius.circular(100),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(freelancerModel.imageUrl!),
+                          ),
                         ),
                       ),
                     ),
@@ -194,50 +214,72 @@ class UserProfileScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 50),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        freelancerModel.github != ''
-                            ? SocialWidgit(
-                                labelText: 'github',
-                                Buttonicon: FeatherIcons.github,
-                                link: freelancerModel.github!,
-                              )
-                            : SizedBox(),
-                        CustomSizedBox(),
-                        freelancerModel.facebook != ''
-                            ? SocialWidgit(
-                                labelText: 'facebook',
-                                Buttonicon: FeatherIcons.facebook,
-                                link: freelancerModel.facebook!,
-                              )
-                            : SizedBox(),
-                        CustomSizedBox(),
-                        freelancerModel.instagram != ''
-                            ? SocialWidgit(
-                                labelText: 'instagram',
-                                Buttonicon: FeatherIcons.instagram,
-                                link: freelancerModel.instagram!,
-                              )
-                            : SizedBox(),
-                        CustomSizedBox(),
-                        freelancerModel.linkedIn != ''
-                            ? SocialWidgit(
-                                labelText: 'linkedIn',
-                                Buttonicon: FeatherIcons.linkedin,
-                                link: freelancerModel.linkedIn!,
-                              )
-                            : SizedBox(),
-                        CustomSizedBox(),
-                        freelancerModel.twitter != ''
-                            ? SocialWidgit(
-                                labelText: 'twitter',
-                                Buttonicon: FeatherIcons.twitter,
-                                link: freelancerModel.twitter!,
-                              )
-                            : SizedBox(),
-                        CustomSizedBox(),
-                      ],
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          freelancerModel.github != ''
+                              ? Expanded(
+                                  child: SocialWidgit(
+                                    labelText: 'github',
+                                    Buttonicon: FeatherIcons.github,
+                                    link: freelancerModel.github!,
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 0,
+                                  width: 0,
+                                ),
+                          freelancerModel.facebook != ''
+                              ? Expanded(
+                                  child: SocialWidgit(
+                                    labelText: 'facebook',
+                                    Buttonicon: FeatherIcons.facebook,
+                                    link: freelancerModel.facebook!,
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 0,
+                                  width: 0,
+                                ),
+                          freelancerModel.instagram != ''
+                              ? Expanded(
+                                  child: SocialWidgit(
+                                    labelText: 'instagram',
+                                    Buttonicon: FeatherIcons.instagram,
+                                    link: freelancerModel.instagram!,
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 0,
+                                  width: 0,
+                                ),
+                          freelancerModel.linkedIn != ''
+                              ? Expanded(
+                                  child: SocialWidgit(
+                                    labelText: 'linkedIn',
+                                    Buttonicon: FeatherIcons.linkedin,
+                                    link: freelancerModel.linkedIn!,
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 0,
+                                  width: 0,
+                                ),
+                          freelancerModel.twitter != ''
+                              ? Expanded(
+                                  child: SocialWidgit(
+                                    labelText: 'twitter',
+                                    Buttonicon: FeatherIcons.twitter,
+                                    link: freelancerModel.twitter!,
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 0,
+                                  width: 0,
+                                ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 5),
                     Divider(
@@ -246,22 +288,71 @@ class UserProfileScreen extends StatelessWidget {
                       endIndent: 25,
                     ),
                     SizedBox(height: 20),
-                    GridView.builder(
-                      physics: ScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 150,
-                          crossAxisSpacing: 3,
-                          mainAxisSpacing: 3),
-                      itemCount: 9,
-                      itemBuilder: (context, i) => GestureDetector(
-                        child: Container(
-                          height: 100,
-                          width: 100,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
+                    StreamBuilder<DocumentSnapshot?>(
+                        stream: DatabaseServices(uId: user.uid).getUserPosts(),
+                        builder: (context, snapshot) {
+                          if (snapshot.data == null) {
+                            return Text("user does npt have any projects");
+                          } else if (snapshot.hasError) {
+                            return Text(snapshot.error.toString());
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CustomLodingWidget();
+                          } else if (snapshot.hasData) {
+                            PostModel postModel = PostModel.fromMap(
+                                snapshot.data!.data() as Map<String, dynamic>);
+
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.assessment),
+                                    color: Colors.black,
+                                    iconSize: 25,
+                                    onPressed: () async {
+                                      downloadURLExample(
+                                          postModel.imagePathId!);
+                                    },
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: downloadUri != null
+                                        ? Container(
+                                            height: 125,
+                                            width: 125,
+                                            decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        downloadUri!))),
+                                          )
+                                        : Container(
+                                            height: 125,
+                                            width: 125,
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Text(postModel.postTitle!),
+                                        SizedBox(height: 15),
+                                        Text(postModel.postDesctiption!),
+                                      ],
+                                    ),
+                                    flex: 2,
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return CustomLodingWidget();
+                          }
+                        }),
                   ],
                 ),
               ),

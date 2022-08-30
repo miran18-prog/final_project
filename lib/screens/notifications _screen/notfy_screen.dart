@@ -1,11 +1,12 @@
+import 'package:final_project/authentication/auth.dart';
 import 'package:final_project/widgets/DrawerBar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class NotficationScreen extends StatelessWidget {
-  const NotficationScreen({Key? key}) : super(key: key);
-
+  NotficationScreen({Key? key}) : super(key: key);
+  Auth auth = Auth();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,6 +23,12 @@ class NotficationScreen extends StatelessWidget {
                     fontSize: 20, color: HexColor('#000010'))),
           ],
         ),
+      ),
+      body: ElevatedButton(
+        onPressed: () async {
+          auth.Signout();
+        },
+        child: Text('d'),
       ),
     );
   }

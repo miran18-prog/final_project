@@ -31,9 +31,7 @@ class CardWidget extends StatelessWidget {
             width: 100,
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: NetworkImage(
-                      'https://images.pexels.com/photos/4100130/pexels-photo-4100130.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
-                  fit: BoxFit.fill),
+                  image: NetworkImage(profileImage), fit: BoxFit.cover),
               color: Colors.grey,
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(15),

@@ -2,14 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/authentication/auth.dart';
 import 'package:final_project/models/Freelancer_model.dart';
+import 'package:final_project/screens/Drawbar%20Screens/feedback_screen.dart';
 import 'package:final_project/screens/Drawbar%20Screens/job_screen.dart';
 import 'package:final_project/screens/SignIn_SignUp_Screen/SignIn.dart';
+import 'package:final_project/screens/about_us_screen/about_us.dart';
 import 'package:final_project/screens/user_Screen/edit_profile_screen.dart';
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:final_project/widgets/test_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
@@ -27,11 +30,7 @@ class DrawerBar extends StatelessWidget {
           StreamBuilder<DocumentSnapshot>(
               stream: DatabaseServices(uId: user.uid).getUser(),
               builder: (context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CustomLodingWidget();
-                } else if (snapshot.hasError) {
-                  return Text("oops something went wrong");
-                } else {
+                if (snapshot.hasData) {
                   FreelancerModel freelancerModel = FreelancerModel.fromMap(
                       snapshot.data.data() as Map<String, dynamic>);
                   return UserAccountsDrawerHeader(
@@ -53,6 +52,10 @@ class DrawerBar extends StatelessWidget {
                             image: NetworkImage(
                                 'https://images.pexels.com/photos/4100130/pexels-photo-4100130.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'))),
                   );
+                } else if (snapshot.hasError) {
+                  return Text("oops something went wrong");
+                } else {
+                  return CustomLodingWidget();
                 }
               }),
           ListTile(
@@ -63,7 +66,7 @@ class DrawerBar extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
+            title: const Text('testing'),
             onTap: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => TestScreen())),
           ),
@@ -74,9 +77,10 @@ class DrawerBar extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => EditAccountScreen())),
           ),
           ListTile(
-            leading: const Icon(Icons.feedback),
-            title: const Text('Feedback'),
-            onTap: () => print('Feedback'),
+            leading: const Icon(Icons.person_search),
+            title: const Text('About us'),
+            onTap: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => AboutUsPage())),
           ),
           ListTile(
             leading: const Icon(Icons.logout),

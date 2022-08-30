@@ -63,7 +63,7 @@ class Auth {
           .createUserWithEmailAndPassword(email: email, password: password);
       Navigator.of(context).pop();
 
-      DatabaseServices(uId: userCredential.user!.uid).updateUser(
+      DatabaseServices(uId: userCredential.user!.uid).SetUser(
           username: "Unkown",
           phoneNumber: "Unkown",
           github: "Unknown",

@@ -36,7 +36,7 @@ class MyAppState extends State<MyApp> {
               if (snapshot.hasError) {
                 return Text('something went wrong try again later');
               } else if (snapshot.hasData) {
-                return const MainFile();
+                return MainFile();
               } else {
                 return const AuthPage();
               }

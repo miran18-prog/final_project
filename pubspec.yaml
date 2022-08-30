@@ -51,6 +51,18 @@ dependencies:
   provider: ^6.0.3
   banner_listtile: ^2.2.0
   auto_size_text: ^3.0.0
+  image_cropper: ^3.0.0
+  firebase_storage: ^10.3.6
+  path_provider: ^2.0.11
+  flutter_image_compress: ^1.1.1
+  file_picker: ^5.0.1
+  font_awesome: ^5.10.1
+  url_launcher: ^6.1.5
+  font_awesome_flutter: ^10.1.0
+  flutter_feather_icons: ^2.0.0+1
+  http: ^0.13.5
+  cached_network_image: ^3.2.1
+  uuid: ^3.0.6
 
 dev_dependencies:
   flutter_test:

@@ -1,13 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+
 import 'package:final_project/Database/database_services.dart';
-import 'package:final_project/authentication/auth.dart';
 import 'package:final_project/screens/Home/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as storage;
+import 'package:path/path.dart';
 
 class CreateUserScreen extends StatefulWidget {
   CreateUserScreen({Key? key}) : super(key: key);
@@ -33,8 +36,11 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
   TextEditingController _linkedInCtrl = TextEditingController();
   TextEditingController _twitter = TextEditingController();
   TextEditingController _description = TextEditingController();
+  String userId = FirebaseAuth.instance.currentUser!.uid;
 
   Widget build(BuildContext context) {
+    String? downloadUri;
+    File? _image;
     String choice = '';
     final _formKey = GlobalKey<FormState>();
 
@@ -61,33 +67,13 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
             key: _formKey,
             child: Column(
               children: [
-                SizedBox(height: 25),
-                Container(
-                  height: 145,
-                  width: 145,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-                SizedBox(height: 45),
+                SizedBox(height: 40),
                 Text(
-                  "Update profile picture",
-                  style: GoogleFonts.poppins(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.blue),
-                ),
-                SizedBox(height: 45),
-                Container(
-                  height: 50,
-                  width: 125,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Uploade",
-                      style: GoogleFonts.poppins(fontSize: 18),
-                    ),
+                  "Bdozawa",
+                  style: TextStyle(
+                    fontFamily: 'fonarto',
+                    fontSize: 45,
+                    color: Colors.blue[800],
                   ),
                 ),
                 SizedBox(height: 60),
@@ -96,7 +82,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                   child: TextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'please type a description';
+                        return 'please enter your username';
                       }
                     },
                     textDirection: TextDirection.ltr,
@@ -385,9 +371,10 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                                         widget.is_freelancer =
                                                             false;
                                                       }
+
                                                       DatabaseServices(
                                                               uId: user.uid)
-                                                          .updateUser(
+                                                          .SetUser(
                                                         username:
                                                             _usernameCtrl.text,
                                                         phoneNumber:
@@ -410,6 +397,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                                             .currentUser!
                                                             .uid,
                                                       );
+
                                                       Navigator.of(context)
                                                           .pop();
                                                       Navigator.of(context).push(

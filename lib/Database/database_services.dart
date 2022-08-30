@@ -1,17 +1,17 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/models/Freelancer_model.dart';
+import 'package:final_project/models/post_model.dart';
 
 class DatabaseServices {
 //* create a collection reference.
 
   final CollectionReference collectionReference =
       FirebaseFirestore.instance.collection('users');
+
   final String? uId;
   DatabaseServices({this.uId});
 
-  Future updateUser({
+  Future SetUser({
     required String username,
     required String skill,
     required String? phoneNumber,
@@ -22,6 +22,7 @@ class DatabaseServices {
     required String? linkedIn,
     String? userId,
     required String description,
+    String? imageUrl,
     bool? is_freelancer,
   }) async {
     print("----------> ${uId}");
@@ -38,33 +39,72 @@ class DatabaseServices {
         'description': description,
         'is_freelancer': is_freelancer,
         'skill': skill,
+        'imageUrl': imageUrl,
       },
     );
+  }
+
+  Future editUser({
+    String? username,
+    String? skill,
+    String? phoneNumber,
+    String? github,
+    String? twitter,
+    String? facebook,
+    String? instagram,
+    String? linkedIn,
+    String? userId,
+    String? description,
+    String? imageUrl,
+    bool? is_freelancer,
+  }) async {
+    print("----------> ${uId}");
+
+    return await collectionReference.doc(uId).update(
+      {
+        'username': username,
+        'phone_number': phoneNumber,
+        'github': github,
+        'twitter': twitter,
+        'facebook': facebook,
+        'instagram': instagram,
+        'linkedIn': linkedIn,
+        'description': description,
+        'is_freelancer': is_freelancer,
+        'skill': skill,
+        'imageUrl': imageUrl,
+      },
+    );
+  }
+
+  Future addPost({
+    required String uId,
+    required String imagePath,
+    required String imagePathId,
+    required String postTitle,
+    required String postDesctiption,
+    String? imageUrl,
+  }) async {
+    return await collectionReference.doc(uId).collection('posts').doc(uId).set({
+      "uId": uId,
+      "imagePath": imagePath,
+      "imagePathId": imagePathId,
+      "postTitle": postTitle,
+      "postDesctiption": postDesctiption,
+      "imageUrl": imageUrl,
+    });
   }
 
   Stream<DocumentSnapshot> getUser() {
     return FirebaseFirestore.instance.collection('users').doc(uId).snapshots();
   }
 
-  FreelancerModel freelancerModel(DocumentSnapshot snapshot) {
-    return FreelancerModel(
-        username: snapshot['username'],
-        phone_number: snapshot['phone_number'],
-        github: snapshot['github'],
-        twitter: snapshot['twitter'],
-        facebook: snapshot['facebook'],
-        instagram: snapshot["instagram"],
-        linkedIn: snapshot["linkedIn"],
-        description: snapshot["description"],
-        skill: snapshot['skill'],
-        is_freelancer: snapshot['is_freelancer'],
-        userId: snapshot['userId']);
-  }
-
-  Future<List<FreelancerModel>> getUsernamesList() async {
-    QuerySnapshot qShot =
-        await FirebaseFirestore.instance.collection('userTasks').get();
-
-    return qShot.docs.map((doc) => freelancerModel(doc['username'])).toList();
+  Stream<DocumentSnapshot> getUserPosts() {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(uId)
+        .collection('posts')
+        .doc(uId)
+        .snapshots();
   }
 }

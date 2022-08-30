@@ -70,6 +70,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         return 'enter your password';
                       }
                     },
+                    obscureText: true,
                     controller: passwordController,
                     textFieldLabelText: "Password",
                     borderColor: HexColor('#275ea3'),

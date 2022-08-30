@@ -14,6 +14,7 @@ class FreelancerModel {
   bool? is_freelancer;
   String skill;
   String? userId;
+  String? imageUrl;
   FreelancerModel({
     required this.username,
     this.phone_number,
@@ -27,6 +28,7 @@ class FreelancerModel {
     this.is_freelancer,
     required this.skill,
     this.userId,
+    this.imageUrl,
   });
 
   FreelancerModel copyWith({
@@ -42,6 +44,7 @@ class FreelancerModel {
     bool? is_freelancer,
     String? skill,
     String? userId,
+    String? imageUrl,
   }) {
     return FreelancerModel(
       username: username ?? this.username,
@@ -56,6 +59,7 @@ class FreelancerModel {
       is_freelancer: is_freelancer ?? this.is_freelancer,
       skill: skill ?? this.skill,
       userId: userId ?? this.userId,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 
@@ -73,6 +77,7 @@ class FreelancerModel {
       'is_freelancer': is_freelancer,
       'skill': skill,
       'userId': userId,
+      'imageUrl': imageUrl,
     };
   }
 
@@ -94,6 +99,7 @@ class FreelancerModel {
           map['is_freelancer'] != null ? map['is_freelancer'] as bool : null,
       skill: map['skill'] as String,
       userId: map['userId'] != null ? map['userId'] as String : null,
+      imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
     );
   }
 
@@ -104,7 +110,7 @@ class FreelancerModel {
 
   @override
   String toString() {
-    return 'FreelancerModel(username: $username, phone_number: $phone_number, github: $github, twitter: $twitter, facebook: $facebook, instagram: $instagram, linkedIn: $linkedIn, description: $description, createdAt: $createdAt, is_freelancer: $is_freelancer, skill: $skill, userId: $userId)';
+    return 'FreelancerModel(username: $username, phone_number: $phone_number, github: $github, twitter: $twitter, facebook: $facebook, instagram: $instagram, linkedIn: $linkedIn, description: $description, createdAt: $createdAt, is_freelancer: $is_freelancer, skill: $skill, userId: $userId, imageUrl: $imageUrl)';
   }
 
   @override
@@ -122,7 +128,8 @@ class FreelancerModel {
         other.createdAt == createdAt &&
         other.is_freelancer == is_freelancer &&
         other.skill == skill &&
-        other.userId == userId;
+        other.userId == userId &&
+        other.imageUrl == imageUrl;
   }
 
   @override
@@ -138,6 +145,7 @@ class FreelancerModel {
         createdAt.hashCode ^
         is_freelancer.hashCode ^
         skill.hashCode ^
-        userId.hashCode;
+        userId.hashCode ^
+        imageUrl.hashCode;
   }
 }
