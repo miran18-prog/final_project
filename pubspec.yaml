@@ -63,6 +63,8 @@ dependencies:
   http: ^0.13.5
   cached_network_image: ^3.2.1
   uuid: ^3.0.6
+  toggle_bar: ^1.0.0
+  tab_indicator_styler: ^2.0.0
 
 dev_dependencies:
   flutter_test:

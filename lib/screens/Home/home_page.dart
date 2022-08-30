@@ -59,11 +59,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 labelStyle: GoogleFonts.poppins(),
                 // ignore: prefer_const_literals_to_create_immutables
                 tabs: [
-                  const Text("Graphic designer"),
-                  const Text("Frontend developer"),
-                  const Text("Backend developer"),
-                  const Text("Mobile application developer"),
-                  const Text("Desktop Apllication developer"),
+                  Text("Graphic designer", style: GoogleFonts.poppins()),
+                  Text("Frontend developer", style: GoogleFonts.poppins()),
+                  Text("Backend developer", style: GoogleFonts.poppins()),
+                  Text("Mobile application developer",
+                      style: GoogleFonts.poppins()),
+                  Text("Desktop Apllication developer",
+                      style: GoogleFonts.poppins()),
                 ],
               ),
             ),
