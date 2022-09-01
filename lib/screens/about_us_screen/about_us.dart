@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:final_project/screens/about_us_screen/about_me.dart';
 import 'package:final_project/screens/about_us_screen/first_tab_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -174,9 +175,7 @@ class _AboutUsPageState extends State<AboutUsPage>
                 controller: tabController,
                 children: [
                   const FirstTabScreen(),
-                  Container(
-                    color: Colors.amber,
-                  ),
+                  const AboutMe(),
                 ],
               ),
             ),
@@ -222,7 +221,8 @@ class listButton extends StatelessWidget {
         final response = await http.get(_url);
 
         if (response.statusCode == 200) {
-          if (!await launchUrl(_url, mode: LaunchMode.externalApplication)) {
+          if (!await launchUrl(_url,
+              mode: LaunchMode.externalNonBrowserApplication)) {
             throw 'Could not launch $_url';
           }
         }
