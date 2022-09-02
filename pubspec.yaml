@@ -65,6 +65,8 @@ dependencies:
   uuid: ^3.0.6
   toggle_bar: ^1.0.0
   tab_indicator_styler: ^2.0.0
+  carousel_slider: ^4.1.1
+  carousel_nullsafety: ^0.1.1
 
 dev_dependencies:
   flutter_test:

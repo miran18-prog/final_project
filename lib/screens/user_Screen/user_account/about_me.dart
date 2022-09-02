@@ -1,11 +1,13 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:final_project/models/Freelancer_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AboutMe extends StatelessWidget {
-  const AboutMe({Key? key, required this.des}) : super(key: key);
-  final String des;
+  AboutMe({Key? key, required this.freelancer}) : super(key: key);
+  final FreelancerModel freelancer;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,8 +18,15 @@ class AboutMe extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: Text(
-                  des,
+                child: AutoSizeText(
+                  freelancer.description,
+                  presetFontSizes: [
+                    20,
+                    19,
+                    18,
+                    17,
+                    16,
+                  ],
                   style: GoogleFonts.poppins(),
                 ),
               ),

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/models/Freelancer_model.dart';
 import 'package:final_project/screens/user_Screen/create_profile_screen.dart';
+import 'package:final_project/widgets/DrawerBar.dart';
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -35,10 +36,12 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
   TextEditingController _description = TextEditingController();
   String userId = FirebaseAuth.instance.currentUser!.uid;
   bool is_freelancer = false;
-  String? downloadUri;
   bool isUploded = false;
 
+  String? downloadUri;
+  String? coverDownloadUri;
   File? _image;
+  File? _coverImage;
   Future<File?> _imageCropper({required File imageFile}) async {
     CroppedFile? croppedIamge =
         await ImageCropper().cropImage(sourcePath: imageFile.path);
@@ -61,9 +64,24 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
     }
   }
 
-  Future uploadFile() async {
+  Future _pickCoverImage(ImageSource source, context) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      File? img = File(image.path);
+      img = await _imageCropper(imageFile: img);
+      setState(() {
+        _coverImage = img;
+      });
+    } on PlatformException catch (e) {
+      print(e);
+      Navigator.of(context).pop();
+    }
+  }
+
+  Future uploadFile(String file_name) async {
     if (_image == null) return;
-    final fileName = 'prof_image';
+    final fileName = file_name;
     final destination = 'users/$userId/profile_image';
 
     try {
@@ -71,18 +89,14 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
           .ref()
           .child('users/$userId/profile_image_folder/${fileName}');
       await ref.putFile(_image!);
+
+      downloadUri = await FirebaseStorage.instance
+          .ref()
+          .child("users/$userId/profile_image_folder/${fileName}")
+          .getDownloadURL();
     } catch (e) {
       print('error occured');
     }
-  }
-
-  Future<void> downloadURLExample() async {
-    final fileName = 'prof_image';
-
-    downloadUri = await FirebaseStorage.instance
-        .ref()
-        .child("users/$userId/profile_image_folder/${fileName}")
-        .getDownloadURL();
   }
 
   Widget build(BuildContext context) {
@@ -102,213 +116,211 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: StreamBuilder<DocumentSnapshot>(
-          stream: DatabaseServices(uId: userId).getUser(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CustomLodingWidget();
-            } else if (snapshot.data == null) {
-              return Text("no data");
-            } else if (snapshot.hasData && snapshot.data != null) {
-              FreelancerModel userData = FreelancerModel.fromMap(
-                  snapshot.data!.data() as Map<String, dynamic>);
+        child: Center(
+          child: StreamBuilder<DocumentSnapshot>(
+            stream: DatabaseServices(uId: userId).getUser(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CustomLodingWidget());
+              } else if (snapshot.data == null) {
+                return Text("no data");
+              } else if (snapshot.hasData && snapshot.data != null) {
+                FreelancerModel userData = FreelancerModel.fromMap(
+                    snapshot.data!.data() as Map<String, dynamic>);
 
-              _usernameCtrl.text = userData.username;
-              _phoneCtrl.text = userData.phone_number!;
-              _facebookCtrl.text = userData.facebook!;
-              _gitCtrl.text = userData.github!;
-              _instaCtrl.text = userData.instagram!;
-              _linkedInCtrl.text = userData.linkedIn!;
-              _twitter.text = userData.twitter!;
-              _description.text = userData.description;
-              dropdownValue = userData.skill;
-              is_freelancer = userData.is_freelancer!;
+                _usernameCtrl.text = userData.username;
+                _phoneCtrl.text = userData.phone_number!;
+                _facebookCtrl.text = userData.facebook!;
+                _gitCtrl.text = userData.github!;
+                _instaCtrl.text = userData.instagram!;
+                _linkedInCtrl.text = userData.linkedIn!;
+                _twitter.text = userData.twitter!;
+                _description.text = userData.description;
+                dropdownValue = userData.skill;
+                is_freelancer = userData.is_freelancer!;
 
-              return Center(
-                child: Column(
-                  children: [
-                    SizedBox(height: 25),
-                    _image == null
-                        ? Container(
-                            height: 145,
-                            width: 145,
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.add_a_photo,
-                                color: Colors.white,
-                                size: 50,
-                              ),
-                              onPressed: () =>
-                                  _pickImage(ImageSource.gallery, context),
-                            ),
-                          )
-                        : Container(
-                            height: 145,
-                            width: 145,
-                            decoration: BoxDecoration(
+                return Center(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 25),
+                      _image == null
+                          ? Container(
+                              height: 145,
+                              width: 145,
+                              decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                image: DecorationImage(
-                                    image: FileImage(_image!),
-                                    fit: BoxFit.cover)),
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.add_a_photo,
-                                  color: Colors.white,
-                                  size: 50,
-                                ),
-                                onPressed: () =>
-                                    _pickImage(ImageSource.gallery, context))),
-                    SizedBox(height: 45),
-                    Text(
-                      "Update profile picture",
-                      style: GoogleFonts.poppins(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.blue),
-                    ),
-                    SizedBox(height: 45),
-                    Container(
-                      height: 50,
-                      width: 250,
-                      child: ElevatedButton(
-                        onPressed: () async => uploadFile(),
-                        child: userData.imageUrl == null
-                            ? Text(
-                                "Uploade",
-                                style: GoogleFonts.poppins(fontSize: 18),
-                              )
-                            : Text(
-                                "Change Profile picture",
-                                style: GoogleFonts.poppins(fontSize: 18),
+                                color: Color.fromARGB(255, 188, 188, 188),
                               ),
+                              child: IconButton(
+                                  icon: Icon(
+                                    Icons.add_a_photo,
+                                    color: Colors.white,
+                                    size: 50,
+                                  ),
+                                  onPressed: () =>
+                                      _pickImage(ImageSource.gallery, context)))
+                          : Container(
+                              height: 145,
+                              width: 145,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  image: DecorationImage(
+                                      image: FileImage(_image!),
+                                      fit: BoxFit.cover)),
+                              child: IconButton(
+                                  icon: Icon(
+                                    Icons.add_a_photo,
+                                    color: Colors.white,
+                                    size: 50,
+                                  ),
+                                  onPressed: () => _pickImage(
+                                      ImageSource.gallery, context))),
+                      SizedBox(height: 45),
+                      Text(
+                        "Update profile picture",
+                        style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.blue),
                       ),
-                    ),
-                    SizedBox(height: 60),
-                    CustomTextForm(
-                        labelText: 'Username',
-                        controller: _usernameCtrl,
-                        hintText: userData.username),
-                    SizedBox(height: 35),
-                    CustomTextForm(
-                        labelText: 'Phone number',
-                        controller: _phoneCtrl,
-                        hintText: userData.phone_number!),
-                    SizedBox(height: 35),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: DropdownButtonFormField<String>(
-                        value: dropdownValue,
-                        icon: const Icon(Icons.arrow_downward),
-                        elevation: 16,
-                        style: const TextStyle(color: Colors.black),
-                        onChanged: (String? newValue) {
-                          dropdownValue = newValue!;
-                        },
-                        items: <String>[
-                          'Graphic Designer',
-                          'Front-end developer',
-                          'Back-end developer',
-                          'Mobile application developer',
-                          'Desktop application developer'
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+                      SizedBox(height: 45),
+                      Container(
+                        height: 50,
+                        width: 250,
+                        child: ElevatedButton(
+                            onPressed: () async => uploadFile('prof_image'),
+                            child: Text(
+                              "Uploade",
+                              style: GoogleFonts.poppins(fontSize: 18),
+                            )),
                       ),
-                    ),
-                    SizedBox(height: 35),
-                    CustomTextForm(
-                        labelText: 'Github',
-                        controller: _gitCtrl,
-                        hintText: userData.github!),
-                    SizedBox(height: 35),
-                    CustomTextForm(
-                        labelText: 'Facebook',
-                        controller: _facebookCtrl,
-                        hintText: userData.facebook!),
-                    SizedBox(height: 35),
-                    CustomTextForm(
-                        labelText: 'Instagram',
-                        controller: _instaCtrl,
-                        hintText: userData.instagram!),
-                    SizedBox(height: 35),
-                    CustomTextForm(
-                      labelText: 'LinkedIn',
-                      controller: _linkedInCtrl,
-                      hintText: userData.linkedIn!,
-                    ),
-                    SizedBox(height: 35),
-                    CustomTextForm(
-                        labelText: 'Twitter',
-                        controller: _twitter,
-                        hintText: userData.twitter!),
-                    SizedBox(height: 35),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: TextFormField(
-                        maxLines: 3,
-                        controller: _description,
-                        decoration: InputDecoration(
-                          hintText: userData.description,
-                          labelText: 'Description about you self',
-                          hintStyle: GoogleFonts.poppins(fontSize: 15),
-                          labelStyle: GoogleFonts.poppins(fontSize: 20),
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1.5, color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 3, color: Colors.blue),
-                          ),
-                        ),
-                        onChanged: (value) {
-                          _description.text = value;
-                        },
+                      Text(
+                        'Make sure you Uploaded your image',
+                        style: GoogleFonts.poppins(color: Colors.grey),
                       ),
-                    ),
-                    SizedBox(height: 25),
-                    ElevatedButton(
-                      onPressed: () async {
-                        downloadURLExample();
-                        DatabaseServices(
-                                uId: FirebaseAuth.instance.currentUser!.uid)
-                            .editUser(
-                                username: _usernameCtrl.text,
-                                phoneNumber: _phoneCtrl.text,
-                                github: _gitCtrl.text,
-                                twitter: _twitter.text,
-                                facebook: _facebookCtrl.text,
-                                instagram: _instaCtrl.text,
-                                linkedIn: _linkedInCtrl.text,
-                                description: _description.text,
-                                skill: dropdownValue,
-                                is_freelancer: is_freelancer,
-                                userId: FirebaseAuth.instance.currentUser!.uid,
-                                imageUrl: downloadUri!);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 140, vertical: 20),
-                        child: Text(
-                          "Save",
+                      SizedBox(height: 60),
+                      CustomTextForm(
+                          labelText: 'Username',
+                          controller: _usernameCtrl,
+                          hintText: userData.username),
+                      SizedBox(height: 35),
+                      CustomTextForm(
+                          labelText: 'Phone number',
+                          controller: _phoneCtrl,
+                          hintText: userData.phone_number!),
+                      SizedBox(height: 35),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: DropdownButtonFormField<String>(
+                          value: dropdownValue,
+                          icon: const Icon(Icons.arrow_downward),
+                          elevation: 16,
+                          style: const TextStyle(color: Colors.black),
+                          onChanged: (String? newValue) {
+                            dropdownValue = newValue!;
+                          },
+                          items: <String>[
+                            'Graphic Designer',
+                            'Front-end developer',
+                            'Back-end developer',
+                            'Mobile application developer',
+                            'Desktop application developer'
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 35),
-                  ],
-                ),
-              );
-            }
-            return Text(snapshot.error.toString());
-          },
+                      SizedBox(height: 35),
+                      CustomTextForm(
+                          labelText: 'Github',
+                          controller: _gitCtrl,
+                          hintText: userData.github!),
+                      SizedBox(height: 35),
+                      CustomTextForm(
+                          labelText: 'Facebook',
+                          controller: _facebookCtrl,
+                          hintText: userData.facebook!),
+                      SizedBox(height: 35),
+                      CustomTextForm(
+                          labelText: 'Instagram',
+                          controller: _instaCtrl,
+                          hintText: userData.instagram!),
+                      SizedBox(height: 35),
+                      CustomTextForm(
+                        labelText: 'LinkedIn',
+                        controller: _linkedInCtrl,
+                        hintText: userData.linkedIn!,
+                      ),
+                      SizedBox(height: 35),
+                      CustomTextForm(
+                          labelText: 'Twitter',
+                          controller: _twitter,
+                          hintText: userData.twitter!),
+                      SizedBox(height: 35),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: TextFormField(
+                          maxLines: 3,
+                          controller: _description,
+                          decoration: InputDecoration(
+                            hintText: userData.description,
+                            labelText: 'Description about you self',
+                            hintStyle: GoogleFonts.poppins(fontSize: 15),
+                            labelStyle: GoogleFonts.poppins(fontSize: 20),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1.5, color: Colors.grey),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 3, color: Colors.blue),
+                            ),
+                          ),
+                          onChanged: (value) {
+                            _description.text = value;
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 25),
+                      ElevatedButton(
+                        onPressed: () async {
+                          DatabaseServices(
+                                  uId: FirebaseAuth.instance.currentUser!.uid)
+                              .editUser(
+                                  username: _usernameCtrl.text,
+                                  phoneNumber: _phoneCtrl.text,
+                                  github: _gitCtrl.text,
+                                  twitter: _twitter.text,
+                                  facebook: _facebookCtrl.text,
+                                  instagram: _instaCtrl.text,
+                                  linkedIn: _linkedInCtrl.text,
+                                  description: _description.text,
+                                  skill: dropdownValue,
+                                  is_freelancer: is_freelancer,
+                                  userId:
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                  imageUrl: downloadUri!);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 140, vertical: 20),
+                          child: Text(
+                            "Save",
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 35),
+                    ],
+                  ),
+                );
+              }
+              return Text(snapshot.error.toString());
+            },
+          ),
         ),
       ),
     );

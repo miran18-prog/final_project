@@ -42,7 +42,7 @@ class PostModel {
       'imagePathId': imagePathId,
       'postTitle': postTitle,
       'postDesctiption': postDesctiption,
-      'postUrl': imageUrl,
+      'imageUrl': imageUrl,
     };
   }
 
@@ -56,7 +56,7 @@ class PostModel {
       postDesctiption: map['postDesctiption'] != null
           ? map['postDesctiption'] as String
           : null,
-      imageUrl: map['postUrl'] != null ? map['postUrl'] as String : null,
+      imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
     );
   }
 
@@ -67,7 +67,7 @@ class PostModel {
 
   @override
   String toString() {
-    return 'PostModel(uId: $uId, imagePath: $imagePath, imagePathId: $imagePathId, postTitle: $postTitle, postDesctiption: $postDesctiption, postUrl: $imageUrl)';
+    return 'PostModel(uId: $uId, imagePath: $imagePath, imagePathId: $imagePathId, postTitle: $postTitle, postDesctiption: $postDesctiption, imageUrl: $imageUrl)';
   }
 
   @override

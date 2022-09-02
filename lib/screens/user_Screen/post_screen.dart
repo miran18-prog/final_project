@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:carousel_nullsafety/carousel_nullsafety.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/widgets/custom_snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,20 +33,40 @@ class _PostScreenState extends State<PostScreen> {
     return File(croppedIamge.path);
   }
 
-  Future _pickImage(ImageSource source, context) async {
-    try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
-      File? img = File(image.path);
-      img = await _imageCropper(imageFile: img);
-      setState(() {
-        _image = img;
-      });
-    } on PlatformException catch (e) {
-      print(e);
-      Navigator.of(context).pop();
+  // Future _pickImage(ImageSource source, context) async {
+  //   try {
+  //     final image = await ImagePicker().pickImage(source: source);
+  //     if (image == null) return;
+  //     File? img = File(image.path);
+  //     img = await _imageCropper(imageFile: img);
+  //     setState(() {
+  //       _image = img;
+  //     });
+  //   } on PlatformException catch (e) {
+  //     print(e);
+  //     Navigator.of(context).pop();
+  //   }
+  // }
+
+  Future<void> selectImage() async {
+    if (_selectedImages != null) {
+      _selectedImages.clear();
     }
+    try {
+      final List<XFile>? imgs = await _picker.pickMultiImage();
+      if (imgs!.isNotEmpty) {
+        _selectedImages.addAll(imgs);
+      }
+      print("list of selected imaged: " + imgs.length.toString());
+    } catch (e) {
+      print(e.toString());
+    }
+    setState(() {});
   }
+
+  final ImagePicker _picker = ImagePicker();
+  List<XFile> _selectedImages = [];
+  FirebaseStorage _storageRef = FirebaseStorage.instance;
 
   Widget build(BuildContext context) {
     TextEditingController titleCtrl = TextEditingController();
@@ -79,7 +100,7 @@ class _PostScreenState extends State<PostScreen> {
                 padding: EdgeInsets.symmetric(
                   horizontal: 10,
                 ),
-                child: _image == null
+                child: _selectedImages.length == 0
                     ? Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: 10,
@@ -95,7 +116,7 @@ class _PostScreenState extends State<PostScreen> {
                         ),
                         child: IconButton(
                           onPressed: () async {
-                            _pickImage(ImageSource.gallery, context);
+                            selectImage();
                           },
                           icon: Icon(
                             Icons.add_a_photo_sharp,
@@ -105,39 +126,37 @@ class _PostScreenState extends State<PostScreen> {
                         ),
                       )
                     : Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10,
-                        ),
+                        width: double.maxFinite,
                         height: 200,
-                        width: 400,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          image: DecorationImage(
-                              image: FileImage(
-                                _image!,
-                              ),
-                              fit: BoxFit.cover),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(25),
-                            topRight: Radius.circular(25),
-                          ),
-                        ),
-                        child: IconButton(
-                          onPressed: () async {
-                            _pickImage(ImageSource.gallery, context);
+                        child: ListView.builder(
+                          itemCount: _selectedImages.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                                height: 200.0,
+                                width: double.maxFinite,
+                                child: Carousel(
+                                  images: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: FileImage(
+                                            File(
+                                              _selectedImages[index].path,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                  showIndicator: false,
+                                ));
                           },
-                          icon: Icon(
-                            Icons.add_a_photo_sharp,
-                            size: 60,
-                          ),
-                          color: Colors.white,
                         ),
                       ),
               ),
               SizedBox(
                 height: 15,
               ),
-              SizedBox(height: 75),
               Form(
                 key: _formKey,
                 child: Column(

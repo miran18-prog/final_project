@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_project/models/Freelancer_model.dart';
-import 'package:final_project/models/post_model.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 class DatabaseServices {
 //* create a collection reference.
@@ -9,7 +9,8 @@ class DatabaseServices {
       FirebaseFirestore.instance.collection('users');
 
   final String? uId;
-  DatabaseServices({this.uId});
+  final String? postImagePathId;
+  DatabaseServices({this.uId, this.postImagePathId});
 
   Future SetUser({
     required String username,
@@ -56,6 +57,7 @@ class DatabaseServices {
     String? userId,
     String? description,
     String? imageUrl,
+    String? coverImageUrl,
     bool? is_freelancer,
   }) async {
     print("----------> ${uId}");
@@ -73,6 +75,7 @@ class DatabaseServices {
         'is_freelancer': is_freelancer,
         'skill': skill,
         'imageUrl': imageUrl,
+        'coverImageUrl': coverImageUrl,
       },
     );
   }
@@ -85,7 +88,11 @@ class DatabaseServices {
     required String postDesctiption,
     String? imageUrl,
   }) async {
-    return await collectionReference.doc(uId).collection('posts').doc(uId).set({
+    return await collectionReference
+        .doc(uId)
+        .collection('posts')
+        .doc(imagePathId)
+        .set({
       "uId": uId,
       "imagePath": imagePath,
       "imagePathId": imagePathId,
@@ -99,12 +106,11 @@ class DatabaseServices {
     return FirebaseFirestore.instance.collection('users').doc(uId).snapshots();
   }
 
-  Stream<DocumentSnapshot> getUserPosts() {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getUserPosts() {
     return FirebaseFirestore.instance
         .collection('users')
         .doc(uId)
         .collection('posts')
-        .doc(uId)
         .snapshots();
   }
 }

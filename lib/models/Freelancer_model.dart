@@ -15,6 +15,7 @@ class FreelancerModel {
   String skill;
   String? userId;
   String? imageUrl;
+  String? coverImageUrl;
   FreelancerModel({
     required this.username,
     this.phone_number,
@@ -29,6 +30,7 @@ class FreelancerModel {
     required this.skill,
     this.userId,
     this.imageUrl,
+    this.coverImageUrl,
   });
 
   FreelancerModel copyWith({
@@ -45,6 +47,7 @@ class FreelancerModel {
     String? skill,
     String? userId,
     String? imageUrl,
+    String? coverImageUrl,
   }) {
     return FreelancerModel(
       username: username ?? this.username,
@@ -60,6 +63,7 @@ class FreelancerModel {
       skill: skill ?? this.skill,
       userId: userId ?? this.userId,
       imageUrl: imageUrl ?? this.imageUrl,
+      coverImageUrl: coverImageUrl ?? this.coverImageUrl,
     );
   }
 
@@ -78,6 +82,7 @@ class FreelancerModel {
       'skill': skill,
       'userId': userId,
       'imageUrl': imageUrl,
+      'coverImageUrl': coverImageUrl,
     };
   }
 
@@ -100,6 +105,8 @@ class FreelancerModel {
       skill: map['skill'] as String,
       userId: map['userId'] != null ? map['userId'] as String : null,
       imageUrl: map['imageUrl'] != null ? map['imageUrl'] as String : null,
+      coverImageUrl:
+          map['coverImageUrl'] != null ? map['coverImageUrl'] as String : null,
     );
   }
 
@@ -110,7 +117,7 @@ class FreelancerModel {
 
   @override
   String toString() {
-    return 'FreelancerModel(username: $username, phone_number: $phone_number, github: $github, twitter: $twitter, facebook: $facebook, instagram: $instagram, linkedIn: $linkedIn, description: $description, createdAt: $createdAt, is_freelancer: $is_freelancer, skill: $skill, userId: $userId, imageUrl: $imageUrl)';
+    return 'FreelancerModel(username: $username, phone_number: $phone_number, github: $github, twitter: $twitter, facebook: $facebook, instagram: $instagram, linkedIn: $linkedIn, description: $description, createdAt: $createdAt, is_freelancer: $is_freelancer, skill: $skill, userId: $userId, imageUrl: $imageUrl, coverImageUrl: $coverImageUrl)';
   }
 
   @override
@@ -129,7 +136,8 @@ class FreelancerModel {
         other.is_freelancer == is_freelancer &&
         other.skill == skill &&
         other.userId == userId &&
-        other.imageUrl == imageUrl;
+        other.imageUrl == imageUrl &&
+        other.coverImageUrl == coverImageUrl;
   }
 
   @override
@@ -146,6 +154,7 @@ class FreelancerModel {
         is_freelancer.hashCode ^
         skill.hashCode ^
         userId.hashCode ^
-        imageUrl.hashCode;
+        imageUrl.hashCode ^
+        coverImageUrl.hashCode;
   }
 }
