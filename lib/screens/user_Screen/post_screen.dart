@@ -1,24 +1,19 @@
 import 'dart:io';
 
 import 'package:final_project/Database/database_services.dart';
-import 'package:final_project/models/post_model.dart';
+import 'package:final_project/widgets/custom_snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:firebase_storage/firebase_storage.dart' as storage;
 import 'package:uuid/uuid.dart';
 
 class PostScreen extends StatefulWidget {
   PostScreen({Key? key}) : super(key: key);
-  Uuid _uuid = Uuid();
 
   @override
   State<PostScreen> createState() => _PostScreenState();
@@ -52,25 +47,13 @@ class _PostScreenState extends State<PostScreen> {
     }
   }
 
-  Future uploadFile() async {
-    if (_image == null) return;
-    final fileName = 'post';
-    String imagePathId = widget._uuid.v1();
-
-    try {
-      final ref = storage.FirebaseStorage.instance
-          .ref()
-          .child('posts/$userId/post/${imagePathId}/${fileName}');
-
-      await ref.putFile(_image!);
-    } catch (e) {
-      print('error occured');
-    }
-  }
-
   Widget build(BuildContext context) {
     TextEditingController titleCtrl = TextEditingController();
     TextEditingController desCtrl = TextEditingController();
+    Uuid _uuid = Uuid();
+
+    String fileName = 'post.jpg';
+    String imagePathId = _uuid.v1();
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
@@ -91,8 +74,68 @@ class _PostScreenState extends State<PostScreen> {
         child: Center(
           child: Column(
             children: [
+              SizedBox(height: 15),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                child: _image == null
+                    ? Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        height: 200,
+                        width: 400,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25),
+                            topRight: Radius.circular(25),
+                          ),
+                        ),
+                        child: IconButton(
+                          onPressed: () async {
+                            _pickImage(ImageSource.gallery, context);
+                          },
+                          icon: Icon(
+                            Icons.add_a_photo_sharp,
+                            size: 60,
+                          ),
+                          color: Colors.white,
+                        ),
+                      )
+                    : Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        height: 200,
+                        width: 400,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          image: DecorationImage(
+                              image: FileImage(
+                                _image!,
+                              ),
+                              fit: BoxFit.cover),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25),
+                            topRight: Radius.circular(25),
+                          ),
+                        ),
+                        child: IconButton(
+                          onPressed: () async {
+                            _pickImage(ImageSource.gallery, context);
+                          },
+                          icon: Icon(
+                            Icons.add_a_photo_sharp,
+                            size: 60,
+                          ),
+                          color: Colors.white,
+                        ),
+                      ),
+              ),
               SizedBox(
-                height: 25,
+                height: 15,
               ),
               SizedBox(height: 75),
               Form(
@@ -147,16 +190,31 @@ class _PostScreenState extends State<PostScreen> {
                       width: 250,
                       child: ElevatedButton(
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            uploadFile();
+                          if (_formKey.currentState!.validate() &&
+                              _image != null) {
+                            try {
+                              final ref = storage.FirebaseStorage.instance
+                                  .ref()
+                                  .child(
+                                      'users/$userId/post_image_folder/$imagePathId/$fileName');
 
-                            DatabaseServices(uId: userId).addPost(
-                              uId: userId,
-                              imagePath: _image!.path,
-                              imagePathId: widget._uuid.v1(),
-                              postTitle: titleCtrl.text,
-                              postDesctiption: desCtrl.text,
-                            );
+                              await ref.putFile(_image!);
+                              downloadUri = await ref.getDownloadURL();
+
+                              DatabaseServices(postImagePathId: imagePathId)
+                                  .addPost(
+                                      uId: userId,
+                                      imagePath: fileName,
+                                      imagePathId: imagePathId,
+                                      postTitle: titleCtrl.text,
+                                      postDesctiption: desCtrl.text,
+                                      imageUrl: downloadUri);
+                            } catch (err) {
+                              print(err.toString());
+                            }
+                          } else {
+                            customSnackbar(context, "Please pick an image", "",
+                                Colors.red);
                           }
                         },
                         child: Text(
