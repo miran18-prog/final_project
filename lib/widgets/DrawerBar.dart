@@ -36,16 +36,20 @@ class DrawerBar extends StatelessWidget {
                   return UserAccountsDrawerHeader(
                     accountName: Text(freelancerModel.username),
                     accountEmail: Text(user.email!),
-                    currentAccountPicture: CircleAvatar(
-                      child: ClipOval(
-                        child: Image.network(
-                          'https://images.fandango.com/ImageRenderer/400/0/redesign/static/img/default_poster.png/0/images/masterrepository/performer%20images/p341391/ChrisPratt-2020.jpg',
-                          width: 90,
-                          height: 90,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                    currentAccountPicture: freelancerModel.imageUrl != null
+                        ? CircleAvatar(
+                            child: ClipOval(
+                              child: Image.network(
+                                freelancerModel.imageUrl!,
+                                width: 90,
+                                height: 90,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )
+                        : CircleAvatar(
+                            backgroundColor: Colors.grey,
+                          ),
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.cover,

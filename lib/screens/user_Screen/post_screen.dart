@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:carousel_nullsafety/carousel_nullsafety.dart';
@@ -48,6 +49,10 @@ class _PostScreenState extends State<PostScreen> {
   //   }
   // }
 
+  final ImagePicker _picker = ImagePicker();
+  List<XFile> _selectedImages = [];
+  FirebaseStorage _storageRef = FirebaseStorage.instance;
+  List<String> _arrImageUrls = [];
   Future<void> selectImage() async {
     if (_selectedImages != null) {
       _selectedImages.clear();
@@ -64,9 +69,17 @@ class _PostScreenState extends State<PostScreen> {
     setState(() {});
   }
 
-  final ImagePicker _picker = ImagePicker();
-  List<XFile> _selectedImages = [];
-  FirebaseStorage _storageRef = FirebaseStorage.instance;
+  Future<String> uploadeFile(XFile image) async {
+    Reference reference = FirebaseStorage.instance.ref().child('Files');
+    UploadTask uploadTask = reference.putFile(File(image.path));
+    await uploadTask.whenComplete(() {
+      print(reference.getDownloadURL());
+    });
+
+    return await reference.getDownloadURL();
+  }
+
+  void uploadeFunction(List<XFile> images) {}
 
   Widget build(BuildContext context) {
     TextEditingController titleCtrl = TextEditingController();
@@ -125,37 +138,33 @@ class _PostScreenState extends State<PostScreen> {
                           color: Colors.white,
                         ),
                       )
-                    : Container(
-                        width: double.maxFinite,
-                        height: 200,
-                        child: ListView.builder(
-                          itemCount: _selectedImages.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                                height: 200.0,
-                                width: double.maxFinite,
-                                child: Carousel(
-                                  images: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: FileImage(
-                                            File(
-                                              _selectedImages[index].path,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                  showIndicator: false,
-                                ));
-                          },
+                    : GridView.builder(
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 3,
+                          mainAxisSpacing: 3,
                         ),
+                        itemCount: _selectedImages.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            height: 150.0,
+                            width: 300.0,
+                            child: Carousel(
+                              boxFit: BoxFit.cover,
+                              showIndicator: false,
+                              images: [
+                                FileImage(File(_selectedImages[index].path))
+                              ],
+                            ),
+                          );
+                          ;
+                        },
                       ),
               ),
               SizedBox(
-                height: 15,
+                height: 25,
               ),
               Form(
                 key: _formKey,
@@ -211,26 +220,26 @@ class _PostScreenState extends State<PostScreen> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate() &&
                               _image != null) {
-                            try {
-                              final ref = storage.FirebaseStorage.instance
-                                  .ref()
-                                  .child(
-                                      'users/$userId/post_image_folder/$imagePathId/$fileName');
+                            // try {
+                            //   final ref = storage.FirebaseStorage.instance
+                            //       .ref()
+                            //       .child(
+                            //           'users/$userId/post_image_folder/$imagePathId/$fileName');
 
-                              await ref.putFile(_image!);
-                              downloadUri = await ref.getDownloadURL();
+                            //   await ref.putFile(_image!);
+                            //   downloadUri = await ref.getDownloadURL();
 
-                              DatabaseServices(postImagePathId: imagePathId)
-                                  .addPost(
-                                      uId: userId,
-                                      imagePath: fileName,
-                                      imagePathId: imagePathId,
-                                      postTitle: titleCtrl.text,
-                                      postDesctiption: desCtrl.text,
-                                      imageUrl: downloadUri);
-                            } catch (err) {
-                              print(err.toString());
-                            }
+                            //   DatabaseServices(postImagePathId: imagePathId)
+                            //       .addPost(
+                            //           uId: userId,
+                            //           imagePath: fileName,
+                            //           imagePathId: imagePathId,
+                            //           postTitle: titleCtrl.text,
+                            //           postDesctiption: desCtrl.text,
+                            //           imageUrl: downloadUri);
+                            // } catch (err) {
+                            //   print(err.toString());
+                            // }
                           } else {
                             customSnackbar(context, "Please pick an image", "",
                                 Colors.red);
@@ -247,6 +256,9 @@ class _PostScreenState extends State<PostScreen> {
                     )
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 25,
               ),
             ],
           ),

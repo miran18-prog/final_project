@@ -60,8 +60,6 @@ class DatabaseServices {
     String? coverImageUrl,
     bool? is_freelancer,
   }) async {
-    print("----------> ${uId}");
-
     return await collectionReference.doc(uId).update(
       {
         'username': username,

@@ -3,22 +3,22 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:banner_listtile/banner_listtile.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class CardWidget extends StatelessWidget {
-  const CardWidget(
-      {Key? key,
-      required this.profileImage,
-      required this.Skils,
-      required this.usernName})
-      : super(key: key);
+  CardWidget({
+    Key? key,
+    this.profileImage,
+    required this.Skils,
+    required this.usernName,
+  }) : super(key: key);
 
-  final String profileImage;
+  final String? profileImage;
   final String Skils;
   final String usernName;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,18 +27,30 @@ class CardWidget extends StatelessWidget {
       color: Color(0Xf2D9CDB),
       child: Row(
         children: [
-          Container(
-            width: 100,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(profileImage), fit: BoxFit.cover),
-              color: Colors.grey,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(15),
-                bottomRight: Radius.circular(15),
-              ),
-            ),
-          ),
+          profileImage != null
+              ? Container(
+                  width: 100,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: CachedNetworkImageProvider(profileImage!),
+                        fit: BoxFit.cover),
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                  ),
+                )
+              : Container(
+                  width: 100,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                  ),
+                ),
           SizedBox(width: 30),
           Expanded(
             flex: 3,

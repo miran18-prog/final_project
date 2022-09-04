@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/authentication/auth.dart';
@@ -59,8 +60,7 @@ class _GraphicDesignerPageState extends State<GraphicDesignerPage> {
                         : Center(
                             child: CardWidget(
                               usernName: _freelancers[index].username,
-                              profileImage:
-                                  'https://www.seekpng.com/png/full/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png',
+                              profileImage: '',
                               Skils: _freelancers[index].skill,
                             ),
                           ),
@@ -120,13 +120,21 @@ class MobileAppDeveloperState extends State<MobileAppDeveloper> {
                   SizedBox(
                     height: 33,
                   ),
-                  Center(
-                    child: CardWidget(
-                      usernName: _freelancers[index].username,
-                      profileImage: _freelancers[index].imageUrl!,
-                      Skils: _freelancers[index].skill,
-                    ),
-                  ),
+                  _freelancers[index].imageUrl != null
+                      ? Center(
+                          child: CardWidget(
+                            usernName: _freelancers[index].username,
+                            profileImage: _freelancers[index].imageUrl!,
+                            Skils: _freelancers[index].skill,
+                          ),
+                        )
+                      : Center(
+                          child: CardWidget(
+                            usernName: _freelancers[index].username,
+                            profileImage: '',
+                            Skils: _freelancers[index].skill,
+                          ),
+                        ),
                   SizedBox(
                     height: 13,
                   ),
@@ -177,14 +185,21 @@ class FrontEndDeveloper extends StatelessWidget {
                   SizedBox(
                     height: 33,
                   ),
-                  Center(
-                    child: CardWidget(
-                      usernName: _freelancers[index].username,
-                      profileImage:
-                          'https://scontent.febl5-1.fna.fbcdn.net/v/t39.30808-6/275845667_3888461888045740_5999289603495824659_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEryMNBsVZBDkY8lRuoVjShhIoHeLmdYtmEigd4uZ1i2RZ_19VytqiCvY-2TmH48qTB6Unpf8lwsfSqTfBcNkcU&_nc_ohc=qJE2DiBAW-kAX-M9XFq&tn=JAMVX_RKfDAVuOtR&_nc_ht=scontent.febl5-1.fna&oh=00_AT_WQL6QqnHFmfQzgq52CXjfEtn2rCB543R8aV_5fuxbew&oe=62D89F6C',
-                      Skils: _freelancers[index].skill,
-                    ),
-                  ),
+                  _freelancers[index].imageUrl != null
+                      ? Center(
+                          child: CardWidget(
+                            usernName: _freelancers[index].username,
+                            profileImage: _freelancers[index].imageUrl!,
+                            Skils: _freelancers[index].skill,
+                          ),
+                        )
+                      : Center(
+                          child: CardWidget(
+                            usernName: _freelancers[index].username,
+                            profileImage: '',
+                            Skils: _freelancers[index].skill,
+                          ),
+                        ),
                   SizedBox(
                     height: 13,
                   ),
@@ -235,14 +250,21 @@ class BackEndDeveloper extends StatelessWidget {
                   SizedBox(
                     height: 33,
                   ),
-                  Center(
-                    child: CardWidget(
-                      usernName: _freelancers[index].username,
-                      profileImage:
-                          'https://scontent.febl5-1.fna.fbcdn.net/v/t39.30808-6/275845667_3888461888045740_5999289603495824659_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEryMNBsVZBDkY8lRuoVjShhIoHeLmdYtmEigd4uZ1i2RZ_19VytqiCvY-2TmH48qTB6Unpf8lwsfSqTfBcNkcU&_nc_ohc=qJE2DiBAW-kAX-M9XFq&tn=JAMVX_RKfDAVuOtR&_nc_ht=scontent.febl5-1.fna&oh=00_AT_WQL6QqnHFmfQzgq52CXjfEtn2rCB543R8aV_5fuxbew&oe=62D89F6C',
-                      Skils: _freelancers[index].skill,
-                    ),
-                  ),
+                  _freelancers[index].imageUrl != null
+                      ? Center(
+                          child: CardWidget(
+                            usernName: _freelancers[index].username,
+                            profileImage: _freelancers[index].imageUrl!,
+                            Skils: _freelancers[index].skill,
+                          ),
+                        )
+                      : Center(
+                          child: CardWidget(
+                            usernName: _freelancers[index].username,
+                            profileImage: '',
+                            Skils: _freelancers[index].skill,
+                          ),
+                        ),
                   SizedBox(
                     height: 13,
                   ),
@@ -290,14 +312,21 @@ class DesktopApplicationDeveloper extends StatelessWidget {
                     SizedBox(
                       height: 33,
                     ),
-                    Center(
-                      child: CardWidget(
-                        usernName: _freelancers[index].username,
-                        profileImage:
-                            'https://scontent.febl5-1.fna.fbcdn.net/v/t39.30808-6/275845667_3888461888045740_5999289603495824659_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeEryMNBsVZBDkY8lRuoVjShhIoHeLmdYtmEigd4uZ1i2RZ_19VytqiCvY-2TmH48qTB6Unpf8lwsfSqTfBcNkcU&_nc_ohc=qJE2DiBAW-kAX-M9XFq&tn=JAMVX_RKfDAVuOtR&_nc_ht=scontent.febl5-1.fna&oh=00_AT_WQL6QqnHFmfQzgq52CXjfEtn2rCB543R8aV_5fuxbew&oe=62D89F6C',
-                        Skils: _freelancers[index].skill,
-                      ),
-                    ),
+                    _freelancers[index].imageUrl != null
+                        ? Center(
+                            child: CardWidget(
+                              usernName: _freelancers[index].username,
+                              profileImage: _freelancers[index].imageUrl!,
+                              Skils: _freelancers[index].skill,
+                            ),
+                          )
+                        : Center(
+                            child: CardWidget(
+                              usernName: _freelancers[index].username,
+                              profileImage: '',
+                              Skils: _freelancers[index].skill,
+                            ),
+                          ),
                     SizedBox(
                       height: 13,
                     ),
