@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
 import 'package:carousel_nullsafety/carousel_nullsafety.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/widgets/custom_snackbar.dart';
+import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as storage;
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:uuid/uuid.dart';
 
 class PostScreen extends StatefulWidget {
@@ -25,8 +28,8 @@ class _PostScreenState extends State<PostScreen> {
   @override
   String userId = FirebaseAuth.instance.currentUser!.uid;
   String? downloadUri;
-
   File? _image;
+
   Future<File?> _imageCropper({required File imageFile}) async {
     CroppedFile? croppedIamge =
         await ImageCropper().cropImage(sourcePath: imageFile.path);
@@ -34,52 +37,20 @@ class _PostScreenState extends State<PostScreen> {
     return File(croppedIamge.path);
   }
 
-  // Future _pickImage(ImageSource source, context) async {
-  //   try {
-  //     final image = await ImagePicker().pickImage(source: source);
-  //     if (image == null) return;
-  //     File? img = File(image.path);
-  //     img = await _imageCropper(imageFile: img);
-  //     setState(() {
-  //       _image = img;
-  //     });
-  //   } on PlatformException catch (e) {
-  //     print(e);
-  //     Navigator.of(context).pop();
-  //   }
-  // }
-
-  final ImagePicker _picker = ImagePicker();
-  List<XFile> _selectedImages = [];
-  FirebaseStorage _storageRef = FirebaseStorage.instance;
-  List<String> _arrImageUrls = [];
-  Future<void> selectImage() async {
-    if (_selectedImages != null) {
-      _selectedImages.clear();
-    }
+  Future _pickImage(ImageSource source, context) async {
     try {
-      final List<XFile>? imgs = await _picker.pickMultiImage();
-      if (imgs!.isNotEmpty) {
-        _selectedImages.addAll(imgs);
-      }
-      print("list of selected imaged: " + imgs.length.toString());
-    } catch (e) {
-      print(e.toString());
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      File? img = File(image.path);
+      img = await _imageCropper(imageFile: img);
+      setState(() {
+        _image = img;
+      });
+    } on PlatformException catch (e) {
+      print(e);
+      Navigator.of(context).pop();
     }
-    setState(() {});
   }
-
-  Future<String> uploadeFile(XFile image) async {
-    Reference reference = FirebaseStorage.instance.ref().child('Files');
-    UploadTask uploadTask = reference.putFile(File(image.path));
-    await uploadTask.whenComplete(() {
-      print(reference.getDownloadURL());
-    });
-
-    return await reference.getDownloadURL();
-  }
-
-  void uploadeFunction(List<XFile> images) {}
 
   Widget build(BuildContext context) {
     TextEditingController titleCtrl = TextEditingController();
@@ -88,6 +59,8 @@ class _PostScreenState extends State<PostScreen> {
 
     String fileName = 'post.jpg';
     String imagePathId = _uuid.v1();
+    final RoundedLoadingButtonController _btnController =
+        RoundedLoadingButtonController();
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
@@ -113,7 +86,7 @@ class _PostScreenState extends State<PostScreen> {
                 padding: EdgeInsets.symmetric(
                   horizontal: 10,
                 ),
-                child: _selectedImages.length == 0
+                child: _image == null
                     ? Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: 10,
@@ -129,7 +102,7 @@ class _PostScreenState extends State<PostScreen> {
                         ),
                         child: IconButton(
                           onPressed: () async {
-                            selectImage();
+                            _pickImage(ImageSource.gallery, context);
                           },
                           icon: Icon(
                             Icons.add_a_photo_sharp,
@@ -138,29 +111,33 @@ class _PostScreenState extends State<PostScreen> {
                           color: Colors.white,
                         ),
                       )
-                    : GridView.builder(
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 3,
-                          mainAxisSpacing: 3,
+                    : Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10,
                         ),
-                        itemCount: _selectedImages.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return SizedBox(
-                            height: 150.0,
-                            width: 300.0,
-                            child: Carousel(
-                              boxFit: BoxFit.cover,
-                              showIndicator: false,
-                              images: [
-                                FileImage(File(_selectedImages[index].path))
-                              ],
-                            ),
-                          );
-                          ;
-                        },
+                        height: 200,
+                        width: 400,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          image: DecorationImage(
+                            image: FileImage(_image!),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25),
+                            topRight: Radius.circular(25),
+                          ),
+                        ),
+                        child: IconButton(
+                          onPressed: () async {
+                            _pickImage(ImageSource.gallery, context);
+                          },
+                          icon: Icon(
+                            Icons.add_a_photo_sharp,
+                            size: 60,
+                          ),
+                          color: Colors.white,
+                        ),
                       ),
               ),
               SizedBox(
@@ -214,46 +191,44 @@ class _PostScreenState extends State<PostScreen> {
                     ),
                     SizedBox(height: 50),
                     SizedBox(
-                      height: 50,
-                      width: 250,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate() &&
-                              _image != null) {
-                            // try {
-                            //   final ref = storage.FirebaseStorage.instance
-                            //       .ref()
-                            //       .child(
-                            //           'users/$userId/post_image_folder/$imagePathId/$fileName');
-
-                            //   await ref.putFile(_image!);
-                            //   downloadUri = await ref.getDownloadURL();
-
-                            //   DatabaseServices(postImagePathId: imagePathId)
-                            //       .addPost(
-                            //           uId: userId,
-                            //           imagePath: fileName,
-                            //           imagePathId: imagePathId,
-                            //           postTitle: titleCtrl.text,
-                            //           postDesctiption: desCtrl.text,
-                            //           imageUrl: downloadUri);
-                            // } catch (err) {
-                            //   print(err.toString());
-                            // }
-                          } else {
-                            customSnackbar(context, "Please pick an image", "",
-                                Colors.red);
-                          }
-                        },
-                        child: Text(
-                          "Submet post",
-                          style: GoogleFonts.poppins(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
+                        height: 50,
+                        width: 250,
+                        child: ElevatedButton(
+                          child: Text(
+                            "submit post",
+                            style: GoogleFonts.poppins(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      ),
-                    )
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate() &&
+                                _image != null) {
+                              try {
+                                final ref = storage.FirebaseStorage.instance
+                                    .ref()
+                                    .child(
+                                        'users/$userId/post_image_folder/$imagePathId/$fileName');
+
+                                await ref.putFile(_image!);
+                                downloadUri = await ref.getDownloadURL();
+
+                                DatabaseServices().addPost(
+                                    uId: userId,
+                                    imagePath: fileName,
+                                    imagePathId: imagePathId,
+                                    postTitle: titleCtrl.text,
+                                    postDesctiption: desCtrl.text,
+                                    imageUrl: downloadUri);
+                              } catch (err) {
+                                print(err.toString());
+                              }
+                            } else {
+                              customSnackbar(context, "pleade select an image",
+                                  "image error", Colors.red);
+                            }
+                          },
+                        )),
                   ],
                 ),
               ),
@@ -267,3 +242,27 @@ class _PostScreenState extends State<PostScreen> {
     );
   }
 }
+
+  // try {
+  //                                 final ref = storage.FirebaseStorage.instance
+  //                                     .ref()
+  //                                     .child(
+  //                                         'users/$userId/post_image_folder/$imagePathId/$fileName');
+
+  //                                 await ref.putFile(_image!);
+  //                                 downloadUri = await ref.getDownloadURL();
+
+  //                                 DatabaseServices(postImagePathId: imagePathId)
+  //                                     .addPost(
+  //                                         uId: userId,
+  //                                         imagePath: fileName,
+  //                                         imagePathId: imagePathId,
+  //                                         postTitle: titleCtrl.text,
+  //                                         postDesctiption: desCtrl.text,
+  //                                         imageUrl: downloadUri);
+  //                               } catch (err) {
+  //                                 print(err.toString());
+  //                               }
+
+
+

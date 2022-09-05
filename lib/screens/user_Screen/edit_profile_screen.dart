@@ -36,7 +36,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
   TextEditingController _description = TextEditingController();
   String userId = FirebaseAuth.instance.currentUser!.uid;
   bool is_freelancer = false;
-  bool isUploded = false;
+  bool isChanged = false;
 
   String? downloadUri;
   String? coverDownloadUri;
@@ -121,7 +121,16 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
             stream: DatabaseServices(uId: userId).getUser(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CustomLodingWidget());
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 250),
+                      CustomLodingWidget(),
+                    ],
+                  ),
+                );
               } else if (snapshot.data == null) {
                 return Text("no data");
               } else if (snapshot.hasData && snapshot.data != null) {
@@ -157,8 +166,13 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                                     color: Colors.white,
                                     size: 50,
                                   ),
-                                  onPressed: () =>
-                                      _pickImage(ImageSource.gallery, context)))
+                                  onPressed: () {
+                                    setState(() {
+                                      isChanged = true;
+                                    });
+                                    _pickImage(ImageSource.gallery, context);
+                                  }),
+                            )
                           : Container(
                               height: 145,
                               width: 145,
@@ -173,8 +187,13 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                                     color: Colors.white,
                                     size: 50,
                                   ),
-                                  onPressed: () => _pickImage(
-                                      ImageSource.gallery, context))),
+                                  onPressed: () {
+                                    setState(() {
+                                      isChanged = true;
+                                    });
+                                    _pickImage(ImageSource.gallery, context);
+                                  }),
+                            ),
                       SizedBox(height: 45),
                       Text(
                         "Update profile picture",
@@ -188,7 +207,12 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                         height: 50,
                         width: 250,
                         child: ElevatedButton(
-                            onPressed: () async => uploadFile('prof_image'),
+                            onPressed: () async {
+                              setState(() {
+                                isChanged = false;
+                              });
+                              uploadFile('prof_image');
+                            },
                             child: Text(
                               "Uploade",
                               style: GoogleFonts.poppins(fontSize: 18),
@@ -288,22 +312,38 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                       SizedBox(height: 25),
                       ElevatedButton(
                         onPressed: () async {
-                          DatabaseServices(
-                                  uId: FirebaseAuth.instance.currentUser!.uid)
-                              .editUser(
-                                  username: _usernameCtrl.text,
-                                  phoneNumber: _phoneCtrl.text,
-                                  github: _gitCtrl.text,
-                                  twitter: _twitter.text,
-                                  facebook: _facebookCtrl.text,
-                                  instagram: _instaCtrl.text,
-                                  linkedIn: _linkedInCtrl.text,
-                                  description: _description.text,
-                                  skill: dropdownValue,
-                                  is_freelancer: is_freelancer,
-                                  userId:
-                                      FirebaseAuth.instance.currentUser!.uid,
-                                  imageUrl: downloadUri!);
+                          if (!isChanged) {
+                            downloadUri = await FirebaseStorage.instance
+                                .ref()
+                                .child(
+                                    "users/$userId/profile_image_folder/prof_image")
+                                .getDownloadURL();
+
+                            DatabaseServices(
+                                    uId: FirebaseAuth.instance.currentUser!.uid)
+                                .editUser(
+                                    username: _usernameCtrl.text,
+                                    phoneNumber: _phoneCtrl.text,
+                                    github: _gitCtrl.text,
+                                    twitter: _twitter.text,
+                                    facebook: _facebookCtrl.text,
+                                    instagram: _instaCtrl.text,
+                                    linkedIn: _linkedInCtrl.text,
+                                    description: _description.text,
+                                    skill: dropdownValue,
+                                    is_freelancer: is_freelancer,
+                                    userId:
+                                        FirebaseAuth.instance.currentUser!.uid,
+                                    imageUrl: downloadUri!);
+                            setState(() {
+                              isChanged = false;
+                            });
+                          } else {
+                            customSnackbar(context,
+                                text: "please uploade you image",
+                                errorText: "uploade error",
+                                color: Colors.red);
+                          }
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(

@@ -79,30 +79,43 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                         decoration: const BoxDecoration(
                           color: Colors.grey,
                           image: DecorationImage(
-                              image: AssetImage('image/ttt.jpeg'),
-                              opacity: 90,
+                              image: AssetImage('image/background.jpg'),
+                              opacity: 70,
                               fit: BoxFit.cover),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(50),
                             topRight: Radius.circular(40),
                           ),
                         ),
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: 20),
-                          height: 110,
-                          width: 110,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 3,
-                            ),
-                            image: DecorationImage(
-                                image: CachedNetworkImageProvider(
-                                    freelancerModel.imageUrl!),
-                                fit: BoxFit.cover),
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                        ),
+                        child: freelancerModel.imageUrl != null
+                            ? Container(
+                                margin: EdgeInsets.only(bottom: 20),
+                                height: 110,
+                                width: 110,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 3,
+                                  ),
+                                  image: DecorationImage(
+                                      image: CachedNetworkImageProvider(
+                                          freelancerModel.imageUrl!),
+                                      fit: BoxFit.cover),
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                              )
+                            : Container(
+                                margin: EdgeInsets.only(bottom: 20),
+                                height: 110,
+                                width: 110,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 3,
+                                  ),
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                              ),
                       ),
                     ),
                     SizedBox(height: 10),
@@ -127,7 +140,6 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            SizedBox(width: 15),
                             freelancerModel.facebook != ''
                                 ? listButton(
                                     text: 'Facebook',

@@ -23,10 +23,10 @@ class FirstTabScreen extends StatelessWidget {
           stream: DatabaseServices(uId: user.uid).getUserPosts(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CustomLodingWidget();
+              return CustomLodingWidget();
             } else if (snapshot.hasError) {
               return const Text("oops something went wrong try again later");
-            } else if (snapshot.data == null) {
+            } else if (snapshot.data == null || !snapshot.hasData) {
               return Text(
                 "User does not posted any projectes",
                 style: GoogleFonts.poppins(
