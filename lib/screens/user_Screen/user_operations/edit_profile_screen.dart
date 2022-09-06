@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/models/Freelancer_model.dart';
-import 'package:final_project/screens/user_Screen/create_profile_screen.dart';
+import 'package:final_project/screens/user_Screen/user_operations/create_profile_screen.dart';
 import 'package:final_project/widgets/DrawerBar.dart';
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';

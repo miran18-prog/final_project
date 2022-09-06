@@ -50,17 +50,11 @@ class _GraphicDesignerPageState extends State<GraphicDesignerPage> {
                     SizedBox(
                       height: 33,
                     ),
-                    _freelancers[index].imageUrl != null
-                        ? Center(
-                            child: CardWidget(
-                              freelancerModel: freelancer,
-                            ),
-                          )
-                        : Center(
-                            child: CardWidget(
-                              freelancerModel: freelancer,
-                            ),
-                          ),
+                    Center(
+                      child: CardWidget(
+                        freelancerModel: freelancer,
+                      ),
+                    ),
                     SizedBox(
                       height: 13,
                     ),
@@ -119,17 +113,11 @@ class MobileAppDeveloperState extends State<MobileAppDeveloper> {
                   SizedBox(
                     height: 33,
                   ),
-                  _freelancers[index].imageUrl != null
-                      ? Center(
-                          child: CardWidget(
-                            freelancerModel: freelancer,
-                          ),
-                        )
-                      : Center(
-                          child: CardWidget(
-                            freelancerModel: freelancer,
-                          ),
-                        ),
+                  Center(
+                    child: CardWidget(
+                      freelancerModel: freelancer,
+                    ),
+                  ),
                   SizedBox(
                     height: 13,
                   ),
@@ -182,17 +170,11 @@ class FrontEndDeveloper extends StatelessWidget {
                   SizedBox(
                     height: 33,
                   ),
-                  _freelancers[index].imageUrl != null
-                      ? Center(
-                          child: CardWidget(
-                            freelancerModel: freelancer,
-                          ),
-                        )
-                      : Center(
-                          child: CardWidget(
-                            freelancerModel: freelancer,
-                          ),
-                        ),
+                  Center(
+                    child: CardWidget(
+                      freelancerModel: freelancer,
+                    ),
+                  ),
                   SizedBox(
                     height: 13,
                   ),
@@ -245,17 +227,11 @@ class BackEndDeveloper extends StatelessWidget {
                   SizedBox(
                     height: 33,
                   ),
-                  _freelancers[index].imageUrl != null
-                      ? Center(
-                          child: CardWidget(
-                            freelancerModel: freelancer,
-                          ),
-                        )
-                      : Center(
-                          child: CardWidget(
-                            freelancerModel: freelancer,
-                          ),
-                        ),
+                  Center(
+                    child: CardWidget(
+                      freelancerModel: freelancer,
+                    ),
+                  ),
                   SizedBox(
                     height: 13,
                   ),
@@ -305,17 +281,11 @@ class DesktopApplicationDeveloper extends StatelessWidget {
                     SizedBox(
                       height: 33,
                     ),
-                    _freelancers[index].imageUrl != null
-                        ? Center(
-                            child: CardWidget(
-                              freelancerModel: freelancer,
-                            ),
-                          )
-                        : Center(
-                            child: CardWidget(
-                              freelancerModel: freelancer,
-                            ),
-                          ),
+                    Center(
+                      child: CardWidget(
+                        freelancerModel: freelancer,
+                      ),
+                    ),
                     SizedBox(
                       height: 13,
                     ),

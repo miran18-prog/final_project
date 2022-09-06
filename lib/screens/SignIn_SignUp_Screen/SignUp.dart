@@ -1,7 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:final_project/authentication/auth.dart';
 import 'package:final_project/screens/SignIn_SignUp_Screen/SignIn.dart';
-import 'package:final_project/screens/user_Screen/create_profile_screen.dart';
+import 'package:final_project/screens/user_Screen/user_operations/create_profile_screen.dart';
 import 'package:final_project/widgets/custom_textFormField.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -108,7 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     style: ElevatedButton.styleFrom(
                         primary: HexColor('#275ea3'), elevation: 2),
                     onPressed: () async {
-                      setState(() async {
+                      setState(() {
                         if (passwordController.text !=
                             confirmPasswordController.text) {
                           customSnackbar(context,

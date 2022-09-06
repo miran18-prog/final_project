@@ -4,9 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/models/Freelancer_model.dart';
-import 'package:final_project/screens/user_Screen/post_screen.dart';
+import 'package:final_project/screens/user_Screen/user_operations/post_screen.dart';
 import 'package:final_project/screens/user_Screen/user_account/about_me.dart';
-import 'package:final_project/screens/user_Screen/user_account/first_tab_screen.dart';
+import 'package:final_project/screens/user_Screen/user_account/user_projects_tab_screen.dart';
 import 'package:final_project/widgets/DrawerBar.dart';
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:final_project/widgets/social_list_button.dart';
@@ -260,7 +260,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                       child: TabBarView(
                         controller: tabController,
                         children: [
-                          FirstTabScreen(),
+                          ProjectsTabScreen(),
                           AboutMe(freelancer: freelancerModel),
                         ],
                       ),

@@ -7,7 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:final_project/models/Freelancer_model.dart';
 import 'package:final_project/screens/Home/home_page.dart';
 import 'package:final_project/screens/about_us_screen/about_us.dart';
-import 'package:final_project/screens/user_Screen/other_user_screen.dart';
+import 'package:final_project/screens/user_Screen/other_user/other_user_screen.dart';
 import 'package:final_project/screens/user_Screen/user_account/user_account_screen.dart';
 import 'package:final_project/widgets/test_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,6 @@ class CardWidget extends StatelessWidget {
   }) : super(key: key);
 
   final FreelancerModel freelancerModel;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -94,14 +93,16 @@ class CardWidget extends StatelessWidget {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
-                    transitionDuration: Duration(milliseconds: 500),
+                    transitionDuration: Duration(milliseconds: 400),
                     transitionsBuilder:
                         (context, animation, secondaryAnimation, child) {
                       animation = CurvedAnimation(
                           parent: animation, curve: Curves.easeInOut);
-                      return FadeTransition(
-                        opacity: animation,
-                        child: OthersScreen(
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                                begin: Offset(-1, 0), end: Offset.zero)
+                            .animate(animation),
+                        child: OtherUserScreen(
                           freelancerModel: freelancerModel,
                         ),
                       );

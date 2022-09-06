@@ -41,6 +41,7 @@ class DatabaseServices {
         'is_freelancer': is_freelancer,
         'skill': skill,
         'imageUrl': imageUrl,
+        'userId': userId,
       },
     );
   }

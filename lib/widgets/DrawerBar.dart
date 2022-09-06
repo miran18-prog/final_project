@@ -5,7 +5,7 @@ import 'package:final_project/models/Freelancer_model.dart';
 import 'package:final_project/screens/Drawbar%20Screens/job_screen.dart';
 import 'package:final_project/screens/SignIn_SignUp_Screen/SignIn.dart';
 import 'package:final_project/screens/about_us_screen/about_us.dart';
-import 'package:final_project/screens/user_Screen/edit_profile_screen.dart';
+import 'package:final_project/screens/user_Screen/user_operations/edit_profile_screen.dart';
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:final_project/widgets/test_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -89,8 +89,7 @@ class DrawerBar extends StatelessWidget {
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
             onTap: () async {
-              Auth auth = Auth();
-              auth.Signout();
+              await FirebaseAuth.instance.signOut();
             },
           ),
         ],

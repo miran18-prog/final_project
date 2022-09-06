@@ -4,9 +4,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/models/Freelancer_model.dart';
-import 'package:final_project/screens/user_Screen/post_screen.dart';
+import 'package:final_project/screens/user_Screen/other_user/about_other_user.dart';
+import 'package:final_project/screens/user_Screen/other_user/other_user_projects_screen.dart';
+import 'package:final_project/screens/user_Screen/user_operations/post_screen.dart';
 import 'package:final_project/screens/user_Screen/user_account/about_me.dart';
-import 'package:final_project/screens/user_Screen/user_account/first_tab_screen.dart';
+import 'package:final_project/screens/user_Screen/user_account/user_projects_tab_screen.dart';
 import 'package:final_project/widgets/DrawerBar.dart';
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:final_project/widgets/social_list_button.dart';
@@ -19,15 +21,15 @@ import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
-class OthersScreen extends StatefulWidget {
-  OthersScreen({Key? key, required this.freelancerModel}) : super(key: key);
+class OtherUserScreen extends StatefulWidget {
+  OtherUserScreen({Key? key, required this.freelancerModel}) : super(key: key);
 
   final FreelancerModel freelancerModel;
   @override
-  State<OthersScreen> createState() => _OthersScreenState();
+  State<OtherUserScreen> createState() => _OtherUserScreenState();
 }
 
-class _OthersScreenState extends State<OthersScreen>
+class _OtherUserScreenState extends State<OtherUserScreen>
     with TickerProviderStateMixin {
   final user = FirebaseAuth.instance.currentUser!;
 
@@ -234,8 +236,8 @@ class _OthersScreenState extends State<OthersScreen>
               child: TabBarView(
                 controller: tabController,
                 children: [
-                  FirstTabScreen(),
-                  AboutMe(freelancer: widget.freelancerModel),
+                  OtherUserProjectTabScreen(),
+                  AboutOtherUser(freelancer: widget.freelancerModel),
                 ],
               ),
             ),

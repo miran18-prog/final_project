@@ -12,15 +12,15 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class FirstTabScreen extends StatelessWidget {
-  const FirstTabScreen({Key? key}) : super(key: key);
+class OtherUserProjectTabScreen extends StatelessWidget {
+  const OtherUserProjectTabScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
     return Center(
       child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream: DatabaseServices(uId: user.uid).getUserPosts(),
+          stream: DatabaseServices().getUserPosts(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return CustomLodingWidget();

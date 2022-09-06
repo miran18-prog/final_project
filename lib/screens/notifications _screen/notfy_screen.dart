@@ -1,5 +1,6 @@
 import 'package:final_project/authentication/auth.dart';
 import 'package:final_project/widgets/DrawerBar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -26,7 +27,7 @@ class NotficationScreen extends StatelessWidget {
       ),
       body: ElevatedButton(
         onPressed: () async {
-          auth.Signout();
+          await FirebaseAuth.instance.signOut();
         },
         child: Text('d'),
       ),
