@@ -221,6 +221,8 @@ class _PostScreenState extends State<PostScreen> {
                                     postTitle: titleCtrl.text,
                                     postDesctiption: desCtrl.text,
                                     imageUrl: downloadUri);
+
+                                Navigator.of(context).pop();
                               } catch (err) {
                                 print(err.toString());
                               }
