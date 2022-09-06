@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
@@ -8,19 +6,19 @@ import 'package:final_project/models/post_model.dart';
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 class OtherUserProjectTabScreen extends StatelessWidget {
-  const OtherUserProjectTabScreen({Key? key}) : super(key: key);
-
+  OtherUserProjectTabScreen({Key? key, required this.freelancerModel})
+      : super(key: key);
+  final FreelancerModel freelancerModel;
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
     return Center(
       child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream: DatabaseServices().getUserPosts(),
+          stream: DatabaseServices(uId: freelancerModel.userId).getUserPosts(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return CustomLodingWidget();

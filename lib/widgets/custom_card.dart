@@ -19,7 +19,6 @@ class CardWidget extends StatelessWidget {
     Key? key,
     required this.freelancerModel,
   }) : super(key: key);
-
   final FreelancerModel freelancerModel;
   @override
   Widget build(BuildContext context) {

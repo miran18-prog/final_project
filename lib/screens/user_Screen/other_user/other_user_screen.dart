@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/models/Freelancer_model.dart';
+import 'package:final_project/screens/Home/tab_pages/freelancer_list.dart';
 import 'package:final_project/screens/user_Screen/other_user/about_other_user.dart';
 import 'package:final_project/screens/user_Screen/other_user/other_user_projects_screen.dart';
 import 'package:final_project/screens/user_Screen/user_operations/post_screen.dart';
@@ -22,8 +23,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
 class OtherUserScreen extends StatefulWidget {
-  OtherUserScreen({Key? key, required this.freelancerModel}) : super(key: key);
-
+  OtherUserScreen({
+    Key? key,
+    required this.freelancerModel,
+  }) : super(key: key);
   final FreelancerModel freelancerModel;
   @override
   State<OtherUserScreen> createState() => _OtherUserScreenState();
@@ -236,7 +239,9 @@ class _OtherUserScreenState extends State<OtherUserScreen>
               child: TabBarView(
                 controller: tabController,
                 children: [
-                  OtherUserProjectTabScreen(),
+                  OtherUserProjectTabScreen(
+                    freelancerModel: widget.freelancerModel,
+                  ),
                   AboutOtherUser(freelancer: widget.freelancerModel),
                 ],
               ),

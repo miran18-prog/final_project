@@ -7,6 +7,7 @@ import 'package:final_project/models/Freelancer_model.dart';
 import 'package:final_project/models/post_model.dart';
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -97,6 +98,20 @@ class ProjectsTabScreen extends StatelessWidget {
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w500),
                                     ),
+                                    IconButton(
+                                      onPressed: () async {
+                                        Reference storageRef =
+                                            await FirebaseStorage
+                                                .instance
+                                                .refFromURL(
+                                                    postModel[index].imageUrl!);
+
+                                        print(storageRef.fullPath);
+
+                                        await storageRef.delete();
+                                      },
+                                      icon: Icon(Icons.delete),
+                                    )
                                   ],
                                 ),
                               ),

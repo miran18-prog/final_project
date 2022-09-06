@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
@@ -41,10 +43,16 @@ class _GraphicDesignerPageState extends State<GraphicDesignerPage> {
                   ),
                 )
                 .toList();
+
             return ListView.builder(
               itemCount: _freelancers.length,
               itemBuilder: (BuildContext context, int index) {
+                List<String> usersId = [];
+
                 FreelancerModel freelancer = _freelancers[index];
+
+                usersId.add(_freelancers[index].userId!);
+                int userIndex = index;
                 return Column(
                   children: [
                     SizedBox(
@@ -107,6 +115,10 @@ class MobileAppDeveloperState extends State<MobileAppDeveloper> {
             itemCount: _freelancers.length,
             itemBuilder: (BuildContext context, int index) {
               FreelancerModel freelancer = _freelancers[index];
+              List<String> usersId = [];
+
+              usersId.add(_freelancers[index].userId!);
+              int userIndex = index;
 
               return Column(
                 children: [
@@ -164,6 +176,10 @@ class FrontEndDeveloper extends StatelessWidget {
             itemCount: _freelancers.length,
             itemBuilder: (BuildContext context, int index) {
               FreelancerModel freelancer = _freelancers[index];
+              List<String> usersId = [];
+
+              usersId.add(_freelancers[index].userId!);
+              int userIndex = index;
 
               return Column(
                 children: [
@@ -221,6 +237,10 @@ class BackEndDeveloper extends StatelessWidget {
             itemCount: _freelancers.length,
             itemBuilder: (BuildContext context, int index) {
               FreelancerModel freelancer = _freelancers[index];
+              List<String> usersId = [];
+
+              usersId.add(_freelancers[index].userId!);
+              int userIndex = index;
 
               return Column(
                 children: [
@@ -275,6 +295,10 @@ class DesktopApplicationDeveloper extends StatelessWidget {
               itemCount: _freelancers.length,
               itemBuilder: (BuildContext context, int index) {
                 FreelancerModel freelancer = _freelancers[index];
+                List<String> usersId = [];
+
+                usersId.add(_freelancers[index].userId!);
+                int userIndex = index;
 
                 return Column(
                   children: [
