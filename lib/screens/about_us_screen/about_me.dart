@@ -17,7 +17,7 @@ class AboutMe extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
-                "my name is miran amanj , i am student in salahadin university college of Science  information technology department , I participated in wecode bootcamp organized by rwanga in order to improve my skils , this is my final projecy which is an app specialized for freelancers, i hope you liked the app and if you have any suggestions or anything  i would love to contuct me",
+                "my name is miran amanj , i am student in salahadin university college of Science  information technology department , I participated in wecode bootcamp organized by rwanga in order to improve my skils , this is my final project which is an app specialized for freelancers, i hope you liked the app and if you have any suggestions or anything  i would love to hear it",
                 style: GoogleFonts.poppins(),
               ),
             ),

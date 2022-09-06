@@ -44,6 +44,7 @@ class _GraphicDesignerPageState extends State<GraphicDesignerPage> {
             return ListView.builder(
               itemCount: _freelancers.length,
               itemBuilder: (BuildContext context, int index) {
+                FreelancerModel freelancer = _freelancers[index];
                 return Column(
                   children: [
                     SizedBox(
@@ -52,16 +53,12 @@ class _GraphicDesignerPageState extends State<GraphicDesignerPage> {
                     _freelancers[index].imageUrl != null
                         ? Center(
                             child: CardWidget(
-                              usernName: _freelancers[index].username,
-                              profileImage: _freelancers[index].imageUrl!,
-                              Skils: _freelancers[index].skill,
+                              freelancerModel: freelancer,
                             ),
                           )
                         : Center(
                             child: CardWidget(
-                              usernName: _freelancers[index].username,
-                              profileImage: '',
-                              Skils: _freelancers[index].skill,
+                              freelancerModel: freelancer,
                             ),
                           ),
                     SizedBox(
@@ -115,6 +112,8 @@ class MobileAppDeveloperState extends State<MobileAppDeveloper> {
           return ListView.builder(
             itemCount: _freelancers.length,
             itemBuilder: (BuildContext context, int index) {
+              FreelancerModel freelancer = _freelancers[index];
+
               return Column(
                 children: [
                   SizedBox(
@@ -123,16 +122,12 @@ class MobileAppDeveloperState extends State<MobileAppDeveloper> {
                   _freelancers[index].imageUrl != null
                       ? Center(
                           child: CardWidget(
-                            usernName: _freelancers[index].username,
-                            profileImage: _freelancers[index].imageUrl!,
-                            Skils: _freelancers[index].skill,
+                            freelancerModel: freelancer,
                           ),
                         )
                       : Center(
                           child: CardWidget(
-                            usernName: _freelancers[index].username,
-                            profileImage: '',
-                            Skils: _freelancers[index].skill,
+                            freelancerModel: freelancer,
                           ),
                         ),
                   SizedBox(
@@ -180,6 +175,8 @@ class FrontEndDeveloper extends StatelessWidget {
           return ListView.builder(
             itemCount: _freelancers.length,
             itemBuilder: (BuildContext context, int index) {
+              FreelancerModel freelancer = _freelancers[index];
+
               return Column(
                 children: [
                   SizedBox(
@@ -188,16 +185,12 @@ class FrontEndDeveloper extends StatelessWidget {
                   _freelancers[index].imageUrl != null
                       ? Center(
                           child: CardWidget(
-                            usernName: _freelancers[index].username,
-                            profileImage: _freelancers[index].imageUrl!,
-                            Skils: _freelancers[index].skill,
+                            freelancerModel: freelancer,
                           ),
                         )
                       : Center(
                           child: CardWidget(
-                            usernName: _freelancers[index].username,
-                            profileImage: '',
-                            Skils: _freelancers[index].skill,
+                            freelancerModel: freelancer,
                           ),
                         ),
                   SizedBox(
@@ -245,6 +238,8 @@ class BackEndDeveloper extends StatelessWidget {
           return ListView.builder(
             itemCount: _freelancers.length,
             itemBuilder: (BuildContext context, int index) {
+              FreelancerModel freelancer = _freelancers[index];
+
               return Column(
                 children: [
                   SizedBox(
@@ -253,16 +248,12 @@ class BackEndDeveloper extends StatelessWidget {
                   _freelancers[index].imageUrl != null
                       ? Center(
                           child: CardWidget(
-                            usernName: _freelancers[index].username,
-                            profileImage: _freelancers[index].imageUrl!,
-                            Skils: _freelancers[index].skill,
+                            freelancerModel: freelancer,
                           ),
                         )
                       : Center(
                           child: CardWidget(
-                            usernName: _freelancers[index].username,
-                            profileImage: '',
-                            Skils: _freelancers[index].skill,
+                            freelancerModel: freelancer,
                           ),
                         ),
                   SizedBox(
@@ -307,6 +298,8 @@ class DesktopApplicationDeveloper extends StatelessWidget {
             return ListView.builder(
               itemCount: _freelancers.length,
               itemBuilder: (BuildContext context, int index) {
+                FreelancerModel freelancer = _freelancers[index];
+
                 return Column(
                   children: [
                     SizedBox(
@@ -315,16 +308,12 @@ class DesktopApplicationDeveloper extends StatelessWidget {
                     _freelancers[index].imageUrl != null
                         ? Center(
                             child: CardWidget(
-                              usernName: _freelancers[index].username,
-                              profileImage: _freelancers[index].imageUrl!,
-                              Skils: _freelancers[index].skill,
+                              freelancerModel: freelancer,
                             ),
                           )
                         : Center(
                             child: CardWidget(
-                              usernName: _freelancers[index].username,
-                              profileImage: '',
-                              Skils: _freelancers[index].skill,
+                              freelancerModel: freelancer,
                             ),
                           ),
                     SizedBox(

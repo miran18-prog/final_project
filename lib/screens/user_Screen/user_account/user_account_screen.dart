@@ -11,7 +11,6 @@ import 'package:final_project/widgets/DrawerBar.dart';
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:final_project/widgets/social_list_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';

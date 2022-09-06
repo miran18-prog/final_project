@@ -4,6 +4,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:banner_listtile/banner_listtile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:final_project/models/Freelancer_model.dart';
+import 'package:final_project/screens/Home/home_page.dart';
+import 'package:final_project/screens/about_us_screen/about_us.dart';
+import 'package:final_project/screens/user_Screen/other_user_screen.dart';
+import 'package:final_project/screens/user_Screen/user_account/user_account_screen.dart';
+import 'package:final_project/widgets/test_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -11,14 +17,11 @@ import 'package:hexcolor/hexcolor.dart';
 class CardWidget extends StatelessWidget {
   CardWidget({
     Key? key,
-    this.profileImage,
-    required this.Skils,
-    required this.usernName,
+    required this.freelancerModel,
   }) : super(key: key);
 
-  final String? profileImage;
-  final String Skils;
-  final String usernName;
+  final FreelancerModel freelancerModel;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,12 +30,13 @@ class CardWidget extends StatelessWidget {
       color: Color(0Xf2D9CDB),
       child: Row(
         children: [
-          profileImage != null
+          freelancerModel.imageUrl != null
               ? Container(
                   width: 100,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: CachedNetworkImageProvider(profileImage!),
+                        image: CachedNetworkImageProvider(
+                            freelancerModel.imageUrl!),
                         fit: BoxFit.cover),
                     color: Colors.grey,
                     borderRadius: BorderRadius.only(
@@ -60,7 +64,7 @@ class CardWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: AutoSizeText(
-                      usernName,
+                      freelancerModel.username,
                       style: GoogleFonts.poppins(
                           fontSize: 19, fontWeight: FontWeight.w500),
                       maxLines: 1,
@@ -71,7 +75,7 @@ class CardWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: AutoSizeText(
-                      Skils,
+                      freelancerModel.skill,
                       style: GoogleFonts.poppins(
                           fontSize: 11, fontWeight: FontWeight.w400),
                       maxLines: 1,
@@ -86,7 +90,28 @@ class CardWidget extends StatelessWidget {
           SizedBox(width: 20),
           Expanded(
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    transitionDuration: Duration(milliseconds: 500),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      animation = CurvedAnimation(
+                          parent: animation, curve: Curves.easeInOut);
+                      return FadeTransition(
+                        opacity: animation,
+                        child: OthersScreen(
+                          freelancerModel: freelancerModel,
+                        ),
+                      );
+                    },
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return Container();
+                    },
+                  ),
+                );
+              },
               icon: Icon(Icons.arrow_forward_ios),
             ),
           ),

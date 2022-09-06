@@ -1,18 +1,8 @@
 import 'package:final_project/authentication/Authentication%20_page.dart';
-import 'package:final_project/screens/SignIn_SignUp_Screen/SignIn.dart';
-import 'package:final_project/screens/SignIn_SignUp_Screen/SignUp.dart';
-import 'package:final_project/screens/SignIn_SignUp_Screen/freelancer_or_clinet.dart';
 import 'package:final_project/screens/main_screen/main_screen.dart';
-import 'package:final_project/screens/user_Screen/create_profile_screen.dart';
-import 'package:final_project/widgets/loading_widget.dart';
-import 'package:final_project/widgets/test_screen.dart';
+import 'package:final_project/screens/user_Screen/other_user_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
