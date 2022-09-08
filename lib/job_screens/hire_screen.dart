@@ -53,7 +53,7 @@ class HireScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 15),
               Container(
                 margin: EdgeInsets.only(right: 200),
                 child: Text(
