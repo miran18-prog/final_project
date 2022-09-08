@@ -46,6 +46,8 @@ class Auth {
         customSnackbar(
             context, e.toString(), 'oops something went wrong!', Colors.red);
       }
+      Navigator.of(context).pop();
+
       print(e);
     }
   }

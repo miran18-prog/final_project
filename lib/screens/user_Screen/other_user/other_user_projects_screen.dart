@@ -41,72 +41,26 @@ class OtherUserProjectTabScreen extends StatelessWidget {
                   )
                   .toList();
 
-              return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 243, 250, 255),
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(25),
-                                bottomRight: Radius.circular(25)),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  height: 125,
-                                  width: 125,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            postModel[index].imageUrl!),
-                                        fit: BoxFit.cover),
-                                    borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(25),
-                                        bottomRight: Radius.circular(25)),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Column(
-                                  children: [
-                                    AutoSizeText(
-                                      postModel[index].postTitle!,
-                                      presetFontSizes: [
-                                        16,
-                                        15,
-                                        14,
-                                        13,
-                                        12,
-                                        11,
-                                        10
-                                      ],
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+              return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 150,
+                  ),
+                  itemCount: postModel.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(3),
+                      child: Container(
+                        height: 200,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(postModel[index].imageUrl!),
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        const SizedBox(height: 25),
-                      ],
-                    ),
-                  );
-                },
-              );
+                      ),
+                    );
+                  });
             }
           }),
     );

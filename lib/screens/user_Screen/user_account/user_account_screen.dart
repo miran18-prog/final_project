@@ -69,53 +69,46 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                 child: Column(
                   children: [
                     SizedBox(height: 15),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 7),
-                      child: Container(
-                        width: 400,
-                        height: 145,
-                        alignment: Alignment.bottomCenter,
-                        decoration: const BoxDecoration(
-                          color: Colors.grey,
-                          image: DecorationImage(
-                              image: AssetImage('image/background.jpg'),
-                              opacity: 70,
-                              fit: BoxFit.cover),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(50),
-                            topRight: Radius.circular(40),
-                          ),
-                        ),
-                        child: freelancerModel.imageUrl != null
-                            ? Container(
-                                margin: EdgeInsets.only(bottom: 20),
-                                height: 110,
-                                width: 110,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 3,
-                                  ),
-                                  image: DecorationImage(
-                                      image: CachedNetworkImageProvider(
-                                          freelancerModel.imageUrl!),
-                                      fit: BoxFit.cover),
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                              )
-                            : Container(
-                                margin: EdgeInsets.only(bottom: 20),
-                                height: 110,
-                                width: 110,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 3,
-                                  ),
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                              ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 165,
+                      alignment: Alignment.bottomCenter,
+                      decoration: const BoxDecoration(
+                        color: Colors.grey,
+                        image: DecorationImage(
+                            image: AssetImage('image/background.jpg'),
+                            opacity: 70,
+                            fit: BoxFit.cover),
                       ),
+                      child: freelancerModel.imageUrl != null
+                          ? Container(
+                              margin: EdgeInsets.only(bottom: 20),
+                              height: 110,
+                              width: 110,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 3,
+                                ),
+                                image: DecorationImage(
+                                    image: CachedNetworkImageProvider(
+                                        freelancerModel.imageUrl!),
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                            )
+                          : Container(
+                              margin: EdgeInsets.only(bottom: 20),
+                              height: 110,
+                              width: 110,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                            ),
                     ),
                     SizedBox(height: 10),
                     Text(
@@ -157,7 +150,8 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                                 ? listButton(
                                     text: 'Github',
                                     icon: FeatherIcons.github,
-                                    backColor: Color.fromARGB(255, 36, 36, 36),
+                                    backColor:
+                                        Color.fromARGB(255, 90, 176, 247),
                                     hight: 30,
                                     width: 140,
                                     textColor: Colors.white,
@@ -170,7 +164,8 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                                 ? listButton(
                                     text: 'Instagram',
                                     icon: FeatherIcons.instagram,
-                                    backColor: Color.fromARGB(255, 254, 53, 43),
+                                    backColor:
+                                        Color.fromARGB(255, 90, 176, 247),
                                     hight: 30,
                                     width: 140,
                                     textColor: Colors.white,
@@ -183,7 +178,8 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                                 ? listButton(
                                     text: 'Linkedin',
                                     icon: FeatherIcons.linkedin,
-                                    backColor: Colors.blue,
+                                    backColor:
+                                        Color.fromARGB(255, 90, 176, 247),
                                     hight: 30,
                                     width: 140,
                                     textColor: Colors.white,
@@ -196,7 +192,8 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                                 ? listButton(
                                     text: 'twitter',
                                     icon: FeatherIcons.twitter,
-                                    backColor: Colors.blue,
+                                    backColor:
+                                        Color.fromARGB(255, 90, 176, 247),
                                     hight: 30,
                                     width: 140,
                                     textColor: Colors.white,

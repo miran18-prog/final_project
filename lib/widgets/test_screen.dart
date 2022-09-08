@@ -26,21 +26,18 @@ class _TestScreenState extends State<TestScreen> {
 
     final userId = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
-      appBar: AppBar(),
-      body: StreamBuilder(
-        stream: DatabaseServices(uId: userId).getUser(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            FreelancerModel freelancerModel = FreelancerModel.fromMap(
-                snapshot.data.data()! as Map<String, dynamic>);
-            return Text(freelancerModel.username);
-          } else if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          } else {
-            return CustomLodingWidget();
-          }
-        },
-      ),
-    );
+        appBar: AppBar(),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("requirment"),
+            TextField(),
+            SizedBox(
+              height: 50,
+            ),
+            Text("offer"),
+            TextField()
+          ],
+        ));
   }
 }

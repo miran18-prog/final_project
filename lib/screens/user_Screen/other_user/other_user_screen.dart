@@ -1,20 +1,15 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_project/Database/database_services.dart';
+import 'package:final_project/job_screens/hire_screen.dart';
 import 'package:final_project/models/Freelancer_model.dart';
-import 'package:final_project/screens/Home/tab_pages/freelancer_list.dart';
 import 'package:final_project/screens/user_Screen/other_user/about_other_user.dart';
 import 'package:final_project/screens/user_Screen/other_user/other_user_projects_screen.dart';
-import 'package:final_project/screens/user_Screen/user_operations/post_screen.dart';
-import 'package:final_project/screens/user_Screen/user_account/about_me.dart';
-import 'package:final_project/screens/user_Screen/user_account/user_projects_tab_screen.dart';
-import 'package:final_project/widgets/DrawerBar.dart';
-import 'package:final_project/widgets/loading_widget.dart';
 import 'package:final_project/widgets/social_list_button.dart';
+import 'package:final_project/widgets/test_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -41,62 +36,83 @@ class _OtherUserScreenState extends State<OtherUserScreen>
     TabController tabController = TabController(length: 2, vsync: this);
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.white),
+        actions: [
+          widget.freelancerModel.userId != user.uid
+              ? Row(
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => HireScreen(
+                              freelancerModel: widget.freelancerModel,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: Icon(FeatherIcons.user),
+                      label: Text("Hire"),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        primary: Colors.transparent,
+                        side: BorderSide(color: Colors.white, width: 2),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                  ],
+                )
+              : SizedBox(),
+        ],
       ),
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 15),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 7),
-              child: Container(
-                width: 400,
-                height: 145,
-                alignment: Alignment.bottomCenter,
-                decoration: const BoxDecoration(
-                  color: Colors.grey,
-                  image: DecorationImage(
-                      image: AssetImage('image/background.jpg'),
-                      opacity: 70,
-                      fit: BoxFit.cover),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(40),
-                  ),
-                ),
-                child: widget.freelancerModel.imageUrl != null
-                    ? Container(
-                        margin: EdgeInsets.only(bottom: 20),
-                        height: 110,
-                        width: 110,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 3,
-                          ),
-                          image: DecorationImage(
-                              image: CachedNetworkImageProvider(
-                                  widget.freelancerModel.imageUrl!),
-                              fit: BoxFit.cover),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                      )
-                    : Container(
-                        margin: EdgeInsets.only(bottom: 20),
-                        height: 110,
-                        width: 110,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 3,
-                          ),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                      ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 200,
+              alignment: Alignment.bottomCenter,
+              decoration: const BoxDecoration(
+                color: Colors.grey,
+                image: DecorationImage(
+                    image: AssetImage('image/background.jpg'),
+                    opacity: 70,
+                    fit: BoxFit.cover),
               ),
+              child: widget.freelancerModel.imageUrl != null
+                  ? Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      height: 130,
+                      width: 130,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 3,
+                        ),
+                        image: DecorationImage(
+                            image: CachedNetworkImageProvider(
+                                widget.freelancerModel.imageUrl!),
+                            fit: BoxFit.cover),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    )
+                  : Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      height: 110,
+                      width: 110,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    ),
             ),
             SizedBox(height: 10),
             Text(
@@ -136,7 +152,7 @@ class _OtherUserScreenState extends State<OtherUserScreen>
                         ? listButton(
                             text: 'Github',
                             icon: FeatherIcons.github,
-                            backColor: Color.fromARGB(255, 36, 36, 36),
+                            backColor: Color.fromARGB(255, 90, 176, 247),
                             hight: 30,
                             width: 140,
                             textColor: Colors.white,
@@ -149,7 +165,7 @@ class _OtherUserScreenState extends State<OtherUserScreen>
                         ? listButton(
                             text: 'Instagram',
                             icon: FeatherIcons.instagram,
-                            backColor: Color.fromARGB(255, 254, 53, 43),
+                            backColor: Color.fromARGB(255, 90, 176, 247),
                             hight: 30,
                             width: 140,
                             textColor: Colors.white,
@@ -162,7 +178,7 @@ class _OtherUserScreenState extends State<OtherUserScreen>
                         ? listButton(
                             text: 'Linkedin',
                             icon: FeatherIcons.linkedin,
-                            backColor: Colors.blue,
+                            backColor: Color.fromARGB(255, 90, 176, 247),
                             hight: 30,
                             width: 140,
                             textColor: Colors.white,
@@ -175,7 +191,7 @@ class _OtherUserScreenState extends State<OtherUserScreen>
                         ? listButton(
                             text: 'twitter',
                             icon: FeatherIcons.twitter,
-                            backColor: Colors.blue,
+                            backColor: Color.fromARGB(255, 90, 176, 247),
                             hight: 30,
                             width: 140,
                             textColor: Colors.white,
@@ -234,7 +250,6 @@ class _OtherUserScreenState extends State<OtherUserScreen>
                 ),
               ],
             ),
-            SizedBox(height: 15),
             Expanded(
               child: TabBarView(
                 controller: tabController,

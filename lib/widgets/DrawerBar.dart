@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/authentication/auth.dart';
 import 'package:final_project/models/Freelancer_model.dart';
-import 'package:final_project/screens/Drawbar%20Screens/job_screen.dart';
+import 'package:final_project/job_screens/job_screen.dart';
 import 'package:final_project/screens/SignIn_SignUp_Screen/SignIn.dart';
 import 'package:final_project/screens/about_us_screen/about_us.dart';
 import 'package:final_project/screens/user_Screen/user_operations/edit_profile_screen.dart';
