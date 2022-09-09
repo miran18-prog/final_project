@@ -1,13 +1,20 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_project/job_screens/job_info.dart';
+import 'package:final_project/job_screens/job_screen.dart';
+import 'package:final_project/models/jobs_model.dart';
+import 'package:final_project/widgets/test_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class JobTile extends StatelessWidget {
-  const JobTile({Key? key}) : super(key: key);
-
+  const JobTile({Key? key, required this.job}) : super(key: key);
+  final JobModel job;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,15 +42,30 @@ class JobTile extends StatelessWidget {
             left: 15,
             child: CircleAvatar(
               maxRadius: 32,
-              backgroundColor: Colors.green,
+              backgroundColor: Colors.grey,
+              backgroundImage: NetworkImage(job.imageUrl),
             ),
           ),
           Positioned(
             top: 26,
             left: 109,
-            child: Text('User name',
+            child: Text('${job.username}',
                 style: GoogleFonts.poppins(
                     fontSize: 23, fontWeight: FontWeight.w500)),
+          ),
+          Positioned(
+            top: 15,
+            left: 290,
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => JobInfo(job: job),
+                  ),
+                );
+              },
+              icon: Icon(Icons.arrow_forward_ios),
+            ),
           ),
           Positioned(
               top: 101,
@@ -57,11 +79,12 @@ class JobTile extends StatelessWidget {
           Positioned(
               top: 125,
               left: 36,
-              child: Text(
-                'Social media design',
+              child: AutoSizeText(
+                job.jobRequirment,
                 textAlign: TextAlign.left,
                 style: GoogleFonts.poppins(
                     fontSize: 13, fontWeight: FontWeight.w500),
+                presetFontSizes: [15, 14, 13, 12, 11, 10],
               )),
           Positioned(
               top: 101,
@@ -74,9 +97,9 @@ class JobTile extends StatelessWidget {
               )),
           Positioned(
             top: 123,
-            left: 237,
+            left: 210,
             child: Text(
-              '50\$',
+              '${job.offer} - IQD',
               textAlign: TextAlign.left,
               style: GoogleFonts.poppins(
                   fontSize: 15, fontWeight: FontWeight.w500),
@@ -94,7 +117,78 @@ class JobTile extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       primary: HexColor('#275ea3'),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      showDialog(
+                          context: context,
+                          builder: ((context) => Center(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(25)),
+                                  alignment: Alignment.center,
+                                  height: 200,
+                                  width: 305,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Text(
+                                            "Are you Sure you want to decline this request ?",
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.poppins(
+                                                decoration: TextDecoration.none,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                        SizedBox(height: 25),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 5),
+                                                child: Text("Cancel"),
+                                              ),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () async {
+                                                final db =
+                                                    FirebaseFirestore.instance;
+                                                await db
+                                                    .collection('users')
+                                                    .doc(job.freelancerId)
+                                                    .collection('jobs')
+                                                    .doc(job.jobId)
+                                                    .delete();
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 5),
+                                                child: Text("Yes"),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )));
+                    },
                     child: Text(
                       "Decline",
                       style: GoogleFonts.poppins(
@@ -111,13 +205,92 @@ class JobTile extends StatelessWidget {
                         side: BorderSide(color: HexColor('#275ea3'), width: 2),
                         primary: Colors.white,
                         elevation: 0),
-                    onPressed: () {},
+                    onPressed: () async {
+                      final db = FirebaseFirestore.instance;
+                      showDialog(
+                          context: context,
+                          builder: ((context) => Center(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(25)),
+                                  alignment: Alignment.center,
+                                  height: 200,
+                                  width: 305,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Text(
+                                            "Are you Sure you want to accept this request ?",
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.poppins(
+                                                decoration: TextDecoration.none,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                        SizedBox(height: 25),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 5),
+                                                child: Text("Cancel"),
+                                              ),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () async {
+                                                //  final db = FirebaseFirestore.instance;
+                                                await db
+                                                    .collection('users')
+                                                    .doc(job.freelancerId)
+                                                    .collection('accepted_jobs')
+                                                    .doc(job.jobId)
+                                                    .set(job.toMap());
+
+                                                await db
+                                                    .collection('users')
+                                                    .doc(job.freelancerId)
+                                                    .collection('jobs')
+                                                    .doc(job.jobId)
+                                                    .delete();
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 5),
+                                                child: Text("Yes"),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )));
+                    },
                     child: Text(
                       "Accept",
                       style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: HexColor('#275ea3')),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: HexColor('#275ea3'),
+                      ),
                     ),
                   ),
                 ),

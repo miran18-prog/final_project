@@ -198,54 +198,55 @@ class BackEndDeveloper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: FirebaseFirestore.instance
-          .collection('users')
-          .where(
-            'skill',
-            isEqualTo: 'Back-end developer',
-          )
-          .snapshots(),
-      builder: (BuildContext context, snapshot) {
-        if (snapshot.hasError) {
-          return Center(
-              child: Text("Oops something went wrong try again later!"));
-        } else if (snapshot.data == null) {
-          return CustomLodingWidget();
-        } else if (snapshot.hasData) {
-          List<FreelancerModel> _freelancers = snapshot.data!.docs
-              .map(
-                (e) => FreelancerModel.fromMap(
-                  e.data(),
-                ),
-              )
-              .toList();
-          return ListView.builder(
-            itemCount: _freelancers.length,
-            itemBuilder: (BuildContext context, int index) {
-              FreelancerModel freelancer = _freelancers[index];
+      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .where(
+              'skill',
+              isEqualTo: 'Back-end developer',
+            )
+            .snapshots(),
+        builder: (BuildContext context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+                child: Text("Oops something went wrong try again later!"));
+          } else if (snapshot.data == null) {
+            return CustomLodingWidget();
+          } else if (snapshot.hasData) {
+            List<FreelancerModel> _freelancers = snapshot.data!.docs
+                .map(
+                  (e) => FreelancerModel.fromMap(
+                    e.data(),
+                  ),
+                )
+                .toList();
+            return ListView.builder(
+              itemCount: _freelancers.length,
+              itemBuilder: (BuildContext context, int index) {
+                FreelancerModel freelancer = _freelancers[index];
 
-              return Column(
-                children: [
-                  SizedBox(
-                    height: 33,
-                  ),
-                  Center(
-                    child: CardWidget(
-                      freelancerModel: freelancer,
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: 33,
                     ),
-                  ),
-                  SizedBox(
-                    height: 13,
-                  ),
-                ],
-              );
-            },
-          );
-        }
-        return CustomLodingWidget();
-      },
-    ));
+                    Center(
+                      child: CardWidget(
+                        freelancerModel: freelancer,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 13,
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+          return CustomLodingWidget();
+        },
+      ),
+    );
   }
 }
 
