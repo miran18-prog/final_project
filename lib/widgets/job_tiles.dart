@@ -172,6 +172,7 @@ class JobTile extends StatelessWidget {
                                                     .collection('jobs')
                                                     .doc(job.jobId)
                                                     .delete();
+                                                Navigator.of(context).pop();
                                               },
                                               child: Padding(
                                                 padding:
@@ -267,6 +268,8 @@ class JobTile extends StatelessWidget {
                                                     .collection('jobs')
                                                     .doc(job.jobId)
                                                     .delete();
+
+                                                Navigator.of(context).pop();
                                               },
                                               child: Padding(
                                                 padding:
