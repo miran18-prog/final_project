@@ -28,40 +28,39 @@ class _AboutUsPageState extends State<AboutUsPage>
 
     return Scaffold(
       backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
       body: Center(
         child: Column(
           children: [
             SizedBox(height: 35),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 7),
+            Container(
+              width: 400,
+              height: 145,
+              alignment: Alignment.bottomCenter,
+              decoration: const BoxDecoration(
+                color: Colors.grey,
+                image: DecorationImage(
+                    image: AssetImage('image/cover.jpg'),
+                    opacity: 70,
+                    fit: BoxFit.cover),
+              ),
               child: Container(
-                width: 400,
-                height: 145,
-                alignment: Alignment.bottomCenter,
-                decoration: const BoxDecoration(
-                  color: Colors.grey,
-                  image: DecorationImage(
-                      image: AssetImage('image/cover.jpg'),
-                      opacity: 70,
-                      fit: BoxFit.cover),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(40),
+                margin: EdgeInsets.only(bottom: 20),
+                height: 110,
+                width: 110,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 3,
                   ),
-                ),
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  height: 110,
-                  width: 110,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 3,
-                    ),
-                    borderRadius: BorderRadius.circular(100),
-                    image: DecorationImage(
-                      image: AssetImage('image/my.jpg'),
-                    ),
+                  borderRadius: BorderRadius.circular(100),
+                  image: DecorationImage(
+                    image: AssetImage('image/my.jpg'),
                   ),
                 ),
               ),
