@@ -24,7 +24,6 @@ class EditAccountScreen extends StatefulWidget {
 }
 
 class _EditAccountScreenState extends State<EditAccountScreen> {
-  @override
   dynamic dropdownValue = 'Graphic Designer';
   TextEditingController _usernameCtrl = TextEditingController();
   TextEditingController _phoneCtrl = TextEditingController();
@@ -37,7 +36,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
   String userId = FirebaseAuth.instance.currentUser!.uid;
   bool is_freelancer = false;
   bool isChanged = false;
-
+  @override
   String? downloadUri;
   String? coverDownloadUri;
   File? _image;

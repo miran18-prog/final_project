@@ -29,10 +29,10 @@ class Auth {
             'oops something went wrong!', Colors.red);
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        Navigator.of(context).pop();
-
         customSnackbar(context, 'Wrong password provided for that user',
             'oops something went wrong!', Colors.red);
+        Navigator.of(context).pop();
+
         print('Wrong password provided for that user.');
       } else if (e.code == 'invalid-email') {
         Navigator.of(context).pop();
