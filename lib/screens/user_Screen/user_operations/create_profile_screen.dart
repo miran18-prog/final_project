@@ -2,15 +2,13 @@ import 'dart:io';
 
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/screens/Home/home_page.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:final_project/screens/main_screen/main_screen.dart';
+import 'package:final_project/widgets/custom_snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as storage;
-import 'package:path/path.dart';
 
 class CreateUserScreen extends StatefulWidget {
   CreateUserScreen({Key? key}) : super(key: key);
@@ -305,10 +303,11 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                         if (_formKey.currentState!.validate()) {
                           if (widget.is_selected_container1 == false &&
                               widget.is_selected_container2 == false) {
-                            customSnackbar(context,
-                                text: 'please choose one of the choices',
-                                errorText: 'oops something went wrong',
-                                color: Colors.red);
+                            customSnackbar(
+                                context,
+                                "Accounte created successfully ",
+                                "Account created",
+                                ContentType.success);
                           } else {
                             if (widget.is_selected_container1) {
                               choice = "Freelancer";
@@ -361,7 +360,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                                     ),
                                                   ),
                                                   ElevatedButton(
-                                                    onPressed: () {
+                                                    onPressed: () async {
                                                       if (choice ==
                                                           "Freelancer") {
                                                         widget.is_freelancer =
@@ -371,6 +370,9 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                                         widget.is_freelancer =
                                                             false;
                                                       }
+// image\avatar.jpg
+                                                      downloadUri =
+                                                          'https://firebasestorage.googleapis.com/v0/b/bdozawa-application.appspot.com/o/avatar.jpg?alt=media&token=27a62b91-e770-45ab-9cb2-682c4b1f023e';
 
                                                       DatabaseServices(
                                                               uId: user.uid)
@@ -396,6 +398,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                                             .instance
                                                             .currentUser!
                                                             .uid,
+                                                        imageUrl: downloadUri,
                                                       );
 
                                                       Navigator.of(context)
@@ -403,7 +406,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                                       Navigator.of(context).push(
                                                           MaterialPageRoute(
                                                               builder: ((context) =>
-                                                                  HomeScreen())));
+                                                                  MainFile())));
                                                     },
                                                     child: Padding(
                                                       padding: const EdgeInsets
@@ -480,38 +483,4 @@ class CustomTextForm extends StatelessWidget {
       ),
     );
   }
-}
-
-customSnackbar(context,
-    {required String text, required String errorText, required Color color}) {
-  return ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      content: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        height: 60,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              errorText,
-              style: GoogleFonts.poppins(fontSize: 16),
-            ),
-            SizedBox(height: 5),
-            Text(
-              text,
-              style: GoogleFonts.poppins(fontSize: 12),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
 }

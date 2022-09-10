@@ -90,6 +90,10 @@ class DatabaseServices {
     );
   }
 
+  Future editImageUrl({required String imageUrl}) async {
+    return await collectionReference.doc(uId).update({'imageUrl': imageUrl});
+  }
+
   Stream<DocumentSnapshot> getUser() {
     return FirebaseFirestore.instance.collection('users').doc(uId).snapshots();
   }

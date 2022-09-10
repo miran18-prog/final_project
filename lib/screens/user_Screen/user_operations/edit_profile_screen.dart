@@ -5,6 +5,7 @@ import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/models/Freelancer_model.dart';
 import 'package:final_project/screens/user_Screen/user_operations/create_profile_screen.dart';
 import 'package:final_project/widgets/DrawerBar.dart';
+import 'package:final_project/widgets/custom_snackbar.dart';
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -15,6 +16,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as storage;
 import 'package:path/path.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class EditAccountScreen extends StatefulWidget {
   EditAccountScreen({Key? key}) : super(key: key);
@@ -63,21 +65,6 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
     }
   }
 
-  Future _pickCoverImage(ImageSource source, context) async {
-    try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
-      File? img = File(image.path);
-      img = await _imageCropper(imageFile: img);
-      setState(() {
-        _coverImage = img;
-      });
-    } on PlatformException catch (e) {
-      print(e);
-      Navigator.of(context).pop();
-    }
-  }
-
   Future uploadFile(String file_name) async {
     if (_image == null) return;
     final fileName = file_name;
@@ -93,6 +80,8 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
           .ref()
           .child("users/$userId/profile_image_folder/${fileName}")
           .getDownloadURL();
+
+      DatabaseServices(uId: userId).editImageUrl(imageUrl: downloadUri!);
     } catch (e) {
       print('error occured');
     }
@@ -318,30 +307,31 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                                     "users/$userId/profile_image_folder/prof_image")
                                 .getDownloadURL();
 
-                            DatabaseServices(
-                                    uId: FirebaseAuth.instance.currentUser!.uid)
-                                .editUser(
-                                    username: _usernameCtrl.text,
-                                    phoneNumber: _phoneCtrl.text,
-                                    github: _gitCtrl.text,
-                                    twitter: _twitter.text,
-                                    facebook: _facebookCtrl.text,
-                                    instagram: _instaCtrl.text,
-                                    linkedIn: _linkedInCtrl.text,
-                                    description: _description.text,
-                                    skill: dropdownValue,
-                                    is_freelancer: is_freelancer,
-                                    userId:
-                                        FirebaseAuth.instance.currentUser!.uid,
-                                    imageUrl: downloadUri!);
+                            DatabaseServices(uId: userId).editUser(
+                              username: _usernameCtrl.text,
+                              phoneNumber: _phoneCtrl.text,
+                              github: _gitCtrl.text,
+                              twitter: _twitter.text,
+                              facebook: _facebookCtrl.text,
+                              instagram: _instaCtrl.text,
+                              linkedIn: _linkedInCtrl.text,
+                              description: _description.text,
+                              skill: dropdownValue,
+                              is_freelancer: is_freelancer,
+                              userId: FirebaseAuth.instance.currentUser!.uid,
+                              imageUrl: downloadUri,
+                            );
                             setState(() {
                               isChanged = false;
+                              customSnackbar(
+                                  context,
+                                  "Accounte updated successfully ",
+                                  "Account Updated",
+                                  ContentType.success);
                             });
                           } else {
-                            customSnackbar(context,
-                                text: "please uploade you image",
-                                errorText: "uploade error",
-                                color: Colors.red);
+                            customSnackbar(context, "Uploade your image ",
+                                "Account did not Updated", ContentType.failure);
                           }
                         },
                         child: Padding(

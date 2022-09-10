@@ -1,5 +1,7 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/screens/user_Screen/user_operations/create_profile_screen.dart';
+import 'package:final_project/widgets/custom_snackbar.dart';
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,27 +26,26 @@ class Auth {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         Navigator.of(context).pop();
+        customSnackbar(context, "No user found for that email.",
+            "oops something went wrong!'", ContentType.failure);
 
-        customSnackbar(context, 'No user found for that email.',
-            'oops something went wrong!', Colors.red);
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        customSnackbar(context, 'Wrong password provided for that user',
-            'oops something went wrong!', Colors.red);
         Navigator.of(context).pop();
 
+        customSnackbar(context, "'Wrong password provided for that user'",
+            "oops something went wrong!'", ContentType.failure);
         print('Wrong password provided for that user.');
       } else if (e.code == 'invalid-email') {
         Navigator.of(context).pop();
+        customSnackbar(context, "Email badly formatted",
+            "oops something went wrong!'", ContentType.failure);
 
-        customSnackbar(context, 'Email badly formatted',
-            'oops something went wrong!', Colors.red);
         print('Email badly formatted');
       } else {
         Navigator.of(context).pop();
-
-        customSnackbar(
-            context, e.toString(), 'oops something went wrong!', Colors.red);
+        customSnackbar(context, "Email badly formatted",
+            "oops something went wrong!'", ContentType.failure);
       }
 
       print(e);
@@ -76,9 +77,9 @@ class Auth {
           is_freelancer: false,
           skill: 'Unknown',
           userId: userCredential.user!.uid);
+      customSnackbar(context, "Welcome !", "Complete your registraion",
+          ContentType.success);
 
-      customSnackbar(
-          context, 'Complete your registraion', 'Welcome !', Colors.green);
       Navigator.of(context)
           .push(MaterialPageRoute(builder: ((context) => CreateUserScreen())));
 
@@ -87,59 +88,29 @@ class Auth {
       if (e.code == 'weak-password') {
         Navigator.of(context).pop();
 
-        customSnackbar(context, 'weak-password ', 'oops something went wrong!',
-            Colors.red);
+        customSnackbar(context, "weak-password", "oops something went wrong!'",
+            ContentType.failure);
+
         print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         Navigator.of(context).pop();
 
-        customSnackbar(context, 'The account already exists for that email.',
-            'oops something went wrong!', Colors.red);
+        customSnackbar(context, "The account already exists for that email.",
+            "oops something went wrong!'", ContentType.failure);
+
         print(
           'The account already exists for that email.',
         );
       } else if (e.code == 'invalid-email') {
         Navigator.of(context).pop();
 
-        customSnackbar(context, 'Email badly formatted',
-            'oops something went wrong!', Colors.red);
+        customSnackbar(context, "Email badly formatted",
+            "oops something went wrong!'", ContentType.failure);
+
         print('Email badly formatted');
       }
     } catch (e) {
       print(e);
     }
-  }
-
-  customSnackbar(context, String text, String errorText, Color color) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        content: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          height: 60,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                errorText,
-                style: GoogleFonts.poppins(fontSize: 16),
-              ),
-              SizedBox(height: 5),
-              Text(
-                text,
-                style: GoogleFonts.poppins(fontSize: 12),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

@@ -36,7 +36,7 @@ class CardWidget extends StatelessWidget {
                         image: CachedNetworkImageProvider(
                             freelancerModel.imageUrl!),
                         fit: BoxFit.cover),
-                    color: Colors.grey,
+                    color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(15),
                       bottomRight: Radius.circular(15),
@@ -46,7 +46,7 @@ class CardWidget extends StatelessWidget {
               : Container(
                   width: 100,
                   decoration: BoxDecoration(
-                    color: Colors.grey,
+                    color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(15),
                       bottomRight: Radius.circular(15),

@@ -1,7 +1,9 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:final_project/authentication/auth.dart';
 import 'package:final_project/screens/SignIn_SignUp_Screen/SignIn.dart';
 import 'package:final_project/screens/user_Screen/user_operations/create_profile_screen.dart';
+import 'package:final_project/widgets/custom_snackbar.dart';
 import 'package:final_project/widgets/custom_textFormField.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -111,16 +113,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       setState(() {
                         if (passwordController.text !=
                             confirmPasswordController.text) {
-                          customSnackbar(context,
-                              text: 'password fields are not equal',
-                              errorText: 'password error',
-                              color: Colors.red);
+                          customSnackbar(
+                              context,
+                              "make sure passwords are matching",
+                              "Password is now correct",
+                              ContentType.failure);
                         } else if (confirmPasswordController.text !=
                             passwordController.text) {
-                          customSnackbar(context,
-                              text: 'password is to short',
-                              errorText: 'Short Password',
-                              color: Colors.red);
+                          customSnackbar(
+                              context,
+                              "make sure passwords are matching",
+                              "Password is now correct",
+                              ContentType.failure);
                         } else if (_formKey.currentState!.validate()) {
                           _auth.signUpWithEmailAndPassword(context,
                               email: emailController.text.trim(),

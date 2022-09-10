@@ -16,12 +16,11 @@ import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
 class DrawerBar extends StatelessWidget {
-  const DrawerBar({Key? key}) : super(key: key);
+  DrawerBar({Key? key}) : super(key: key);
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
-
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,

@@ -1,13 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:carousel_nullsafety/carousel_nullsafety.dart';
 import 'package:final_project/Database/database_services.dart';
-import 'package:final_project/screens/user_Screen/user_account/user_account_screen.dart';
 import 'package:final_project/widgets/custom_snackbar.dart';
-import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as storage;
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:uuid/uuid.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class PostScreen extends StatefulWidget {
   PostScreen({Key? key}) : super(key: key);
@@ -226,8 +223,11 @@ class _PostScreenState extends State<PostScreen> {
                                 print(err.toString());
                               }
                             } else {
-                              customSnackbar(context, "pleade select an image",
-                                  "image error", Colors.red);
+                              customSnackbar(
+                                  context,
+                                  "Accounte Uupdates successfully ",
+                                  "Account created",
+                                  ContentType.success);
                             }
                           },
                         )),
