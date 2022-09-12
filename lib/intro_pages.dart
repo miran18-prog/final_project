@@ -30,7 +30,10 @@ class introScreens extends StatelessWidget {
             color: Colors.black, fontWeight: FontWeight.w500),
       ),
       onSkip: () {},
-      onDone: () {},
+      onDone: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: ((context) => SignInScreen())));
+      },
       pages: [
         PageViewModel(
             titleWidget: Text(
@@ -42,7 +45,7 @@ class introScreens extends StatelessWidget {
               ),
             ),
             bodyWidget: Text(
-              "Hello There, are you looking for a Graphic designer ? or a developer ? but you can't find one ? ",
+              "Hello There, are you looking for a Graphic designer? or a developer? but you can't find one?",
               style: GoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,

@@ -1,6 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:final_project/authentication/auth.dart';
+import 'package:final_project/screens/SignIn_SignUp_Screen/SignIn.dart';
+import 'package:final_project/widgets/custom_snackbar.dart';
 import 'package:final_project/widgets/custom_textFormField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +37,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your email';
                   } else if (!EmailValidator.validate(value)) {
+                    customSnackbar(context, "this email is invaled!",
+                        "Invaled email", ContentType.failure);
                     return 'Enter valid email';
                   } else {
                     return null;
@@ -58,6 +62,15 @@ class ForgotPasswordScreen extends StatelessWidget {
                     if (_formKey.currentState!.validate()) {
                       FirebaseAuth.instance.sendPasswordResetEmail(
                           email: emailController.text.trim());
+
+                      customSnackbar(
+                          context,
+                          "reset link sent to your email , Check your spam folder",
+                          "Link sent",
+                          ContentType.help);
+
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => SignInScreen())));
                     }
                   },
                   icon: Icon(Icons.email),

@@ -217,7 +217,11 @@ class _PostScreenState extends State<PostScreen> {
                                     postTitle: titleCtrl.text,
                                     postDesctiption: desCtrl.text,
                                     imageUrl: downloadUri);
-
+                                customSnackbar(
+                                    context,
+                                    "Post uploaded ",
+                                    "Your post have been uploaded",
+                                    ContentType.failure);
                                 Navigator.of(context).pop();
                               } catch (err) {
                                 print(err.toString());
@@ -225,9 +229,9 @@ class _PostScreenState extends State<PostScreen> {
                             } else {
                               customSnackbar(
                                   context,
-                                  "Accounte Uupdates successfully ",
-                                  "Account created",
-                                  ContentType.success);
+                                  "please fill all the fields",
+                                  "post uploade failed",
+                                  ContentType.failure);
                             }
                           },
                         )),

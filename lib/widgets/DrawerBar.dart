@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DrawerBar extends StatelessWidget {
   DrawerBar({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class DrawerBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Color.fromARGB(255, 238, 238, 238),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -33,8 +35,20 @@ class DrawerBar extends StatelessWidget {
                   FreelancerModel freelancerModel = FreelancerModel.fromMap(
                       snapshot.data.data() as Map<String, dynamic>);
                   return UserAccountsDrawerHeader(
-                    accountName: Text(freelancerModel.username),
-                    accountEmail: Text(user.email!),
+                    accountName: Text(
+                      freelancerModel.username,
+                      style: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16),
+                    ),
+                    accountEmail: Text(
+                      user.email!,
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                     currentAccountPicture: freelancerModel.imageUrl != null
                         ? CircleAvatar(
                             child: ClipOval(
@@ -53,37 +67,48 @@ class DrawerBar extends StatelessWidget {
                         image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                                'https://images.pexels.com/photos/4100130/pexels-photo-4100130.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'))),
+                                'https://wonderfulengineering.com/wp-content/uploads/2014/10/simple-wallpaper-14.png'))),
                   );
                 } else if (snapshot.hasError) {
-                  return Text("oops something went wrong");
+                  return Text("something went wrong");
                 } else {
                   return CustomLodingWidget();
                 }
               }),
           ListTile(
-            leading: const Icon(Icons.library_books),
-            title: const Text('Accepted Jobs'),
-            onTap: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => AcceptedJobs())),
-          ),
+              leading: const Icon(Icons.library_books),
+              title: const Text('Accepted Jobs'),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => AcceptedJobs()));
+              }),
           ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('testing'),
-            onTap: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => TestScreen())),
-          ),
+              leading: const Icon(Icons.settings),
+              title: const Text('testing'),
+              onTap: () {
+                Navigator.of(context).pop();
+                ;
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => TestScreen()));
+              }),
           ListTile(
-            leading: const Icon(Icons.edit),
-            title: const Text('Edit account'),
-            onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => EditAccountScreen())),
-          ),
+              leading: const Icon(Icons.edit),
+              title: const Text('Edit account'),
+              onTap: () {
+                Navigator.of(context).pop();
+
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => EditAccountScreen()));
+              }),
           ListTile(
             leading: const Icon(Icons.person_search),
             title: const Text('About us'),
-            onTap: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => AboutUsPage())),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => AboutUsPage()));
+            },
           ),
           ListTile(
             leading: const Icon(Icons.logout),

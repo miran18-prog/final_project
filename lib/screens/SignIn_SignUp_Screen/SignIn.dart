@@ -2,6 +2,7 @@
 
 import 'package:email_validator/email_validator.dart';
 import 'package:final_project/authentication/auth.dart';
+import 'package:final_project/authentication/forgot_password_page.dart';
 import 'package:final_project/screens/SignIn_SignUp_Screen/SignUp.dart';
 import 'package:final_project/widgets/custom_textFormField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -83,7 +84,9 @@ class _SignInScreenState extends State<SignInScreen> {
                             fontWeight: FontWeight.w500),
                       ),
                       onTap: () {
-                        //!forget password screen
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ForgotPasswordScreen(),
+                        ));
                       },
                     ),
                   ),

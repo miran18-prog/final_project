@@ -1,14 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/authentication/auth.dart';
 import 'package:final_project/job_screens/accepted_job_info.dart';
-import 'package:final_project/job_screens/job_info.dart';
-import 'package:final_project/models/Freelancer_model.dart';
+
 import 'package:final_project/models/jobs_model.dart';
-import 'package:final_project/screens/user_Screen/other_user/other_user_screen.dart';
-import 'package:final_project/widgets/DrawerBar.dart';
+
 import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

@@ -27,25 +27,25 @@ class Auth {
       if (e.code == 'user-not-found') {
         Navigator.of(context).pop();
         customSnackbar(context, "No user found for that email.",
-            "oops something went wrong!'", ContentType.failure);
+            "something went wrong!'", ContentType.failure);
 
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         Navigator.of(context).pop();
 
         customSnackbar(context, "'Wrong password provided for that user'",
-            "oops something went wrong!'", ContentType.failure);
+            "something went wrong!'", ContentType.failure);
         print('Wrong password provided for that user.');
       } else if (e.code == 'invalid-email') {
         Navigator.of(context).pop();
         customSnackbar(context, "Email badly formatted",
-            "oops something went wrong!'", ContentType.failure);
+            "something went wrong!'", ContentType.failure);
 
         print('Email badly formatted');
       } else {
         Navigator.of(context).pop();
         customSnackbar(context, "Email badly formatted",
-            "oops something went wrong!'", ContentType.failure);
+            "something went wrong!'", ContentType.failure);
       }
 
       print(e);
@@ -88,7 +88,7 @@ class Auth {
       if (e.code == 'weak-password') {
         Navigator.of(context).pop();
 
-        customSnackbar(context, "weak-password", "oops something went wrong!'",
+        customSnackbar(context, "weak-password", "something went wrong!'",
             ContentType.failure);
 
         print('The password provided is too weak.');
@@ -96,7 +96,7 @@ class Auth {
         Navigator.of(context).pop();
 
         customSnackbar(context, "The account already exists for that email.",
-            "oops something went wrong!'", ContentType.failure);
+            "something went wrong!'", ContentType.failure);
 
         print(
           'The account already exists for that email.',
@@ -105,7 +105,7 @@ class Auth {
         Navigator.of(context).pop();
 
         customSnackbar(context, "Email badly formatted",
-            "oops something went wrong!'", ContentType.failure);
+            "something went wrong!'", ContentType.failure);
 
         print('Email badly formatted');
       }
