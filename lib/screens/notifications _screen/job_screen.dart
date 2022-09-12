@@ -14,14 +14,14 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class JobsScreen extends StatefulWidget {
-  const JobsScreen({Key? key}) : super(key: key);
+class NotificationScreen extends StatefulWidget {
+  const NotificationScreen({Key? key}) : super(key: key);
 
   @override
-  State<JobsScreen> createState() => _JobsScreenState();
+  State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
-class _JobsScreenState extends State<JobsScreen> {
+class _NotificationScreenState extends State<NotificationScreen> {
   final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {

@@ -1,11 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/models/jobs_model.dart';
+import 'package:final_project/widgets/custom_snackbar.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class JobInfo extends StatelessWidget {
-  const JobInfo({Key? key, required this.job}) : super(key: key);
+class AcceptedJobInfo extends StatelessWidget {
+  const AcceptedJobInfo({Key? key, required this.job}) : super(key: key);
   final JobModel job;
   @override
   Widget build(BuildContext context) {
@@ -183,6 +188,97 @@ class JobInfo extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 75),
+              Container(
+                height: 60,
+                width: 300,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Center(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(25)),
+                              alignment: Alignment.center,
+                              height: 200,
+                              width: 305,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: Text(
+                                        "Are you Sure you have finished this job?",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.poppins(
+                                            decoration: TextDecoration.none,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                    SizedBox(height: 25),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 5),
+                                            child: Text("Cancel"),
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            final db =
+                                                FirebaseFirestore.instance;
+                                            await db
+                                                .collection('users')
+                                                .doc(job.freelancerId)
+                                                .collection('accepted_jobs')
+                                                .doc(job.jobId)
+                                                .delete();
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 5),
+                                            child: Text("Yes"),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                  child: Text(
+                    "Finish",
+                    style: GoogleFonts.poppins(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: HexColor('#275EA3'),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 25),
             ],
           ),
         ),

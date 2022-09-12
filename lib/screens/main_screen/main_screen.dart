@@ -1,5 +1,6 @@
+import 'package:final_project/screens/notifications%20_screen/job_screen.dart';
 import 'package:final_project/screens/Home/home_page.dart';
-import 'package:final_project/screens/notifications%20_screen/notfy_screen.dart';
+import 'package:final_project/job_screens/accepted_jobs.dart';
 import 'package:final_project/screens/user_Screen/user_account/user_account_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class _MainFileState extends State<MainFile> {
     return [
       UserProfileScreen(),
       HomeScreen(),
-      NotficationScreen(),
+      NotificationScreen(),
     ];
   }
 

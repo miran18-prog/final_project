@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/job_screens/job_info.dart';
-import 'package:final_project/job_screens/job_screen.dart';
+import 'package:final_project/screens/notifications%20_screen/job_screen.dart';
 import 'package:final_project/models/jobs_model.dart';
 import 'package:final_project/widgets/test_screen.dart';
 import 'package:flutter/material.dart';
