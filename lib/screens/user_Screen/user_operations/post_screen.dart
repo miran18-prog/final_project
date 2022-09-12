@@ -219,8 +219,8 @@ class _PostScreenState extends State<PostScreen> {
                                     imageUrl: downloadUri);
                                 customSnackbar(
                                     context,
-                                    "Post uploaded ",
                                     "Your post have been uploaded",
+                                    "Post uploaded ",
                                     ContentType.failure);
                                 Navigator.of(context).pop();
                               } catch (err) {

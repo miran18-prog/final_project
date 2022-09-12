@@ -6,7 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class introScreens extends StatelessWidget {
-  const introScreens({Key? key}) : super(key: key);
+  introScreens({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

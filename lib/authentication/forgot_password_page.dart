@@ -69,8 +69,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                           "Link sent",
                           ContentType.help);
 
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) => SignInScreen())));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: ((context) => SignInScreen()),
+                        ),
+                      );
                     }
                   },
                   icon: Icon(Icons.email),
