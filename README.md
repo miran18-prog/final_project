@@ -31,9 +31,9 @@ these app lists skils Like ( graphic Design  - mobile applications - desktop app
 
 ## errors i faced ❌
 there were a bunch of errors , small once and bigg once 
-i will share some of the errors with you  and let you guys be aware of it..
+i will share some of the errors with you  and let xyou guys be aware of it..
 
-[]#740
+[x]#740
 
 
 
