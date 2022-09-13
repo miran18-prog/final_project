@@ -6,17 +6,17 @@ these app lists skils Like ( graphic Design  - mobile applications - desktop app
 
 
 ## Features
-🟦 Creating an account 
-🟦 Editing an profile 
-🟦 list of Freelancers
-🟦 list of graphic designers - mobile app developers - dekstop app developers - frontend and backend developers
+-🟦 Creating an account 
+-🟦 Editing an profile 
+-🟦 list of Freelancers
+-🟦 list of graphic designers - mobile app developers - dekstop app developers - frontend and backend developers
 ## Future Update Features
 
-🟥 payment methods
-🟥 dark mode
-🟥 kurdish language
-🟥 followings and ratings
-🟥 built in meesaging methode
+-🟥 payment methods
+-🟥 dark mode
+-🟥 kurdish language
+-🟥 followings and ratings
+-🟥 built in meesaging methode
 
 ## project sample
 
