@@ -25,17 +25,23 @@ these app lists skils Like ( graphic Design  - mobile applications - desktop app
 - 🟥 built in meesaging methode
 
 ## project sample
-
 <img src="https://user-images.githubusercontent.com/71978789/179647315-42322b9f-9a33-48b2-8504-f9865e793941.jpg" width="200" height="400" />
 <img src="https://user-images.githubusercontent.com/71978789/179647318-ec0916b6-7bb6-4f48-9ca4-fd8861397fb0.jpg" width="200" height="400" />
 
-## errors i faced ❌
-there were a bunch of errors , small once and bigg once 
-i will share some of the errors with you  and let xyou guys be aware of it..
-
-[x]#740
 
 
+## Technologies  used in this projext
+- 💻 firebase (firestore and firebase storage)
+ **other than technologies i have used some packages , here is a list of important packages**
+- Auto Size Text
+- Image Picker
+- Google fonts
+- Presistance Bavigation Bar
+- Image Cropper
+- Email Validator
+- Url Luncher
+- Flutter Lancher Icon
+- Animated Splash Screen
 
 
 ## Authors
