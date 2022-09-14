@@ -185,7 +185,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               text: "Not a member ?",
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
-                                color: HexColor("#461fb3"),
+                                color: HexColor("#275ea3"),
                               ),
                             ),
                             TextSpan(

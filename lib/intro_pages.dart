@@ -31,8 +31,8 @@ class introScreens extends StatelessWidget {
       ),
       onSkip: () {},
       onDone: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: ((context) => SignInScreen())));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: ((context) => SignInScreen())));
       },
       pages: [
         PageViewModel(
