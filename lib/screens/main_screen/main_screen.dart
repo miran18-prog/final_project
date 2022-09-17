@@ -4,6 +4,7 @@ import 'package:final_project/job_screens/accepted_jobs.dart';
 import 'package:final_project/screens/user_Screen/user_account/user_account_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MainFile extends StatefulWidget {
@@ -61,19 +62,19 @@ class _MainFileState extends State<MainFile> {
       PersistentBottomNavBarItem(
         icon: Icon(Icons.person),
         title: ("Account"),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        activeColorPrimary: HexColor('275EA3'),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
         title: ("Home"),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        activeColorPrimary: HexColor('275EA3'),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.notifications),
         title: ("Notification"),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        activeColorPrimary: HexColor('275EA3'),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
     ];
