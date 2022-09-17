@@ -24,7 +24,7 @@ class CreateUserScreen extends StatefulWidget {
 class _CreateUserScreenState extends State<CreateUserScreen> {
   User user = FirebaseAuth.instance.currentUser!;
   @override
-  dynamic dropdownValue = 'Graphic Designer';
+  dynamic dropdownValue = 'None';
 
   TextEditingController _usernameCtrl = TextEditingController();
   TextEditingController _phoneCtrl = TextEditingController();
@@ -37,8 +37,6 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
   String userId = FirebaseAuth.instance.currentUser!.uid;
 
   Widget build(BuildContext context) {
-    String? downloadUri;
-    File? _image;
     String choice = '';
     final _formKey = GlobalKey<FormState>();
 
@@ -120,6 +118,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                       });
                     },
                     items: <String>[
+                      'None',
                       'Graphic Designer',
                       'Front-end developer',
                       'Back-end developer',
@@ -371,8 +370,6 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                                             false;
                                                       }
 // image\avatar.jpg
-                                                      downloadUri =
-                                                          'https://firebasestorage.googleapis.com/v0/b/bdozawa-application.appspot.com/o/avatar.jpg?alt=media&token=27a62b91-e770-45ab-9cb2-682c4b1f023e';
 
                                                       DatabaseServices(
                                                               uId: user.uid)
@@ -398,7 +395,6 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                                             .instance
                                                             .currentUser!
                                                             .uid,
-                                                        imageUrl: downloadUri,
                                                       );
 
                                                       Navigator.of(context)

@@ -61,6 +61,7 @@ class DrawerBar extends StatelessWidget {
                             ),
                           )
                         : CircleAvatar(
+                            backgroundImage: AssetImage('image/avatar.jpg'),
                             backgroundColor: Colors.grey,
                           ),
                     decoration: const BoxDecoration(

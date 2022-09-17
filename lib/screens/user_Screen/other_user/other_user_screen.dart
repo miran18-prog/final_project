@@ -77,11 +77,7 @@ class _OtherUserScreenState extends State<OtherUserScreen>
               height: 200,
               alignment: Alignment.bottomCenter,
               decoration: const BoxDecoration(
-                color: Colors.grey,
-                image: DecorationImage(
-                    image: AssetImage('image/background.jpg'),
-                    opacity: 70,
-                    fit: BoxFit.cover),
+                color: Color.fromARGB(255, 146, 206, 255),
               ),
               child: widget.freelancerModel.imageUrl != null
                   ? Container(
@@ -106,6 +102,9 @@ class _OtherUserScreenState extends State<OtherUserScreen>
                       height: 110,
                       width: 110,
                       decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('image/avatar.jpg'),
+                            fit: BoxFit.cover),
                         border: Border.all(
                           color: Colors.white,
                           width: 3,

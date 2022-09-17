@@ -40,11 +40,17 @@ class JobTile extends StatelessWidget {
           Positioned(
             top: 10,
             left: 15,
-            child: CircleAvatar(
-              maxRadius: 32,
-              backgroundColor: Colors.grey,
-              backgroundImage: NetworkImage(job.imageUrl),
-            ),
+            child: job.imageUrl != null
+                ? CircleAvatar(
+                    maxRadius: 32,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: NetworkImage(job.imageUrl),
+                  )
+                : CircleAvatar(
+                    maxRadius: 32,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: AssetImage('image/avatar.jpg'),
+                  ),
           ),
           Positioned(
             top: 26,

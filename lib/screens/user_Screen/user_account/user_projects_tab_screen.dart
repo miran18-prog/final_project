@@ -53,13 +53,101 @@ class ProjectsTabScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(3),
-                      child: Container(
-                        height: 200,
-                        width: 200,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(postModel[index].imageUrl!),
-                            fit: BoxFit.cover,
+                      child: GestureDetector(
+                        onLongPress: () {
+                          showDialog(
+                              context: context,
+                              builder: ((context) => Center(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(25)),
+                                      alignment: Alignment.center,
+                                      height: 200,
+                                      width: 305,
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(15),
+                                              child: Text(
+                                                "Are you Sure you want to delete this post ?",
+                                                textAlign: TextAlign.center,
+                                                style: GoogleFonts.poppins(
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black),
+                                              ),
+                                            ),
+                                            SizedBox(height: 25),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 5),
+                                                    child: Text("Cancel"),
+                                                  ),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () async {
+                                                    final db = FirebaseFirestore
+                                                        .instance;
+                                                    Navigator.of(context).pop();
+
+                                                    await db
+                                                        .collection('users')
+                                                        .doc(user.uid)
+                                                        .collection('posts')
+                                                        .doc(postModel[index]
+                                                            .imagePathId)
+                                                        .delete();
+
+                                                    Reference storageRef =
+                                                        await FirebaseStorage
+                                                            .instance
+                                                            .refFromURL(
+                                                                postModel[index]
+                                                                    .imageUrl!);
+                                                    print(storageRef.fullPath);
+                                                    await storageRef.delete();
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 20,
+                                                        vertical: 5),
+                                                    child: Text("Yes"),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )));
+                        },
+                        child: Container(
+                          height: 200,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(postModel[index].imageUrl!),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
@@ -130,119 +218,7 @@ class ProjectsTabScreen extends StatelessWidget {
 //                               ),
 //                               IconButton(
 //                                 onPressed: () async {
-//                                   showDialog(
-//                                       context: context,
-//                                       builder: ((context) => Center(
-//                                             child: Container(
-//                                               decoration: BoxDecoration(
-//                                                   color: Colors.white,
-//                                                   borderRadius:
-//                                                       BorderRadius.circular(
-//                                                           25)),
-//                                               alignment: Alignment.center,
-//                                               height: 200,
-//                                               width: 305,
-//                                               child: Center(
-//                                                 child: Column(
-//                                                   mainAxisAlignment:
-//                                                       MainAxisAlignment.center,
-//                                                   children: [
-//                                                     Padding(
-//                                                       padding:
-//                                                           const EdgeInsets.all(
-//                                                               15),
-//                                                       child: Text(
-//                                                         "Are you Sure you want to delete this post ?",
-//                                                         textAlign:
-//                                                             TextAlign.center,
-//                                                         style:
-//                                                             GoogleFonts.poppins(
-//                                                                 decoration:
-//                                                                     TextDecoration
-//                                                                         .none,
-//                                                                 fontSize: 18,
-//                                                                 fontWeight:
-//                                                                     FontWeight
-//                                                                         .w500,
-//                                                                 color: Colors
-//                                                                     .black),
-//                                                       ),
-//                                                     ),
-//                                                     SizedBox(height: 25),
-//                                                     Row(
-//                                                       mainAxisAlignment:
-//                                                           MainAxisAlignment
-//                                                               .spaceEvenly,
-//                                                       children: [
-//                                                         ElevatedButton(
-//                                                           onPressed: () {
-//                                                             Navigator.of(
-//                                                                     context)
-//                                                                 .pop();
-//                                                           },
-//                                                           child: Padding(
-//                                                             padding:
-//                                                                 const EdgeInsets
-//                                                                         .symmetric(
-//                                                                     horizontal:
-//                                                                         20,
-//                                                                     vertical:
-//                                                                         5),
-//                                                             child:
-//                                                                 Text("Cancel"),
-//                                                           ),
-//                                                         ),
-//                                                         ElevatedButton(
-//                                                           onPressed: () async {
-//                                                             final db =
-//                                                                 FirebaseFirestore
-//                                                                     .instance;
-
-//                                                             await db
-//                                                                 .collection(
-//                                                                     'users')
-//                                                                 .doc(user.uid)
-//                                                                 .collection(
-//                                                                     'posts')
-//                                                                 .doc(postModel[
-//                                                                         index]
-//                                                                     .imagePathId)
-//                                                                 .delete();
-
-//                                                             Reference
-//                                                                 storageRef =
-//                                                                 await FirebaseStorage
-//                                                                     .instance
-//                                                                     .refFromURL(
-//                                                                         postModel[index]
-//                                                                             .imageUrl!);
-//                                                             print(storageRef
-//                                                                 .fullPath);
-//                                                             await storageRef
-//                                                                 .delete();
-
-//                                                             Navigator.of(
-//                                                                     context)
-//                                                                 .pop();
-//                                                           },
-//                                                           child: Padding(
-//                                                             padding:
-//                                                                 const EdgeInsets
-//                                                                         .symmetric(
-//                                                                     horizontal:
-//                                                                         20,
-//                                                                     vertical:
-//                                                                         5),
-//                                                             child: Text("Yes"),
-//                                                           ),
-//                                                         ),
-//                                                       ],
-//                                                     )
-//                                                   ],
-//                                                 ),
-//                                               ),
-//                                             ),
-//                                           )));
+//                                  
 //                                 },
 //                                 icon: Icon(Icons.delete),
 //                               )

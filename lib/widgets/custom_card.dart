@@ -47,6 +47,9 @@ class CardWidget extends StatelessWidget {
                   width: 100,
                   decoration: BoxDecoration(
                     color: Colors.white,
+                    image: DecorationImage(
+                        image: AssetImage('image/avatar.jpg'),
+                        fit: BoxFit.cover),
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(15),
                       bottomRight: Radius.circular(15),

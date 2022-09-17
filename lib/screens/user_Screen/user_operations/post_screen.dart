@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:final_project/Database/database_services.dart';
 import 'package:final_project/widgets/custom_snackbar.dart';
+import 'package:final_project/widgets/loading_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +27,7 @@ class _PostScreenState extends State<PostScreen> {
   String userId = FirebaseAuth.instance.currentUser!.uid;
   String? downloadUri;
   File? _image;
+  bool isUploaded = false;
 
   Future<File?> _imageCropper({required File imageFile}) async {
     CroppedFile? croppedIamge =
@@ -188,53 +190,65 @@ class _PostScreenState extends State<PostScreen> {
                     ),
                     SizedBox(height: 50),
                     SizedBox(
-                        height: 50,
-                        width: 250,
-                        child: ElevatedButton(
-                          child: Text(
-                            "submit post",
-                            style: GoogleFonts.poppins(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500,
+                      height: 50,
+                      width: 250,
+                      child: isUploaded == false
+                          ? ElevatedButton(
+                              child: Text(
+                                "submit post",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate() &&
+                                    _image != null) {
+                                  try {
+                                    setState(() {
+                                      isUploaded = true;
+                                    });
+                                    final ref = storage.FirebaseStorage.instance
+                                        .ref()
+                                        .child(
+                                            'users/$userId/post_image_folder/$imagePathId/$fileName');
+
+                                    await ref.putFile(_image!);
+                                    downloadUri = await ref.getDownloadURL();
+
+                                    DatabaseServices().addPost(
+                                        uId: userId,
+                                        imagePath: fileName,
+                                        imagePathId: imagePathId,
+                                        postTitle: titleCtrl.text,
+                                        postDesctiption: desCtrl.text,
+                                        imageUrl: downloadUri);
+                                    customSnackbar(
+                                        context,
+                                        "Your post have been uploaded",
+                                        "Post uploaded ",
+                                        ContentType.success);
+                                    setState(() {
+                                      isUploaded = false;
+                                    });
+                                  } catch (err) {
+                                    print(err.toString());
+                                  }
+                                } else {
+                                  customSnackbar(
+                                      context,
+                                      "please fill all the fields",
+                                      "post uploade failed",
+                                      ContentType.failure);
+                                }
+                              },
+                            )
+                          : Container(
+                              height: 50,
+                              width: 50,
+                              child: CustomLodingWidget(),
                             ),
-                          ),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate() &&
-                                _image != null) {
-                              try {
-                                final ref = storage.FirebaseStorage.instance
-                                    .ref()
-                                    .child(
-                                        'users/$userId/post_image_folder/$imagePathId/$fileName');
-
-                                await ref.putFile(_image!);
-                                downloadUri = await ref.getDownloadURL();
-
-                                DatabaseServices().addPost(
-                                    uId: userId,
-                                    imagePath: fileName,
-                                    imagePathId: imagePathId,
-                                    postTitle: titleCtrl.text,
-                                    postDesctiption: desCtrl.text,
-                                    imageUrl: downloadUri);
-                                customSnackbar(
-                                    context,
-                                    "Your post have been uploaded",
-                                    "Post uploaded ",
-                                    ContentType.failure);
-                                Navigator.of(context).pop();
-                              } catch (err) {
-                                print(err.toString());
-                              }
-                            } else {
-                              customSnackbar(
-                                  context,
-                                  "please fill all the fields",
-                                  "post uploade failed",
-                                  ContentType.failure);
-                            }
-                          },
-                        )),
+                    ),
                   ],
                 ),
               ),

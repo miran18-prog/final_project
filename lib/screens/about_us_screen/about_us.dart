@@ -27,30 +27,30 @@ class _AboutUsPageState extends State<AboutUsPage>
     TabController tabController = TabController(length: 2, vsync: this);
 
     return Scaffold(
+      extendBody: true,
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 35),
             Container(
               width: 400,
-              height: 145,
+              height: 165,
               alignment: Alignment.bottomCenter,
               decoration: const BoxDecoration(
                 color: Colors.grey,
                 image: DecorationImage(
-                    image: AssetImage('image/cover.jpg'),
+                    image: AssetImage('image/background.jpg'),
                     opacity: 70,
                     fit: BoxFit.cover),
               ),
               child: Container(
-                margin: EdgeInsets.only(bottom: 20),
+                margin: EdgeInsets.only(bottom: 10),
                 height: 110,
                 width: 110,
                 decoration: BoxDecoration(

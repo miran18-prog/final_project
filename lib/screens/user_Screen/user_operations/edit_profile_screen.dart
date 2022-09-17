@@ -26,7 +26,7 @@ class EditAccountScreen extends StatefulWidget {
 }
 
 class _EditAccountScreenState extends State<EditAccountScreen> {
-  dynamic dropdownValue = 'Graphic Designer';
+  dynamic dropdownValue = 'None';
   TextEditingController _usernameCtrl = TextEditingController();
   TextEditingController _phoneCtrl = TextEditingController();
   TextEditingController _facebookCtrl = TextEditingController();
@@ -232,6 +232,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                             dropdownValue = newValue!;
                           },
                           items: <String>[
+                            'None',
                             'Graphic Designer',
                             'Front-end developer',
                             'Back-end developer',
@@ -301,12 +302,16 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                       ElevatedButton(
                         onPressed: () async {
                           if (!isChanged) {
-                            downloadUri = await FirebaseStorage.instance
-                                .ref()
-                                .child(
-                                    "users/$userId/profile_image_folder/prof_image")
-                                .getDownloadURL();
-
+                            if (userData.imageUrl != null) {
+                              downloadUri = await FirebaseStorage.instance
+                                  .ref()
+                                  .child(
+                                      "users/$userId/profile_image_folder/prof_image")
+                                  .getDownloadURL();
+                            } else {
+                              downloadUri =
+                                  'https://firebasestorage.googleapis.com/v0/b/bdozawa-application.appspot.com/o/avatar.jpg?alt=media&token=27a62b91-e770-45ab-9cb2-682c4b1f023e';
+                            }
                             DatabaseServices(uId: userId).editUser(
                               username: _usernameCtrl.text,
                               phoneNumber: _phoneCtrl.text,
