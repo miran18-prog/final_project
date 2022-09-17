@@ -12,10 +12,10 @@ these app lists skils Like ( graphic Design  - mobile applications - desktop app
 - 🟦 retrive uploaded projects from firebase storage
 - 🟦 list of Freelancers
 - 🟦 list of graphic designers - mobile app developers - dekstop app developers - frontend and backend developers
-- 🟦 method to send a job to a freelancer throug  firebase firestore
+- 🟦 method to send a job to a freelancer through  firebase firestore
 - 🟦 show available jobs for freelancers
 - 🟦 accepting and rejecting a job 
-- 🟦 
+
 ## Future Update Features
 
 - 🟥 payment methods
@@ -23,6 +23,7 @@ these app lists skils Like ( graphic Design  - mobile applications - desktop app
 - 🟥 kurdish language
 - 🟥 followings and ratings
 - 🟥 built in meesaging methode
+- 🟥 create a list for freelancers who has subscription for a week 
 
 ## project sample
 
