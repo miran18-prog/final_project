@@ -302,11 +302,8 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                         if (_formKey.currentState!.validate()) {
                           if (widget.is_selected_container1 == false &&
                               widget.is_selected_container2 == false) {
-                            customSnackbar(
-                                context,
-                                "Accounte created successfully ",
-                                "Account created",
-                                ContentType.success);
+                            customSnackbar(context, "Accounte creation failed.",
+                                "please everything again", ContentType.failure);
                           } else {
                             if (widget.is_selected_container1) {
                               choice = "Freelancer";
