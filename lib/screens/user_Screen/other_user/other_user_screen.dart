@@ -6,7 +6,6 @@ import 'package:final_project/models/Freelancer_model.dart';
 import 'package:final_project/screens/user_Screen/other_user/about_other_user.dart';
 import 'package:final_project/screens/user_Screen/other_user/other_user_projects_screen.dart';
 import 'package:final_project/widgets/social_list_button.dart';
-import 'package:final_project/widgets/test_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';

@@ -8,7 +8,6 @@ import 'package:final_project/screens/about_us_screen/about_us.dart';
 import 'package:final_project/job_screens/accepted_jobs.dart';
 import 'package:final_project/screens/user_Screen/user_operations/edit_profile_screen.dart';
 import 'package:final_project/widgets/loading_widget.dart';
-import 'package:final_project/widgets/test_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -82,15 +81,6 @@ class DrawerBar extends StatelessWidget {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => AcceptedJobs()));
-              }),
-          ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('testing'),
-              onTap: () {
-                Navigator.of(context).pop();
-                ;
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => TestScreen()));
               }),
           ListTile(
               leading: const Icon(Icons.edit),
