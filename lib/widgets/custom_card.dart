@@ -99,11 +99,35 @@ class CardWidget extends StatelessWidget {
               ),
             ),
             Expanded(
-                flex: 1,
-                child: IconButton(
-                  icon: Icon(FeatherIcons.arrowRight),
-                  onPressed: () {},
-                ))
+              flex: 1,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      transitionDuration: Duration(milliseconds: 400),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        animation = CurvedAnimation(
+                            parent: animation, curve: Curves.easeInOut);
+                        return SlideTransition(
+                          position: Tween<Offset>(
+                                  begin: Offset(-1, 0), end: Offset.zero)
+                              .animate(animation),
+                          child: OtherUserScreen(
+                            freelancerModel: freelancerModel,
+                          ),
+                        );
+                      },
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return Container();
+                      },
+                    ),
+                  );
+                },
+                icon: Icon(Icons.arrow_forward_ios),
+              ),
+            ),
           ],
         ),
       ),
