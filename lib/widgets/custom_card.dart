@@ -53,10 +53,6 @@ class CardWidget extends StatelessWidget {
                               freelancerModel.imageUrl!),
                           fit: BoxFit.cover,
                         ),
-                        border: Border.all(
-                          color: HexColor('#275EA3'),
-                          width: 3,
-                        ),
                       ),
                     )
                   : Container(
