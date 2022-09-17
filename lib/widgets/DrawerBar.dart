@@ -39,8 +39,8 @@ class DrawerBar extends StatelessWidget {
                       freelancerModel.username,
                       style: GoogleFonts.poppins(
                           color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 17),
                     ),
                     accountEmail: Text(
                       user.email!,
@@ -67,8 +67,7 @@ class DrawerBar extends StatelessWidget {
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(
-                                'https://wonderfulengineering.com/wp-content/uploads/2014/10/simple-wallpaper-14.png'))),
+                            image: AssetImage('image/background_drawer.png'))),
                   );
                 } else if (snapshot.hasError) {
                   return Text("something went wrong");
