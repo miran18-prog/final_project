@@ -81,15 +81,18 @@ class CardWidget extends StatelessWidget {
                     style: GoogleFonts.poppins(
                         color: HexColor('#275EA3'),
                         fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   AutoSizeText(
                     freelancerModel.skill,
-                    presetFontSizes: [16, 15, 14, 13, 12, 11],
+                    minFontSize: 10,
+                    maxFontSize: 20,
                     style: GoogleFonts.poppins(
                         color: Colors.grey, fontWeight: FontWeight.w400),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
